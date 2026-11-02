@@ -47,8 +47,22 @@
 
     <nav class="admin-tabs" role="tablist">
       <button type="button" role="tab" class="on" data-tab="orders" aria-selected="true">অর্ডার</button>
+      <button type="button" role="tab" data-tab="abandoned" aria-selected="false">🛒 Abandoned Cart<span class="count" data-ab-count hidden></span></button>
       <button type="button" role="tab" data-tab="reviews" aria-selected="false">রিভিউ<span class="count" data-pending hidden></span></button>
     </nav>
+
+    <section data-panel="abandoned" hidden>
+      <p class="hint">যারা চেকআউটে নাম/মোবাইল লিখেছেন কিন্তু অর্ডার শেষ করেননি (শেষ ৩০ দিন)। ১ ঘণ্টার মধ্যে কল করলে সবচেয়ে বেশি অর্ডার ফেরত আসে। পরে অর্ডার করলে নিজে থেকেই "অর্ডার হয়েছে" হয়ে যাবে।</p>
+      <div class="ab-tools">
+        <select data-ab-f aria-label="স্ট্যাটাস ফিল্টার">
+          <option value="open">ফলো-আপ বাকি</option>
+          <option value="">সব</option>
+        </select>
+        <span class="hint" data-ab-summary></span>
+      </div>
+      <div class="review-list" data-ab-list></div>
+      <p class="empty-state" data-ab-empty hidden>কোনো অসম্পূর্ণ অর্ডার নেই।</p>
+    </section>
 
     <section data-panel="reviews" hidden>
       <p class="hint">ডেলিভারড অর্ডারের গ্রাহকরা রিভিউ দিলে এখানে আসবে। "অনুমোদন" দিলে ওয়েবসাইটে দেখাবে।</p>

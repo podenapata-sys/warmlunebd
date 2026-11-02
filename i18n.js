@@ -192,7 +192,7 @@
     'co.trxErr': ["পেমেন্টের মেসেজে পাওয়া ট্রানজেকশন আইডি দিন (৮-১২ অক্ষর)।", "Enter the transaction ID from your payment message (8–12 characters)."],
     'co.summary': ['অর্ডার সারাংশ', 'Order summary'],
     'co.submit': ['অর্ডার কনফার্ম করুন', 'Confirm order'],
-    'co.secure': ['🔒 আপনার তথ্য শুধু ডেলিভারির জন্য ব্যবহার করা হবে।', '🔒 Your details are only used for delivery.'],
+    'co.secure': ['🔒 আপনার তথ্য শুধু অর্ডার ও ডেলিভারির জন্য ব্যবহার করা হবে। অর্ডার শেষ না করলে সাহায্যের জন্য আমরা একবার কল করতে পারি। <a href="privacy.html">প্রাইভেসি পলিসি</a>', '🔒 Your details are only used for your order and delivery. If you don\'t finish, we may call once to help. <a href="privacy.html">Privacy policy</a>'],
     'co.due': ['পণ্য হাতে পেয়ে দিবেন', 'Pay on delivery'],
     'co.orderNow': ['এখনই অর্ডার করুন', 'Order now'],
     'co.subtotal': ['সাবটোটাল', 'Subtotal'],

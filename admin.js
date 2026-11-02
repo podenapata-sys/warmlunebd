@@ -72,7 +72,7 @@
     timer = setInterval(function () {
       // Don't yank the list out from under someone choosing a status
       var active = document.activeElement;
-      if (busy || document.hidden || (active && active.matches && active.matches('select[data-status]'))) return;
+      if (busy || document.hidden || (active && active.matches && active.matches('select[data-status], select[data-ab-status]'))) return;
       load(true);
     }, REFRESH_MS);
   }
@@ -94,6 +94,7 @@
     var errBox = $('[data-dash-error]');
     if (!quiet) $('[data-updated]').textContent = 'লোড হচ্ছে…';
     loadReviews();
+    loadAbandoned();
     return api('getOrders').then(function (res) {
       orders = res.orders || [];
       computeDuplicates();
@@ -228,6 +229,80 @@
         toast(status === 'Approved' ? 'রিভিউ ওয়েবসাইটে দেখানো হবে' : 'রিভিউ বাতিল হয়েছে');
       })
       .catch(function (ex) { $$('button', card).forEach(function (x) { x.disabled = false; }); toast(ex.message, true); });
+  });
+
+  /* ---------- Abandoned cart tab ---------- */
+  var drafts = [];
+  var AB_BN = { New: 'নতুন', Called: 'কল করা হয়েছে', NoAnswer: 'ধরেনি', Recovered: 'অর্ডার নিয়েছি', NotInterested: 'আগ্রহী নন', Ordered: 'অর্ডার হয়েছে ✓' };
+  var AB_SET = ['New', 'Called', 'NoAnswer', 'Recovered', 'NotInterested'];
+  var AB_OPEN = { New: 1, Called: 1, NoAnswer: 1 };
+  var FRESH_MS = 10 * 60000;    // still on the checkout page, probably: don't call yet
+  function loadAbandoned() {
+    return api('getAbandoned').then(function (res) { drafts = res.drafts || []; renderAbandoned(); }).catch(function () {});
+  }
+  function ago(iso) {
+    var m = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
+    if (isNaN(m)) return '';
+    if (m < 60) return m + ' মিনিট আগে';
+    if (m < 1440) return Math.round(m / 60) + ' ঘণ্টা আগে';
+    return Math.round(m / 1440) + ' দিন আগে';
+  }
+  function draftProduct(d) {
+    var p = C.products.filter(function (x) { return x.id === d.productId; })[0];
+    return { name: d.productName || (p && p.name) || d.productId, price: p && p.price || 0 };
+  }
+  // Same quantity discount as the checkout (config.js qtyDiscount)
+  function draftTotal(price, qty) {
+    var qd = C.qtyDiscount || {}, sub = price * qty;
+    return qd.percent > 0 && qty >= qd.minQty ? sub - Math.round(sub * qd.percent / 100) : sub;
+  }
+  function waRecoverLink(d) {
+    var p = draftProduct(d);
+    var url = (C.siteUrl || location.origin).replace(/\/$/, '') + '/checkout.html?product=' + encodeURIComponent(d.productId) + '&qty=' + d.qty;
+    var msg = 'আসসালামু আলাইকুম' + (d.name ? ' ' + d.name : '') + ', ' + C.brand + ' থেকে বলছি। ' +
+      'দেখলাম আপনি ' + p.name + ' অর্ডার করতে গিয়ে শেষ করেননি। কোনো প্রশ্ন থাকলে জানাবেন, এখানে "হ্যাঁ" লিখলেই অর্ডারটি আমরা নিয়ে নেব। ' +
+      'অথবা এখান থেকে অর্ডার করুন: ' + url + ' — ফ্রি ডেলিভারি, পণ্য হাতে পেয়ে টাকা।';
+    return 'https://wa.me/88' + d.phone + '?text=' + encodeURIComponent(msg);
+  }
+  function renderAbandoned() {
+    var now = Date.now();
+    var open = drafts.filter(function (d) { return AB_OPEN[d.status]; });
+    var due = open.filter(function (d) { return d.status === 'New' && now - new Date(d.updatedAt).getTime() > FRESH_MS; }).length;
+    var badge = $('[data-ab-count]');
+    badge.textContent = due; badge.hidden = !due;
+    var ordered = drafts.filter(function (d) { return d.status === 'Ordered' || d.status === 'Recovered'; }).length;
+    $('[data-ab-summary]').textContent = 'মোট ' + drafts.length + 'টি · ফলো-আপ বাকি ' + open.length + 'টি · পরে অর্ডার হয়েছে ' + ordered + 'টি';
+    var list = $('[data-ab-f]').value === 'open' ? open : drafts;
+    $('[data-ab-empty]').hidden = list.length > 0;
+    $('[data-ab-list]').innerHTML = list.map(function (d) {
+      var p = draftProduct(d), fresh = now - new Date(d.updatedAt).getTime() <= FRESH_MS && d.status === 'New';
+      var opts = d.status === 'Ordered' ? '' : AB_SET.map(function (s) { return '<option value="' + s + '"' + (s === d.status ? ' selected' : '') + '>' + AB_BN[s] + '</option>'; }).join('');
+      var where = d.area === 'inside' ? 'ঢাকার ভেতরে' : d.area === 'outside' ? 'ঢাকার বাইরে' + (d.district ? ' — ' + esc(d.district) : '') : '';
+      return '<article class="review-card ab-card ab-' + esc(d.status) + '" data-did="' + esc(d.draftId) + '">' +
+        '<div class="ab-head"><strong>' + (d.name ? esc(d.name) : '<span class="hint">নাম লেখেননি</span>') + '</strong> ' +
+          '<a href="tel:' + esc(d.phone) + '">' + esc(d.phone) + '</a>' +
+          '<span class="review-meta">' + esc(ago(d.updatedAt)) + (fresh ? ' · এখনো চেকআউটে থাকতে পারেন' : '') + '</span></div>' +
+        '<div>' + esc(p.name) + ' × ' + d.qty + (p.price ? ' · <strong>' + money(draftTotal(p.price, d.qty)) + '</strong>' : '') + '</div>' +
+        (where || d.address ? '<div class="review-meta">' + where + (d.address ? (where ? ' · ' : '') + esc(d.address) : '') + '</div>' : '') +
+        '<div class="review-actions">' +
+          (d.status === 'Ordered'
+            ? '<span class="badge ok">' + AB_BN.Ordered + (d.orderId ? ' · ' + esc(d.orderId) : '') + '</span>'
+            : '<a class="act" href="tel:' + esc(d.phone) + '" title="কল করুন">📞 কল</a>' +
+              '<a class="act wa" href="' + esc(waRecoverLink(d)) + '" target="_blank" rel="noopener" title="WhatsApp">WA মেসেজ</a>' +
+              '<select data-ab-status class="badge-select" aria-label="স্ট্যাটাস">' + opts + '</select>') +
+        '</div></article>';
+    }).join('');
+  }
+  $('[data-ab-f]').addEventListener('change', renderAbandoned);
+  $('[data-ab-list]').addEventListener('change', function (e) {
+    if (!e.target.matches('select[data-ab-status]')) return;
+    var sel = e.target, id = sel.closest('[data-did]').getAttribute('data-did');
+    var d = drafts.filter(function (x) { return x.draftId === id; })[0], prev = d.status, next = sel.value;
+    sel.disabled = true; busy++;
+    api('updateDraft', { draftId: id, status: next })
+      .then(function () { d.status = next; toast(AB_BN[next]); renderAbandoned(); })
+      .catch(function (ex) { sel.value = prev; toast('আপডেট হয়নি: ' + ex.message, true); })
+      .then(function () { sel.disabled = false; busy--; });
   });
 
   // Tabs

@@ -600,3 +600,16 @@ body.admin .stat, body.admin .filters, body.admin .act, body.admin .orders tr, .
 /* Wallet picker: 2 per row on phones, 4 on wider screens */
 .pay-choice { grid-template-columns: 1fr 1fr; }
 @media (min-width: 560px) { .pay-choice { grid-template-columns: repeat(4, 1fr); } }
+
+/* Admin: abandoned cart */
+.ab-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 12px; }
+.ab-tools select { padding: 8px 10px; border: 1px solid var(--line); background: #fff; font: inherit; }
+.ab-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.ab-head a { font-weight: 600; }
+.ab-card.ab-New { border-left: 4px solid #C8305F; }
+.ab-card.ab-Called, .ab-card.ab-NoAnswer { border-left: 4px solid #B8873A; }
+.ab-card.ab-Recovered, .ab-card.ab-Ordered { border-left: 4px solid #2F6B45; opacity: .75; }
+.ab-card.ab-NotInterested { opacity: .55; }
+.ab-card .review-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.ab-card .act { width: auto; padding: 0 12px; margin: 0; }
+.badge.ok { background: #E3F4EA; color: #2F6B45; }

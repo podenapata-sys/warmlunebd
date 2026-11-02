@@ -457,6 +457,39 @@
       return ok;
     }
 
+    /* Abandoned cart: once a valid phone is typed, save the details so the shop can
+       follow up if the order isn't finished. Debounced; flushed when the page is left.
+       The transaction ID is never sent. */
+    var draftSent = '', draftTimer = null, ordered = false;
+    function draftPayload() {
+      var el = form.elements;
+      return {
+        action: 'saveDraft', draftId: requestId, website: el.website.value,
+        name: el.name.value.trim(), phone: normalizePhone(el.phone.value),
+        productId: state.productId, qty: state.qty, area: state.area || '',
+        district: state.area === 'outside' ? el.district.value : '', address: el.address.value.trim(),
+      };
+    }
+    function saveDraft() {
+      clearTimeout(draftTimer);
+      if (ordered || submitting || unpriced || !C.appsScriptUrl) return;
+      var d = draftPayload();
+      if (!PHONE_RE.test(d.phone)) return;
+      var key = JSON.stringify(d);
+      if (key === draftSent) return;
+      draftSent = key;
+      try {
+        fetch(C.appsScriptUrl, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: key })
+          .catch(function () { draftSent = ''; });
+      } catch (x) { draftSent = ''; }
+    }
+    function queueDraft() { clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 2000); }
+    form.addEventListener('input', queueDraft);
+    form.addEventListener('change', queueDraft);
+    $$('[data-qty-minus], [data-qty-plus]').forEach(function (b) { b.addEventListener('click', queueDraft); });
+    window.addEventListener('pagehide', saveDraft);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) saveDraft(); });
+
     var submitting = false;
     form.addEventListener('submit', function (e) {
       e.preventDefault();
@@ -497,6 +530,7 @@
           // Keep a copy for the thank-you page summary; URL only carries id & value
           ssSet('lastOrder', JSON.stringify({ id: res.orderId, productId: payload.productId, name: t.p.name || res.productName, qty: payload.qty, total: res.total, discount: res.discount || 0, advance: res.advance, due: res.due, area: payload.area }));
           try { sessionStorage.removeItem('checkoutRequestId'); } catch (x) {}
+          ordered = true; clearTimeout(draftTimer);
           location.href = 'thank-you.html?id=' + encodeURIComponent(res.orderId) + '&value=' + encodeURIComponent(res.total);
         })
         .catch(function (err) {

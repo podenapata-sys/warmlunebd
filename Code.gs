@@ -8,6 +8,9 @@
  *    getOrders     token        — all orders, newest first
  *    updateStatus  token        — sets status + updatedAt on one order
  *    logout        token        — revokes the token
+ *    saveDraft     public       — checkout details typed but not yet ordered (abandoned cart)
+ *    getAbandoned  token        — abandoned checkouts of the last 30 days, newest first
+ *    updateDraft   token        — sets the follow-up status of one abandoned checkout
  *
  *  Script Properties (Project Settings → Script properties):
  *    ADMIN_PASSWORD      required  admin dashboard password
@@ -50,6 +53,12 @@ const REVIEW_SHEET = 'Reviews';
 const REVIEW_HEADERS = ['orderId', 'createdAt', 'name', 'place', 'rating', 'text', 'productName', 'status', 'updatedAt', 'phone'];
 const REVIEW_STATUSES = ['Pending', 'Approved', 'Rejected'];
 
+// Abandoned carts: checkouts where a valid phone was typed but no order was placed
+const DRAFT_SHEET = 'Abandoned';
+const DRAFT_HEADERS = ['draftId', 'createdAt', 'updatedAt', 'name', 'phone', 'productId', 'productName', 'qty', 'area', 'district', 'address', 'status', 'orderId'];
+const DRAFT_STATUSES = ['New', 'Called', 'NoAnswer', 'Recovered', 'NotInterested', 'Ordered'];
+const DRAFT_DAYS = 30;   // the admin list shows this many days
+
 const DISTRICTS = ['বাগেরহাট','বান্দরবান','বরগুনা','বরিশাল','ভোলা','বগুড়া','ব্রাহ্মণবাড়িয়া','চাঁদপুর','চাঁপাইনবাবগঞ্জ','চট্টগ্রাম','চুয়াডাঙ্গা','কুমিল্লা','কক্সবাজার','ঢাকা','দিনাজপুর','ফরিদপুর','ফেনী','গাইবান্ধা','গাজীপুর','গোপালগঞ্জ','হবিগঞ্জ','জামালপুর','যশোর','ঝালকাঠি','ঝিনাইদহ','জয়পুরহাট','খাগড়াছড়ি','খুলনা','কিশোরগঞ্জ','কুড়িগ্রাম','কুষ্টিয়া','লক্ষ্মীপুর','লালমনিরহাট','মাদারীপুর','মাগুরা','মানিকগঞ্জ','মেহেরপুর','মৌলভীবাজার','মুন্সিগঞ্জ','ময়মনসিংহ','নওগাঁ','নড়াইল','নারায়ণগঞ্জ','নরসিংদী','নাটোর','নেত্রকোনা','নীলফামারী','নোয়াখালী','পাবনা','পঞ্চগড়','পটুয়াখালী','পিরোজপুর','রাজবাড়ী','রাজশাহী','রাঙ্গামাটি','রংপুর','সাতক্ষীরা','শরীয়তপুর','শেরপুর','সিরাজগঞ্জ','সুনামগঞ্জ','সিলেট','টাঙ্গাইল','ঠাকুরগাঁও'];
 
 /* ==========================================================================
@@ -73,6 +82,9 @@ function doPost(e) {
       case 'getPublicReviews': return json_(getPublicReviews_());
       case 'getReviews':       requireToken_(body); return json_(getReviews_());
       case 'moderateReview':   requireToken_(body); return json_(moderateReview_(body));
+      case 'saveDraft':        return json_(saveDraft_(body));
+      case 'getAbandoned':     requireToken_(body); return json_(getAbandoned_());
+      case 'updateDraft':      requireToken_(body); return json_(updateDraft_(body));
       case 'logout':       CacheService.getScriptCache().remove('tok_' + body.token); return json_({ ok: true });
       default:             return json_({ ok: false, error: 'Unknown action' });
     }
@@ -168,6 +180,9 @@ function createOrder_(b) {
     const result = { orderId: orderId, productName: product.name, subtotal: subtotal, discount: discount, total: total, advance: advance, due: due };
     if (requestId) cache.put('req_' + requestId, JSON.stringify(result), TOKEN_TTL);
 
+    // This checkout is no longer abandoned
+    if (requestId) markDraftOrdered_(requestId, orderId);
+
     // Alerts run after the row is safely written; a failure here never loses the order
     notify_({ orderId, name, phone, product: product.name, qty, total, advance, due, area, district, address, trxId, payMethod: payMethod ? PAY_METHODS[payMethod] : '', note });
     return Object.assign({ ok: true }, result);
@@ -249,6 +264,128 @@ function updateStatus_(b) {
   } finally {
     lock.releaseLock();
   }
+}
+
+/* ==========================================================================
+   Abandoned cart
+   ========================================================================== */
+
+// Called by the checkout while the customer types (debounced) and when they leave the page.
+// One row per checkout visit (draftId = the checkout's requestId), updated in place.
+function saveDraft_(b) {
+  if (b.website) return { ok: true };                                   // bot: pretend success
+  const draftId = String(b.draftId || '');
+  if (!/^r[a-z0-9]{6,40}$/.test(draftId)) throw userError_('Invalid draft');
+  const phone = normalizePhone_(b.phone);
+  if (!/^01[3-9]\d{8}$/.test(phone)) return { ok: true, skipped: true };  // nothing to follow up yet
+
+  const cache = CacheService.getScriptCache();
+  if (cache.get('req_' + draftId)) return { ok: true, ordered: true };  // already became an order
+  if (cache.get('drt_' + draftId)) return { ok: true, throttled: true };
+  // Spam guard: at most 300 new or updated drafts per hour
+  const hourKey = 'drh_' + Utilities.formatDate(new Date(), TZ, 'yyMMddHH');
+  const perHour = Number(cache.get(hourKey) || 0);
+  if (perHour >= 300) return { ok: true, throttled: true };
+
+  const productId = PRODUCTS[String(b.productId)] ? String(b.productId) : Object.keys(PRODUCTS)[0];
+  let qty = Number(b.qty);
+  if (!Number.isInteger(qty) || qty < 1 || qty > MAX_QTY) qty = 1;
+  const area = b.area === 'inside' || b.area === 'outside' ? b.area : '';
+  let district = clean_(b.district, 40);
+  if (area !== 'outside' || DISTRICTS.indexOf(district) === -1) district = '';
+  const name = clean_(b.name, 60);
+  const address = clean_(b.address, 300);
+
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(10000)) return { ok: true, throttled: true };
+  try {
+    const sheet = getDraftSheet_();
+    const ts = now_();
+    const row = findIn_(sheet, DRAFT_HEADERS, 'draftId', draftId);
+    const values = [name, phone, productId, PRODUCTS[productId].name, qty, area, district, address].map(safeCell_);
+    if (row) {
+      const cur = sheet.getRange(row, 1, 1, DRAFT_HEADERS.length).getDisplayValues()[0];
+      if (cur[DRAFT_HEADERS.indexOf('status')] === 'Ordered') return { ok: true, ordered: true };
+      sheet.getRange(row, DRAFT_HEADERS.indexOf('updatedAt') + 1, 1, 1 + values.length).setValues([[ts].concat(values)]);
+    } else {
+      sheet.appendRow([draftId, ts, ts].concat(values, ['New', '']));
+    }
+    cache.put('drt_' + draftId, '1', 2);
+    cache.put(hourKey, String(perHour + 1), 3600);
+    return { ok: true };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function markDraftOrdered_(draftId, orderId) {
+  try {
+    const sheet = getDraftSheet_();
+    const row = findIn_(sheet, DRAFT_HEADERS, 'draftId', draftId);
+    if (!row) return;
+    sheet.getRange(row, DRAFT_HEADERS.indexOf('updatedAt') + 1).setValue(now_());
+    sheet.getRange(row, DRAFT_HEADERS.indexOf('status') + 1).setValue('Ordered');
+    sheet.getRange(row, DRAFT_HEADERS.indexOf('orderId') + 1).setValue(orderId);
+  } catch (err) { console.error('markDraftOrdered failed', err); }   // never block the order
+}
+
+function getAbandoned_() {
+  const sheet = getDraftSheet_();
+  const last = sheet.getLastRow();
+  if (last < 2) return { ok: true, drafts: [], statuses: DRAFT_STATUSES };
+  const since = Utilities.formatDate(new Date(Date.now() - DRAFT_DAYS * 86400000), TZ, "yyyy-MM-dd'T'HH:mm:ss");
+
+  // A customer who ordered later (e.g. from another tab) counts as ordered too
+  const orderedAt = {};
+  const os = getSheet_(), ol = os.getLastRow();
+  if (ol >= 2) {
+    os.getRange(2, 1, ol - 1, HEADERS.length).getDisplayValues().forEach(r => {
+      const ph = r[HEADERS.indexOf('phone')], at = r[HEADERS.indexOf('createdAt')];
+      if (!orderedAt[ph] || at > orderedAt[ph].at) orderedAt[ph] = { at: at, id: r[0] };
+    });
+  }
+  const drafts = sheet.getRange(2, 1, last - 1, DRAFT_HEADERS.length).getDisplayValues()
+    .filter(r => r[0] && r[1] >= since)
+    .map(r => {
+      const d = {};
+      DRAFT_HEADERS.forEach((h, i) => { d[h] = r[i]; });
+      d.qty = Number(d.qty) || 1;
+      const o = orderedAt[d.phone];
+      if (d.status !== 'Ordered' && o && o.at >= d.createdAt.slice(0, 19)) { d.status = 'Ordered'; d.orderId = o.id; }
+      return d;
+    })
+    .reverse();
+  return { ok: true, drafts: drafts, statuses: DRAFT_STATUSES };
+}
+
+function updateDraft_(b) {
+  const status = String(b.status || '');
+  if (DRAFT_STATUSES.indexOf(status) === -1 || status === 'Ordered') throw userError_('অজানা স্ট্যাটাস।');
+  const draftId = String(b.draftId || '').replace(/[^a-z0-9]/gi, '');
+  if (!draftId) throw userError_('আইডি নেই।');
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(15000)) throw userError_('সার্ভার ব্যস্ত, আবার চেষ্টা করুন।');
+  try {
+    const sheet = getDraftSheet_();
+    const row = findIn_(sheet, DRAFT_HEADERS, 'draftId', draftId);
+    if (!row) throw userError_('পাওয়া যায়নি।');
+    sheet.getRange(row, DRAFT_HEADERS.indexOf('status') + 1).setValue(status);
+    return { ok: true, draftId: draftId, status: status };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function getDraftSheet_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(DRAFT_SHEET);
+  if (!sheet) {
+    sheet = ss.insertSheet(DRAFT_SHEET);
+    sheet.getRange(1, 1, 1, DRAFT_HEADERS.length).setValues([DRAFT_HEADERS]).setFontWeight('bold');
+    sheet.setFrozenRows(1);
+    sheet.getRange(1, 1, sheet.getMaxRows(), DRAFT_HEADERS.length).setNumberFormat('@');
+  }
+  return sheet;
 }
 
 /* ==========================================================================
@@ -502,6 +639,7 @@ function json_(obj) {
 function setup() {
   getSheet_();
   getReviewSheet_();
+  getDraftSheet_();
   const props = PropertiesService.getScriptProperties();
   if (!props.getProperty('ADMIN_PASSWORD')) console.warn('⚠ Set ADMIN_PASSWORD in Script Properties before using admin.html');
   // Touch the services so the authorization prompt covers them
