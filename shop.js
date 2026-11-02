@@ -16,7 +16,10 @@
 
   // ৳ amount with Bangla digits, e.g. 8450 → ৳৮,৪৫০
   function taka(n) { return '৳' + toBn(Number(n).toLocaleString('en-IN')); }
-  function toBn(s) { return String(s).replace(/\d/g, function (d) { return BN_DIGITS[d]; }); }
+  // Digits follow the chosen language (i18n.js); falls back to Bangla if i18n.js is absent
+  var L = window.I18N || { t: function (k) { return k; }, num: function (s) { return String(s).replace(/\d/g, function (d) { return BN_DIGITS[d]; }); }, district: function (d) { return d; }, lang: 'bn' };
+  var T = L.t;
+  function toBn(s) { return L.num(s); }
   // Bangla → English digits (customers often type ০১৭…)
   function toEn(s) { return String(s || '').replace(/[০-৯]/g, function (d) { return BN_DIGITS.indexOf(d); }); }
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -55,7 +58,7 @@
     $$('[data-tel]').forEach(function (el) { el.href = 'tel:' + C.phone; });
     $$('[data-fb]').forEach(function (el) { el.href = C.facebookPage; });
     $$('[data-wa]').forEach(function (el) {
-      el.href = waLink(el.getAttribute('data-wa') || 'আসসালামু আলাইকুম, আমি ' + C.brand + ' এর পণ্য সম্পর্কে জানতে চাই।');
+      el.href = waLink(el.getAttribute('data-wa') || T('wa.hello'));
       el.target = '_blank'; el.rel = 'noopener';
     });
     $$('[data-return-policy]').forEach(function (el) { el.textContent = C.returnPolicy; });
@@ -343,20 +346,20 @@
     $('[data-product-choices]').innerHTML = C.products.map(function (p) {
       return '<label><input type="radio" name="product" value="' + esc(p.id) + '"' + (p.id === state.productId ? ' checked' : '') + '>' +
         '<img src="' + esc(p.image[0]) + '" alt="" width="56" height="56">' +
-        '<span><span class="c-name">' + esc(p.name) + '</span><br><span class="c-price">' + (p.price > 0 ? taka(p.price) : 'দাম শীঘ্রই') +
+        '<span><span class="c-name">' + esc(p.name) + '</span><br><span class="c-price">' + (p.price > 0 ? taka(p.price) : T('co.priceSoon')) +
         (p.oldPrice ? ' <s>' + taka(p.oldPrice) + '</s>' : '') + '</span></span></label>';
     }).join('');
 
     // Districts
     var sel = form.elements.district;
-    sel.innerHTML = '<option value="">জেলা নির্বাচন করুন</option>' +
+    sel.innerHTML = '<option value="">' + esc(T('co.districtSel')) + '</option>' +
       DISTRICTS.slice().sort(function (a, b) { return a.localeCompare(b, 'bn'); })
-        .map(function (d) { return '<option>' + d + '</option>'; }).join('');
+        .map(function (d) { return '<option value="' + d + '">' + esc(L.district(d)) + '</option>'; }).join('');
 
     $('[data-bkash-number]').textContent = toBn(C.bkashNumber);
     $('[data-copy-bkash]').addEventListener('click', function () {
       var btn = this;
-      var done = function () { btn.textContent = 'কপি হয়েছে ✓'; setTimeout(function () { btn.textContent = 'কপি'; }, 1500); };
+      var done = function () { btn.textContent = T('co.copied'); setTimeout(function () { btn.textContent = T('co.copy'); }, 1500); };
       if (navigator.clipboard) navigator.clipboard.writeText(C.bkashNumber).then(done, done); else done();
     });
 
@@ -384,10 +387,10 @@
       $('[data-summary]').innerHTML =
         '<div class="summary-item"><img src="' + esc(t.p.image[0]) + '" alt="" width="64" height="64"><div><strong>' + esc(t.p.name) + '</strong><br>' +
           '<span class="hint">' + taka(t.p.price) + ' × ' + toBn(state.qty) + '</span></div></div>' +
-        row('সাবটোটাল', taka(t.subtotal)) +
-        row('ডেলিভারি চার্জ', '<span class="free">ফ্রি</span>') +
-        (t.advance ? row('অগ্রিম (বিকাশ)', '− ' + taka(t.advance)) : '') +
-        '<div class="summary-row total"><span>পণ্য হাতে পেয়ে দিবেন</span><span>' + taka(t.due) + '</span></div>';
+        row(T('co.subtotal'), taka(t.subtotal)) +
+        row(T('co.delivery'), '<span class="free">' + T('co.free') + '</span>') +
+        (t.advance ? row(T('co.advance'), '− ' + taka(t.advance)) : '') +
+        '<div class="summary-row total"><span>' + T('co.due') + '</span><span>' + taka(t.due) + '</span></div>';
       $('[data-bar-total]').textContent = taka(t.due);
     }
     function row(a, b) { return '<div class="summary-row"><span>' + a + '</span><span>' + b + '</span></div>'; }
@@ -437,9 +440,9 @@
       if (submitting) return;
       var errBox = $('[data-form-error]');
       errBox.hidden = true;
-      if (unpriced) { showError('দাম এখনও সেট করা হয়নি। কল বা WhatsApp-এ অর্ডার করুন: ' + C.phone); return; }
+      if (unpriced) { showError(T('co.unpricedErr', { phone: C.phone })); return; }
       if (!validate()) return;
-      if (!C.appsScriptUrl) { showError('অর্ডার সার্ভার এখনও সেট করা হয়নি (config.js → appsScriptUrl)।'); return; }
+      if (!C.appsScriptUrl) { showError(T('co.noServer')); return; }
 
       var el = form.elements, t = totals();
       var payload = {
@@ -466,18 +469,18 @@
         .then(function (r) { return r.json(); })
         .then(function (res) {
           clearTimeout(timer);
-          if (!res.ok) throw new Error(res.error || 'অর্ডার নেওয়া যায়নি');
+          if (!res.ok) throw new Error(res.error || T('co.failed'));
           // Keep a copy for the thank-you page summary; URL only carries id & value
-          ssSet('lastOrder', JSON.stringify({ id: res.orderId, productId: payload.productId, name: res.productName || t.p.name, qty: payload.qty, total: res.total, advance: res.advance, due: res.due, area: payload.area }));
+          ssSet('lastOrder', JSON.stringify({ id: res.orderId, productId: payload.productId, name: t.p.name || res.productName, qty: payload.qty, total: res.total, advance: res.advance, due: res.due, area: payload.area }));
           try { sessionStorage.removeItem('checkoutRequestId'); } catch (x) {}
           location.href = 'thank-you.html?id=' + encodeURIComponent(res.orderId) + '&value=' + encodeURIComponent(res.total);
         })
         .catch(function (err) {
           clearTimeout(timer);
           setLoading(false);
-          showError(err && err.name !== 'AbortError' && err.message && !/fetch|network|JSON/i.test(err.message)
-            ? err.message
-            : 'নেটওয়ার্ক সমস্যা হয়েছে। আবার চেষ্টা করুন, অথবা WhatsApp-এ অর্ডার করুন।');
+          var real = err && err.name !== 'AbortError' && err.message && !/fetch|network|JSON/i.test(err.message);
+          // Server messages are written in Bangla; in English mode show an English explanation instead
+          showError(!real ? T('co.network') : (L.lang === 'en' && /[\u0980-\u09FF]/.test(err.message) ? T('co.serverErr') : err.message));
         });
     });
 
@@ -485,7 +488,7 @@
       submitting = on;
       $$('[data-submit]').forEach(function (b) {
         b.disabled = on;
-        b.innerHTML = on ? '<span class="spinner" aria-hidden="true"></span> অর্ডার পাঠানো হচ্ছে…' : b.getAttribute('data-label');
+        b.innerHTML = on ? '<span class="spinner" aria-hidden="true"></span> ' + T('co.sending') : b.getAttribute('data-label');
       });
     }
     function showError(msg) {
@@ -497,7 +500,7 @@
 
     render();
     if (unpriced) {
-      $('[data-summary]').innerHTML = '<p class="hint">দাম শীঘ্রই যোগ করা হবে। এখনই অর্ডার করতে কল বা WhatsApp করুন: <a href="tel:' + esc(C.phone) + '">' + toBn(C.phone) + '</a></p>';
+      $('[data-summary]').innerHTML = '<p class="hint">' + T('co.unpricedBox') + ' <a href="tel:' + esc(C.phone) + '">' + toBn(C.phone) + '</a></p>';
       $('[data-bar-total]').textContent = '—';
     }
     var p0 = product(state.productId);
@@ -573,14 +576,14 @@
     if (last && last.id === id) {
       $('[data-thanks-summary]').hidden = false;
       $('[data-thanks-summary]').innerHTML =
-        '<div class="summary-row"><span>পণ্য</span><span>' + esc(last.name) + ' × ' + toBn(last.qty) + '</span></div>' +
-        '<div class="summary-row"><span>মোট মূল্য</span><span>' + taka(last.total) + '</span></div>' +
-        (last.advance ? '<div class="summary-row"><span>অগ্রিম (বিকাশ)</span><span>− ' + taka(last.advance) + '</span></div>' : '') +
-        '<div class="summary-row"><span>ডেলিভারি</span><span class="free">ফ্রি</span></div>' +
-        '<div class="summary-row total"><span>পণ্য হাতে পেয়ে দিবেন</span><span>' + taka(last.due) + '</span></div>';
+        '<div class="summary-row"><span>' + T('ty.product') + '</span><span>' + esc(last.name) + ' × ' + toBn(last.qty) + '</span></div>' +
+        '<div class="summary-row"><span>' + T('ty.total') + '</span><span>' + taka(last.total) + '</span></div>' +
+        (last.advance ? '<div class="summary-row"><span>' + T('co.advance') + '</span><span>− ' + taka(last.advance) + '</span></div>' : '') +
+        '<div class="summary-row"><span>' + T('ty.delivery') + '</span><span class="free">' + T('co.free') + '</span></div>' +
+        '<div class="summary-row total"><span>' + T('co.due') + '</span><span>' + taka(last.due) + '</span></div>';
     }
 
-    var waText = 'আসসালামু আলাইকুম, আমার অর্ডার আইডি ' + id + '। অর্ডারটি কনফার্ম করতে চাই।';
+    var waText = T('ty.waText', { id: id });
     $$('[data-wa-order]').forEach(function (el) { el.href = waLink(waText); el.target = '_blank'; el.rel = 'noopener'; });
 
     // Purchase fires once per order: refresh/back-forward must not re-fire it

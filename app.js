@@ -2,13 +2,14 @@
 (function () {
   'use strict';
   var W = window.WL || {};
+  var L = window.I18N, T = L.t, P = L.pick;
   var $ = function (s, el) { return (el || document).querySelector(s); };
   var $$ = function (s, el) { return Array.prototype.slice.call((el || document).querySelectorAll(s)); };
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var BN = '০১২৩৪৫৬৭৮৯';
-  var toBn = function (s) { return String(s).replace(/\d/g, function (d) { return BN[d]; }); };
+  var toBn = function (s) { return L.num(s); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
-  var money = function (n) { if (!(Number(n) > 0)) return (W.currency || '৳') + '[দাম]'; return (W.currency || '$') + toBn(Number(n).toFixed(W.currency === '৳' ? 0 : 2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')); };
+  var money = function (n) { if (!(Number(n) > 0)) return (W.currency || '৳') + T('p.price'); return (W.currency || '$') + toBn(Number(n).toFixed(W.currency === '৳' ? 0 : 2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')); };
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   document.documentElement.classList.add('js');
 
@@ -31,13 +32,14 @@
   }
 
   /* ---------- Static values from config ---------- */
-  if (W.announcement) $('[data-announce]').textContent = W.announcement;
-  if (W.saleBadge) $('[data-sale-badge]').textContent = W.saleBadge; else $('[data-sale-badge]').hidden = true;
+  if (W.announcement) $('[data-announce]').textContent = P(W, 'announcement');
+  if (W.saleBadge) $('[data-sale-badge]').textContent = P(W, 'saleBadge'); else $('[data-sale-badge]').hidden = true;
   $('[data-price]').textContent = money(W.price);
   if (W.price > 0 && W.oldPrice > W.price) $('[data-old-price]').textContent = money(W.oldPrice); else $('[data-old-price]').hidden = true;
-  if (W.rating && W.reviewCount) $('[data-rating-text]').textContent = toBn(W.rating) + ' — ' + toBn(W.reviewCount) + 'টি যাচাইকৃত রিভিউ';
+  if (W.rating && W.reviewCount) $('[data-rating-text]').textContent = T('rating.text', { r: toBn(W.rating), n: toBn(W.reviewCount) });
+  else $('[data-rating-text]').textContent = T('rating.placeholder');
   $$('[data-year]').forEach(function (el) { el.textContent = toBn(new Date().getFullYear()); });
-  if (W.email && W.email.indexOf('@') > 0) $$('[data-email]').forEach(function (a) { a.href = 'mailto:' + W.email; a.textContent = 'যোগাযোগ: ' + W.email; });
+  if (W.email && W.email.indexOf('@') > 0) $$('[data-email]').forEach(function (a) { a.href = 'mailto:' + W.email; var sp = $('[data-email-text]', a); if (sp) { sp.removeAttribute('data-i18n'); sp.textContent = W.email; } });
 
   // Fill a placeholder box with a real image when one is configured
   function fillPh(box, src, alt) {
@@ -45,20 +47,22 @@
     box.classList.add('has-img');
     box.innerHTML = '<img src="' + esc(src) + '" alt="' + esc(alt || '') + '" loading="lazy" decoding="async">';
   }
-  fillPh($('[data-lifestyle]'), W.lifestyleImage, 'WarmLune প্যাড পরে আরাম করছেন');
+  fillPh($('[data-lifestyle]'), W.lifestyleImage, T('life.ph'));
   (W.featureImages || []).forEach(function (src, i) { fillPh($('[data-feature="' + i + '"]'), src, $('[data-feature="' + i + '"] span') && $('[data-feature="' + i + '"] span').textContent); });
 
   /* ---------- Gallery (swipe on phones, arrows, thumbnails) ---------- */
   var gallery = W.gallery || [];
   var track = $('[data-track]'), thumbs = $('[data-thumbs]');
   track.innerHTML = gallery.map(function (g, i) {
-    return '<div class="gallery-slide" role="group" aria-label="ছবি ' + toBn(i + 1) + ': ' + esc(g.label) + '">' +
-      (g.src ? '<div class="ph has-img"><img src="' + esc(g.src) + '" alt="' + esc(g.label) + '"' + (i ? ' loading="lazy"' : '') + '></div>'
-             : '<div class="ph"><span class="ph-icon" aria-hidden="true"></span><strong>' + esc(g.label === 'প্রোডাক্ট' ? 'বক্সে যা আছে ছবি' : g.label + ' ছবি') + '</strong><span>' + esc(g.hint) + '</span></div>') +
+    var label = P(g, 'label');
+    return '<div class="gallery-slide" role="group" aria-label="' + esc(T('g.photo', { n: toBn(i + 1) })) + ': ' + esc(label) + '">' +
+      (g.src ? '<div class="ph has-img"><img src="' + esc(g.src) + '" alt="' + esc(label) + '"' + (i ? ' loading="lazy"' : '') + '></div>'
+             : '<div class="ph"><span class="ph-icon" aria-hidden="true"></span><strong>' + esc(i === 0 ? T('g.boxPhoto') : T('g.photoOf', { label: label })) + '</strong><span>' + esc(P(g, 'hint')) + '</span></div>') +
       '</div>';
   }).join('');
   thumbs.innerHTML = gallery.map(function (g, i) {
-    return '<button type="button" role="tab" aria-label="' + esc(g.label) + '">' + (g.src ? '<img src="' + esc(g.src) + '" alt="">' : esc(g.label)) + '</button>';
+    var label = P(g, 'label');
+    return '<button type="button" role="tab" aria-label="' + esc(label) + '">' + (g.src ? '<img src="' + esc(g.src) + '" alt="">' : esc(label)) + '</button>';
   }).join('');
   function goSlide(i) {
     i = (i + gallery.length) % gallery.length;
@@ -82,17 +86,18 @@
   var colors = W.colors || [];
   var sw = $('[data-swatches]');
   sw.innerHTML = colors.map(function (c, i) {
-    return '<button type="button" role="radio" aria-checked="' + (i === 0) + '" aria-label="' + esc(c.name) + '" title="' + esc(c.name) + '" style="background:' + esc(c.hex) + '"></button>';
+    return '<button type="button" role="radio" aria-checked="' + (i === 0) + '" aria-label="' + esc(P(c, 'name')) + '" title="' + esc(P(c, 'name')) + '" style="background:' + esc(c.hex) + '"></button>';
   }).join('');
   $$('button', sw).forEach(function (b, i) {
     b.addEventListener('click', function () {
       state.color = i;
       $$('button', sw).forEach(function (x, j) { x.setAttribute('aria-checked', j === i); });
-      $('[data-color-name]').textContent = colors[i].name;
+      $('[data-color-name]').textContent = P(colors[i], 'name');
     });
   });
-  if (colors[0]) $('[data-color-name]').textContent = colors[0].name;
+  if (colors[0]) $('[data-color-name]').textContent = P(colors[0], 'name');
 
+  $('[data-qty-val]').textContent = toBn(state.qty);
   $$('[data-qty]').forEach(function (b) {
     b.addEventListener('click', function () {
       state.qty = Math.max(1, Math.min(10, state.qty + Number(b.getAttribute('data-qty'))));
@@ -117,48 +122,44 @@
     if (hit) hit.qty = Math.min(10, hit.qty + c.qty); else cart.push(c);
     store.set('wl-cart', JSON.stringify(cart)); renderCart();
     if (window.fbq) fbq('track', 'AddToCart', { content_ids: ['pad-' + COLOR_IDS[c.idx]], value: (W.price || 0) * c.qty, currency: 'BDT' });
-    toast('কার্টে যোগ হয়েছে');
+    toast(T('toast.added'));
   });
   $$('[data-buy]').forEach(function (b) { b.addEventListener('click', function () { location.href = checkoutUrl(state.color, state.qty); }); });
   $('[data-cart]').addEventListener('click', function () {
-    if (!cart.length) { toast('কার্ট খালি'); return; }
+    if (!cart.length) { toast(T('toast.empty')); return; }
     var last = cart[cart.length - 1];
-    if (cart.length > 1) toast('একবারে একটি রং — বাকিগুলো পরের অর্ডারে বা WhatsApp-এ');
+    if (cart.length > 1) toast(T('toast.oneColor'));
     setTimeout(function () { location.href = checkoutUrl(last.idx, last.qty); }, cart.length > 1 ? 900 : 0);
   });
   renderCart();
 
   /* ---------- Header: language toggle + mobile menu ---------- */
-  $$('[data-lang]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      $$('[data-lang]').forEach(function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-pressed', on); });
-      if (b.getAttribute('data-lang') === 'en') toast('English version coming soon');
-    });
-  });
+  // Language toggle buttons are handled by i18n.js
   var menuBtn = $('[data-menu]'), nav = $('.nav');
   menuBtn.addEventListener('click', function () { var open = nav.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', open); });
   $$('.nav a').forEach(function (a) { a.addEventListener('click', function () { nav.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); }); });
 
   /* ---------- Stats band ---------- */
   $('[data-stats]').innerHTML = (W.stats || []).map(function (s) {
-    return '<div class="reveal"><div class="val">' + esc(s.value) + '</div><div class="lbl">' + esc(s.label) + '</div></div>';
+    return '<div class="reveal"><div class="val">' + esc(P(s, 'value')) + '</div><div class="lbl">' + esc(P(s, 'label')) + '</div></div>';
   }).join('');
 
   /* ---------- Reviews: real ones from config, else the design's placeholder cards ---------- */
   var reviews = (W.reviews || []).filter(function (r) { return r && r.name && r.text; });
-  var stars = function (n) { n = Math.max(1, Math.min(5, Math.round(n || 5))); return '<span class="stars" aria-label="' + toBn(n) + ' স্টার">' + '★'.repeat(n) + '</span>'; };
+  var stars = function (n) { n = Math.max(1, Math.min(5, Math.round(n || 5))); return '<span class="stars" aria-label="' + esc(T('rev.stars', { n: toBn(n) })) + '">' + '★'.repeat(n) + '</span>'; };
   var card = function (r, photo, placeholder) {
     return '<article class="rcard reveal' + (placeholder ? ' placeholder' : '') + '">' +
-      (photo ? (r.photo ? '<img src="' + esc(r.photo) + '" alt="' + esc(r.name) + '-এর ছবি" loading="lazy">' : '<div class="ph"><span>ক্রেতার ছবি</span></div>') : '') +
-      '<div class="who"><span class="name">' + esc(r.name) + '</span><span class="chip">যাচাইকৃত ক্রেতা</span></div>' +
-      stars(r.rating) + '<p>' + esc(r.text) + '</p></article>';
+      (photo ? (r.photo ? '<img src="' + esc(r.photo) + '" alt="' + esc(T('rev.photoOf', { name: r.name })) + '" loading="lazy">' : '<div class="ph"><span>' + esc(T('rev.photo')) + '</span></div>') : '') +
+      '<div class="who"><span class="name">' + esc(r.name) + '</span><span class="chip">' + esc(T('rev.chip')) + '</span></div>' +
+      stars(r.rating) + '<p>' + esc(P(r, 'text')) + '</p></article>';
   };
   if (reviews.length) {
-    $('[data-reviews-sub]').textContent = 'যাচাইকৃত ক্রেতাদের আসল অভিজ্ঞতা।';
+    $('[data-reviews-sub]').textContent = T('rev.subReal');
     $('[data-reviews]').innerHTML = reviews.map(function (r) { return card(r, !!r.photo, false); }).join('');
   } else {
     // Mockup layout: 6 placeholder cards, photos on cards 1, 3 and 5. Clearly marked as placeholders.
-    var ph = { name: '[ক্রেতার নাম]', rating: 5, text: '[এখানে আসল ক্রেতার রিভিউ দিন — ভালো হয় যদি তাতে সমস্যা আর ফলাফল দুটোই উল্লেখ থাকে।]' };
+    $('[data-reviews-sub]').textContent = T('rev.subPh');
+    var ph = { name: T('rev.phName'), rating: 5, text: T('rev.phText') };
     $('[data-reviews]').innerHTML = [true, false, false, true, true, false].map(function (photo) { return card(ph, photo, true); }).join('');
   }
 
@@ -166,10 +167,10 @@
   $('[data-news]').addEventListener('submit', function (e) {
     e.preventDefault();
     var input = e.target.email, msg = $('[data-news-msg]');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) { msg.textContent = 'সঠিক ইমেইল দিন।'; msg.hidden = false; input.focus(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())) { msg.textContent = T('news.bad'); msg.hidden = false; input.focus(); return; }
     var list = []; try { list = JSON.parse(store.get('wl-news')) || []; } catch (x) {}
     list.push(input.value.trim()); store.set('wl-news', JSON.stringify(list));
-    msg.textContent = 'ধন্যবাদ! সাবস্ক্রাইব সম্পন্ন হয়েছে।'; msg.hidden = false; e.target.reset();
+    msg.textContent = T('news.ok'); msg.hidden = false; e.target.reset();
   });
 
   /* ---------- Fade-up reveal ---------- */

@@ -5,6 +5,8 @@
 window.WL = {
   brand: 'WarmLune',
   announcement: 'সব অর্ডারে ৫০% ছাড় ও ফ্রি ডেলিভারি',
+  announcement_en: '50% off and free delivery on every order',
+  // Any field ending in _en is the English version shown when the visitor picks EN.
 
   // Price in taka. Leave price null until decided: the page shows "[দাম]" and checkout stays closed.
   // ⚠ Also set PRICE in Code.gs — the server recalculates every order total.
@@ -12,6 +14,7 @@ window.WL = {
   price: null,                      // e.g. 1990
   oldPrice: null,                   // e.g. 3990 (shown crossed out)
   saleBadge: '৫০% ছাড়',
+  saleBadge_en: '50% off',
 
   // Contact
   whatsapp: '8801632932249',        // international format, no "+"
@@ -25,6 +28,7 @@ window.WL = {
   pixelId: '',                      // Meta Pixel ID
   siteUrl: 'https://podenapata-sys.github.io/warmlunebd',
   returnPolicy: '[৩০ দিনের মানি-ব্যাক গ্যারান্টির শর্ত লিখুন]',
+  returnPolicy_en: '[Write the 30-day money-back guarantee terms]',
 
   // Rating line under the title. Leave null to show the design's placeholder.
   rating: null,                     // e.g. 4.8
@@ -32,30 +36,30 @@ window.WL = {
 
   // Product photos (gallery order matches the thumbnails). '' = placeholder box.
   gallery: [
-    { label: 'প্রোডাক্ট',       src: '', hint: 'এখানে আসল প্রোডাক্টের ছবি দিন' },
-    { label: 'ব্যবহাররত',      src: '', hint: 'প্যাড ব্যবহাররত অবস্থার ছবি দিন' },
-    { label: 'ডিসপ্লে',         src: '', hint: 'ডিসপ্লে ও কন্ট্রোলের ছবি দিন' },
-    { label: 'বক্সে যা আছে',    src: '', hint: 'এখানে আসল প্রোডাক্টের ছবি দিন' },
+    { label: 'প্রোডাক্ট',       label_en: 'Product',        src: '', hint: 'এখানে আসল প্রোডাক্টের ছবি দিন', hint_en: 'Add the real product photo here' },
+    { label: 'ব্যবহাররত',      label_en: 'In use',         src: '', hint: 'প্যাড ব্যবহাররত অবস্থার ছবি দিন', hint_en: 'Add a photo of the pad being worn' },
+    { label: 'ডিসপ্লে',         label_en: 'Display',        src: '', hint: 'ডিসপ্লে ও কন্ট্রোলের ছবি দিন', hint_en: 'Add a photo of the display and controls' },
+    { label: 'বক্সে যা আছে',    label_en: 'In the box',     src: '', hint: 'এখানে আসল প্রোডাক্টের ছবি দিন', hint_en: 'Add a photo of the box contents' },
   ],
   lifestyleImage: '',               // "প্যাড পরে আরাম করছেন এমন একজন নারী"
   featureImages: ['', '', ''],      // heat close-up, display & control, worn under clothes
 
   colors: [
-    { name: 'ব্লাশ পিংক', hex: '#F2A3BC' },
-    { name: 'পার্ল হোয়াইট', hex: '#F1E6EA' },
-    { name: 'ল্যাভেন্ডার', hex: '#C9B2EA' },
+    { name: 'ব্লাশ পিংক', name_en: 'Blush Pink', hex: '#F2A3BC' },
+    { name: 'পার্ল হোয়াইট', name_en: 'Pearl White', hex: '#F1E6EA' },
+    { name: 'ল্যাভেন্ডার', name_en: 'Lavender', hex: '#C9B2EA' },
   ],
 
   // Dark stats band. Fill with your real specs.
   stats: [
-    { value: '[ব্যাটারি mAh]', label: 'বড় ক্ষমতার ব্যাটারি' },
-    { value: '[XX] মিনিট', label: 'প্রতি চার্জে চলে' },
-    { value: '[XX] সেকেন্ড', label: 'দ্রুত গরম হয়' },
+    { value: '[ব্যাটারি mAh]', value_en: '[battery mAh]', label: 'বড় ক্ষমতার ব্যাটারি', label_en: 'High-capacity battery' },
+    { value: '[XX] মিনিট', value_en: '[XX] min', label: 'প্রতি চার্জে চলে', label_en: 'Runtime per charge' },
+    { value: '[XX] সেকেন্ড', value_en: '[XX] sec', label: 'দ্রুত গরম হয়', label_en: 'To heat up' },
   ],
 
   // REAL, verified customer reviews only. While this is empty, the page shows the
   // design's placeholder cards (clearly marked as placeholders) — fill before launch.
-  // Format: { name: 'নুসরাত জ.', rating: 5, text: '…', photo: 'img/review-1.jpg' }
+  // Format: { name: 'নুসরাত জ.', rating: 5, text: '…', text_en: '(optional English translation)', photo: 'img/review-1.jpg' }
   reviews: [],
 };
 
@@ -66,15 +70,17 @@ window.WL = {
    ========================================================================== */
 (function (W) {
   var ids = ['pink', 'white', 'lavender'];
+  var lang = window.I18N ? window.I18N.lang : 'bn';
   window.CONFIG = {
     brand: W.brand, phone: W.phone, whatsapp: W.whatsapp, facebookPage: '#',
     bkashNumber: W.bkashNumber, advanceOutsideDhaka: W.advanceOutsideDhaka,
     pixelId: W.pixelId, appsScriptUrl: W.appsScriptUrl, siteUrl: W.siteUrl,
-    returnPolicy: W.returnPolicy, maxQty: 10, happyCustomers: 0, testimonials: [], sellingPoints: [],
+    returnPolicy: lang === 'en' && W.returnPolicy_en ? W.returnPolicy_en : W.returnPolicy, maxQty: 10, happyCustomers: 0, testimonials: [], sellingPoints: [],
     featuredProductId: 'pad-' + ids[0],
     products: (W.colors || []).map(function (c, i) {
       return {
-        id: 'pad-' + (ids[i] || i), name: 'WarmLune হিটিং প্যাড — ' + c.name,
+        id: 'pad-' + (ids[i] || i),
+        name: (lang === 'en' ? 'WarmLune Heating Pad — ' + (c.name_en || c.name) : 'WarmLune হিটিং প্যাড — ' + c.name),
         price: Number(W.price) || 0, oldPrice: W.oldPrice || null,
         image: [(W.gallery && W.gallery[0] && W.gallery[0].src) || 'img/swatch-' + (ids[i] || i) + '.svg'],
         short: '', features: [], color: c.hex,

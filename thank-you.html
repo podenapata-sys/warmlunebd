@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="bn">
+<html lang="bn" data-doc-title="doc.thanks">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -17,6 +17,7 @@
 <header class="site-header">
   <div class="wrap">
     <a class="logo" href="index.html" data-brand>[BRAND NAME]</a>
+<div class="lang" role="group" aria-label="ভাষা" data-i18n-aria="aria.lang"><button type="button" data-lang="en" aria-pressed="false">EN</button><button type="button" data-lang="bn" aria-pressed="true" class="on">বাংলা</button></div>
     <a class="header-call" href="#" data-tel><span data-phone></span></a>
   </div>
 </header>
@@ -26,23 +27,24 @@
     <div class="check-circle" aria-hidden="true">
       <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m5 12 5 5L20 7"/></svg>
     </div>
-    <h1 style="font-size:30px">জাযাকাল্লাহু খাইরান!</h1>
-    <p style="font-size:18px;margin-top:8px">আপনার অর্ডারটি আমরা পেয়েছি।</p>
-    <div>অর্ডার আইডি</div>
+    <h1 style="font-size:30px" data-i18n="ty.title">জাযাকাল্লাহু খাইরান!</h1>
+    <p style="font-size:18px;margin-top:8px" data-i18n="ty.received">আপনার অর্ডারটি আমরা পেয়েছি।</p>
+    <div data-i18n="ty.orderId">অর্ডার আইডি</div>
     <div class="order-id" data-order-id></div>
 
     <div class="panel" data-thanks-summary hidden></div>
 
-    <p style="font-size:18px;font-weight:600;color:var(--green-dark)">আমাদের প্রতিনিধি শীঘ্রই কল করে অর্ডার কনফার্ম করবেন।</p>
-    <p class="hint">অনুগ্রহ করে ফোনটি কাছে রাখুন। দ্রুত কনফার্ম করতে চাইলে WhatsApp-এ মেসেজ দিন।</p>
+    <p style="font-size:18px;font-weight:600;color:var(--green-dark)" data-i18n="ty.call">আমাদের প্রতিনিধি শীঘ্রই কল করে অর্ডার কনফার্ম করবেন।</p>
+    <p class="hint" data-i18n="ty.hint">অনুগ্রহ করে ফোনটি কাছে রাখুন। দ্রুত কনফার্ম করতে চাইলে WhatsApp-এ মেসেজ দিন।</p>
 
     <div style="display:grid;gap:12px;margin-top:20px">
-      <a class="btn wa block" href="#" data-wa-order>WhatsApp-এ অর্ডার কনফার্ম করুন</a>
-      <a class="btn outline block" href="index.html">হোমপেজে ফিরে যান</a>
+      <a class="btn wa block" href="#" data-wa-order data-i18n="ty.wa">WhatsApp-এ অর্ডার কনফার্ম করুন</a>
+      <a class="btn outline block" href="index.html" data-i18n="ty.home">হোমপেজে ফিরে যান</a>
     </div>
   </div>
 </main>
 
+<script src="i18n.js"></script>
 <script src="config.js"></script>
 <script src="shop.js" defer></script>
 </body>

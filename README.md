@@ -21,6 +21,12 @@ Also fill the bracketed accordion and FAQ answers in `index.html` (box contents,
 2. Deploy `Code.gs` as a Google Apps Script Web App: create a Sheet, paste in the script, set the Script Properties `ADMIN_PASSWORD` (plus optionally `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `ADMIN_EMAIL`, `BRAND`), run `setup`, then Deploy → Web app (Execute as: Me, Access: Anyone).
 3. Paste the `/exec` URL into `appsScriptUrl` in `config.js`. Set your `bkashNumber` and `pixelId`.
 
+## English / বাংলা
+The EN / বাংলা toggle (product page, checkout and thank-you) switches every label, message and number, and remembers the choice. Link straight to a language with `?lang=en` or `?lang=bn` (handy for ads).
+- Page wording lives in `i18n.js` as `[bangla, english]` pairs.
+- Values in `config.js` take an `_en` twin, e.g. `name` / `name_en`, `label` / `label_en`, `text` / `text_en` for reviews.
+- Orders are always saved in Bangla on the server (district names, product names), so your Sheet and admin stay consistent whichever language the customer used.
+- `review.html` and `admin.html` are Bangla only.
+
 ## Not wired yet
-- **EN toggle:** only Bangla copy exists, so EN shows a "coming soon" note.
 - **Newsletter:** saves emails in the visitor's browser only. Connect Mailchimp/Brevo or a Google Sheet to actually collect them.

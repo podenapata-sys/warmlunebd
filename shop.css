@@ -564,3 +564,11 @@ h1, h2, h3 { font-weight: 600; }
 .sticky-bar .btn { border-radius: 999px; }
 body.admin .stat, body.admin .filters, body.admin .act, body.admin .orders tr, .review-card { border-radius: 14px; }
 .admin-tabs button.on { border-bottom-color: var(--green); color: var(--green); }
+
+/* Language toggle in checkout / thank-you headers */
+.site-header .wrap { gap: 12px; }
+.lang { display: flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px; margin-left: auto; }
+.lang button { border: 0; background: none; border-radius: 999px; padding: 5px 11px; font: 600 13px var(--en); cursor: pointer; color: var(--ink); }
+.lang button.on { background: var(--ink); color: #fff; font-family: var(--bn); }
+.lang + .header-call { margin-left: 4px; }
+@media (max-width: 420px) { .lang + .header-call span { display: none; } }
