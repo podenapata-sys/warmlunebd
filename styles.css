@@ -258,3 +258,9 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 .qt-row s { font-size: 15px; font-weight: 500; color: var(--muted); margin-right: 4px; }
 .qt-save { text-align: right; color: #2F7A4D; font-weight: 600; font-size: 14px; margin-top: 2px; }
 .qt-nudge { margin-top: 6px; font-size: 13px; color: var(--primary); }
+
+/* Brand logo (symbol + wordmark from the WarmLune logo) */
+.logo { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+.logo-img { width: 40px; height: 40px; flex: none; }
+.logo-word { height: 16px; width: auto; }
+@media (min-width: 900px) { .logo-img { width: 46px; height: 46px; } .logo-word { height: 20px; } }
