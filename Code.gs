@@ -300,6 +300,7 @@ function saveDraft_(b) {
   if (!lock.tryLock(10000)) return { ok: true, throttled: true };
   try {
     const sheet = getDraftSheet_();
+    purgeOldDrafts_(sheet);
     const ts = now_();
     const row = findIn_(sheet, DRAFT_HEADERS, 'draftId', draftId);
     const values = [name, phone, productId, PRODUCTS[productId].name, qty, area, district, address].map(safeCell_);
@@ -329,8 +330,23 @@ function markDraftOrdered_(draftId, orderId) {
   } catch (err) { console.error('markDraftOrdered failed', err); }   // never block the order
 }
 
+// Privacy policy promise: unfinished checkouts are deleted after DRAFT_DAYS.
+// Rows are appended in time order, so the old ones are always at the top.
+function purgeOldDrafts_(sheet) {
+  const last = sheet.getLastRow();
+  if (last < 2) return 0;
+  const since = Utilities.formatDate(new Date(Date.now() - DRAFT_DAYS * 86400000), TZ, "yyyy-MM-dd'T'HH:mm:ss");
+  if (String(sheet.getRange(2, 2).getDisplayValue()) >= since) return 0;       // quick exit
+  const created = sheet.getRange(2, 2, last - 1, 1).getDisplayValues();
+  let n = 0;
+  while (n < created.length && String(created[n][0]) < since) n++;
+  if (n) sheet.deleteRows(2, n);
+  return n;
+}
+
 function getAbandoned_() {
   const sheet = getDraftSheet_();
+  purgeOldDrafts_(sheet);
   const last = sheet.getLastRow();
   if (last < 2) return { ok: true, drafts: [], statuses: DRAFT_STATUSES };
   const since = Utilities.formatDate(new Date(Date.now() - DRAFT_DAYS * 86400000), TZ, "yyyy-MM-dd'T'HH:mm:ss");

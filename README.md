@@ -21,6 +21,12 @@ Also fill the bracketed accordion and FAQ answers in `index.html` (box contents,
 2. Deploy `Code.gs` as a Google Apps Script Web App: create a Sheet, paste in the script, set the Script Properties `ADMIN_PASSWORD` (plus optionally `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `ADMIN_EMAIL` = fssolutionsss@gmail.com, `BRAND`), run `setup`, then Deploy → Web app (Execute as: Me, Access: Anyone).
 3. Paste the `/exec` URL into `appsScriptUrl` in `config.js`. Set `bkashNumber` (the default number for all wallets; give a wallet its own `number` in `payMethods` if it differs, as Rocket does; edit `payMethods` to add or remove wallets, and `PAY_METHODS` in `Code.gs` to match) and `pixelId`.
 
+## Abandoned Cart
+Once a customer types a valid mobile number at checkout, what they've entered (never the transaction ID) is saved to the **Abandoned** sheet. Unfinished checkouts appear under **🛒 Abandoned Cart** in `admin.html`, with call and WhatsApp buttons and a follow-up status. If the checkout becomes an order, or the same phone orders later, it is marked ordered automatically. Rows older than 30 days are deleted, as `privacy.html` promises. After updating `Code.gs`, redeploy it (Deploy → Manage deployments → ✏ → New version) or the tab stays empty.
+
+## Policies
+`delivery.html`, `refund.html` and `privacy.html` hold the full text in Bangla and English (both versions are in each file). Delivery 1–2 days in Dhaka, 2–4 outside; check-at-delivery plus a 7-day replacement for defects, no change-of-mind returns; the ৳200 advance is kept if a parcel is refused with nothing wrong with it. If you change a term, edit it in the page, the FAQ text in `i18n.js` (`acc.deliveryBody`, `acc.refundBody`) and `returnPolicy` in `config.js`.
+
 ## Quantity discount
 `qtyDiscount: { minQty: 2, percent: 20 }` in `config.js` shows an offer banner, a live total with "you save ৳…" and a nudge ("add 1 more for 20% off") on the product page, and a discount row at checkout and on the thank-you page. **Set the same values in `QTY_DISCOUNT` in `Code.gs`.** The server recalculates every total, so the browser can't fake it. Set `percent: 0` to turn it off.
 

@@ -19,6 +19,10 @@
     'doc.product': ['WarmLune™ স্মার্ট পিরিয়ড হিটিং প্যাড', 'WarmLune™ Smart Period Heating Pad'],
     'doc.checkout': ['অর্ডার করুন | WarmLune', 'Checkout | WarmLune'],
     'doc.thanks': ['ধন্যবাদ! অর্ডার সম্পন্ন | WarmLune', 'Thank you! Order received | WarmLune'],
+    'doc.delivery': ['ডেলিভারি পলিসি | WarmLune', 'Delivery policy | WarmLune'],
+    'doc.refund': ['রিফান্ড ও রিপ্লেসমেন্ট পলিসি | WarmLune', 'Refund & replacement policy | WarmLune'],
+    'doc.privacy': ['প্রাইভেসি পলিসি | WarmLune', 'Privacy policy | WarmLune'],
+    'pol.home': ['← হোমপেজ', '← Home'],
 
     /* ---------- header / footer ---------- */
     'nav.home': ['হোম', 'Home'],
@@ -65,8 +69,8 @@
     'p.buy': ['এখনই কিনুন', 'Buy now'],
     'p.buyArrow': ['এখনই কিনুন →', 'Buy now →'],
     'p.perk1': ['ফ্রি ডেলিভারি', 'Free delivery'],
-    'p.perk2': ['৩০ দিনের মানি-ব্যাক গ্যারান্টি', '30-day money-back guarantee'],
-    'p.perk3': ['ঝামেলাহীন রিটার্ন', 'Hassle-free returns'],
+    'p.perk2': ['৭ দিনের রিপ্লেসমেন্ট গ্যারান্টি', '7-day replacement guarantee'],
+    'p.perk3': ['খুলে দেখে নিন, তারপর টাকা', 'Check it before you pay'],
     'p.price': ['[দাম]', '[price]'],
     'aria.prev': ['আগের ছবি', 'Previous photo'],
     'aria.next': ['পরের ছবি', 'Next photo'],
@@ -87,9 +91,9 @@
     'acc.specs': ['স্পেসিফিকেশন', 'Specifications'],
     'acc.specsBody': ["হিট লেভেল: ৩টি — ৫০°C / ৫৫°C / ৬০°C · গরম হয়: ৩–৬ সেকেন্ডে, সেফটি চিপসহ · ভাইব্রেশন ম্যাসাজ: ৪ মোড (M1–M4) · LCD ডিসপ্লে: তাপ, মোড ও ব্যাটারি · ব্যাটারি: পুরো চার্জে ২–৩ ঘণ্টা, USB রিচার্জেবল · চালু/বন্ধ: ৩ সেকেন্ড চেপে ধরুন · প্যাডের মাপ: ২২ × ১২ × ৬ সেমি · বেল্ট: নরম কাপড়, কোমর ৫০ ইঞ্চি পর্যন্ত অ্যাডজাস্টেবল · রং: পিংক · প্যাকেজিং: গিফট বক্স · তৈরি: চীন · [পুরো চার্জ হতে কত সময় লাগে]", "Heat levels: 3 — 50°C / 55°C / 60°C · Warms up: in 3–6 seconds, with safety chip · Vibration massage: 4 modes (M1–M4) · LCD display: heat, mode and battery · Battery: 2–3 hours per full charge, USB rechargeable · On/off: hold 3 seconds · Pad size: 22 × 12 × 6 cm · Belt: soft fabric, adjustable up to a 50-inch waist · Colour: pink · Packaging: gift box · Made in: China · [full charging time]"],
     'acc.delivery': ['ডেলিভারি', 'Delivery'],
-    'acc.deliveryBody': ['[ডেলিভারি সময় ও এলাকা লিখুন — যেমন ঢাকায় ১-২ দিন, ঢাকার বাইরে ৩-৫ দিন]', '[Delivery times and areas — e.g. Dhaka 1–2 days, outside Dhaka 3–5 days]'],
+    'acc.deliveryBody': ['সারাদেশে ফ্রি ডেলিভারি। ঢাকার ভেতরে ১–২ কার্যদিবস, ঢাকার বাইরে ২–৪ কার্যদিবস (ফোনে অর্ডার কনফার্ম হওয়ার পর থেকে)। ঢাকায় পুরো টাকা পণ্য হাতে পেয়ে; ঢাকার বাইরে ৳২০০ অগ্রিম, বাকিটা হাতে পেয়ে। <a href="delivery.html">বিস্তারিত ডেলিভারি পলিসি →</a>', 'Free delivery across Bangladesh. Inside Dhaka 1–2 working days, outside Dhaka 2–4 working days (from phone confirmation). Dhaka pays in full on delivery; outside Dhaka pays a ৳200 advance and the rest on delivery. <a href="delivery.html">Full delivery policy →</a>'],
     'acc.refund': ['রিটার্ন ও রিফান্ড পলিসি', 'Returns & refund policy'],
-    'acc.refundBody': ['[৩০ দিনের মানি-ব্যাক গ্যারান্টির শর্তগুলো এখানে লিখুন]', '[Write the terms of the 30-day money-back guarantee here]'],
+    'acc.refundBody': ['ডেলিভারিম্যানের সামনে খুলে দেখে নিন: ভাঙা, ভুল বা কিছু কম থাকলে তখনই ফেরত দিন, কোনো টাকা লাগবে না। হাতে পাওয়ার ৭ দিনের মধ্যে উৎপাদনগত ত্রুটি (গরম না হওয়া, চার্জ না হওয়া) হলে বিনামূল্যে নতুন বেল্ট। শরীরে পরার পণ্য বলে স্বাস্থ্যবিধির কারণে মত পরিবর্তনে ফেরত নেওয়া হয় না। <a href="refund.html">বিস্তারিত রিফান্ড পলিসি →</a>', 'Open and check it in front of the delivery person: if it is broken, wrong or incomplete, refuse it and pay nothing. A manufacturing defect (not heating, not charging) within 7 days of delivery gets a free new belt. As it is worn against the body, change-of-mind returns are not accepted for hygiene reasons. <a href="refund.html">Full refund policy →</a>'],
 
     /* ---------- scroll-expansion showcase ---------- */
     'exp.aria': ['WarmLune ভিডিও', 'WarmLune video'],

@@ -62,6 +62,10 @@
       el.target = '_blank'; el.rel = 'noopener';
     });
     $$('[data-return-policy]').forEach(function (el) { el.textContent = C.returnPolicy; });
+    $$('[data-email]').forEach(function (el) { el.textContent = C.email || ''; });
+    $$('[data-email-link]').forEach(function (el) { if (C.email) el.href = 'mailto:' + C.email; });
+    // Pages written out in both languages (policies): show the active one
+    $$('[data-lang-block]').forEach(function (el) { el.hidden = el.getAttribute('data-lang-block') !== (L.lang || 'bn'); });
     $$('[data-advance]').forEach(function (el) { el.textContent = taka(C.advanceOutsideDhaka); });
     $$('[data-price-of]').forEach(function (el) { el.textContent = taka(product(el.getAttribute('data-price-of')).price); });
     $$('[data-year]').forEach(function (el) { el.textContent = toBn(new Date().getFullYear()); });
@@ -470,7 +474,7 @@
         district: state.area === 'outside' ? el.district.value : '', address: el.address.value.trim(),
       };
     }
-    function saveDraft() {
+    function saveDraft(leaving) {
       clearTimeout(draftTimer);
       if (ordered || submitting || unpriced || !C.appsScriptUrl) return;
       var d = draftPayload();
@@ -478,6 +482,10 @@
       var key = JSON.stringify(d);
       if (key === draftSent) return;
       draftSent = key;
+      // Leaving the page: sendBeacon is the one request browsers reliably finish after unload
+      if (leaving === true && navigator.sendBeacon) {
+        try { if (navigator.sendBeacon(C.appsScriptUrl, new Blob([key], { type: 'text/plain;charset=utf-8' }))) return; } catch (x) {}
+      }
       try {
         fetch(C.appsScriptUrl, { method: 'POST', keepalive: true, headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: key })
           .catch(function () { draftSent = ''; });
@@ -487,8 +495,8 @@
     form.addEventListener('input', queueDraft);
     form.addEventListener('change', queueDraft);
     $$('[data-qty-minus], [data-qty-plus]').forEach(function (b) { b.addEventListener('click', queueDraft); });
-    window.addEventListener('pagehide', saveDraft);
-    document.addEventListener('visibilitychange', function () { if (document.hidden) saveDraft(); });
+    window.addEventListener('pagehide', function () { saveDraft(true); });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) saveDraft(true); });
 
     var submitting = false;
     form.addEventListener('submit', function (e) {

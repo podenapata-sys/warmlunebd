@@ -41,8 +41,9 @@ window.WL = {
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbwECdKABZwsqdkjTPgLuVbn7hCmg1K3-ne26MZoL9N5VAi39ByAcxBOSzdJGb4XzD8jvA/exec',                // Web App URL from Code.gs deployment (…/exec)
   pixelId: '1460286499445516',                      // Meta Pixel ID
   siteUrl: 'https://podenapata-sys.github.io/warmlunebd',
-  returnPolicy: '[৩০ দিনের মানি-ব্যাক গ্যারান্টির শর্ত লিখুন]',
-  returnPolicy_en: '[Write the 30-day money-back guarantee terms]',
+  // Short version; the full terms are in refund.html
+  returnPolicy: 'ডেলিভারিম্যানের সামনে খুলে দেখে নিন। ভাঙা, ভুল বা কিছু কম থাকলে তখনই ফেরত দিন। ৭ দিনের মধ্যে উৎপাদনগত ত্রুটিতে বিনামূল্যে নতুন বেল্ট।',
+  returnPolicy_en: 'Check it in front of the delivery person and refuse it if it is broken, wrong or incomplete. Manufacturing defects within 7 days get a free new belt.',
 
   // Rating line under the title. Leave null to show the design's placeholder.
   rating: '5.0',                    // average of the reviews below
@@ -96,7 +97,7 @@ window.WL = {
   var ids = ['pink', 'white', 'lavender'];
   var lang = window.I18N ? window.I18N.lang : 'bn';
   window.CONFIG = {
-    brand: W.brand, phone: W.phone, whatsapp: W.whatsapp, facebookPage: '#',
+    brand: W.brand, phone: W.phone, whatsapp: W.whatsapp, email: W.email, facebookPage: '#',
     bkashNumber: W.bkashNumber, advanceOutsideDhaka: W.advanceOutsideDhaka, payMethods: W.payMethods,
     pixelId: W.pixelId, appsScriptUrl: W.appsScriptUrl, siteUrl: W.siteUrl,
     qtyDiscount: W.qtyDiscount,

@@ -613,3 +613,16 @@ body.admin .stat, body.admin .filters, body.admin .act, body.admin .orders tr, .
 .ab-card .review-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .ab-card .act { width: auto; padding: 0 12px; margin: 0; }
 .badge.ok { background: #E3F4EA; color: #2F6B45; }
+
+/* Policy pages (delivery / refund / privacy) */
+.policy { max-width: 760px; padding-top: 28px; padding-bottom: 48px; }
+.policy h1 { font-size: clamp(26px, 6vw, 34px); color: var(--ink); margin-bottom: 4px; }
+.policy .updated { color: var(--muted); font-size: 14px; margin: 0 0 20px; }
+.policy h2 { font-size: 19px; color: var(--ink); margin: 26px 0 8px; font-family: var(--bn); font-weight: 700; }
+.policy p, .policy li { font-size: 16px; line-height: 1.75; }
+.policy ul, .policy ol { padding-left: 22px; margin: 6px 0 10px; }
+.policy li + li { margin-top: 4px; }
+.policy a { color: #C8305F; }
+.policy-nav { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 15px; }
+.policy-nav a { color: #C8305F; }
+.policy-nav a[aria-current="page"] { color: var(--ink); font-weight: 600; text-decoration: none; }
