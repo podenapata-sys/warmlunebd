@@ -356,16 +356,28 @@
       DISTRICTS.slice().sort(function (a, b) { return a.localeCompare(b, 'bn'); })
         .map(function (d) { return '<option value="' + d + '">' + esc(L.district(d)) + '</option>'; }).join('');
 
-    $('[data-bkash-number]').textContent = toBn(C.bkashNumber);
     // Wallet picker (bKash / Nagad / Upay / Rocket) for the outside-Dhaka advance
     var methods = C.payMethods || [{ id: 'bkash', name: 'বিকাশ', name_en: 'bKash' }];
+    var wName = function (m) { return L.lang === 'en' && m.name_en ? m.name_en : m.name; };
     $('[data-pay-methods]').innerHTML = methods.map(function (m) {
-      return '<label><input type="radio" name="payMethod" value="' + esc(m.id) + '"> ' + esc(L.lang === 'en' && m.name_en ? m.name_en : m.name) + '</label>';
+      return '<label><input type="radio" name="payMethod" value="' + esc(m.id) + '"> ' + esc(wName(m)) + '</label>';
     }).join('');
-    $('[data-copy-bkash]').addEventListener('click', function () {
-      var btn = this;
-      var done = function () { btn.textContent = T('co.copied'); setTimeout(function () { btn.textContent = T('co.copy'); }, 1500); };
-      if (navigator.clipboard) navigator.clipboard.writeText(C.bkashNumber).then(done, done); else done();
+    // Send-money numbers, grouped: wallets sharing a number appear on one line
+    var groups = [];
+    methods.forEach(function (m) {
+      var n = m.number || C.bkashNumber, g = groups.filter(function (x) { return x.number === n; })[0];
+      if (g) g.names.push(wName(m)); else groups.push({ number: n, names: [wName(m)] });
+    });
+    $('[data-pay-numbers]').innerHTML = groups.map(function (g) {
+      return '<div class="pay-num"><span class="pay-num-label">' + esc(g.names.join(' / ')) + '</span>' +
+        '<strong class="num"><span data-number>' + esc(toBn(g.number)) + '</span> <button type="button" class="copy-btn" data-copy="' + esc(g.number) + '">' + esc(T('co.copy')) + '</button></strong></div>';
+    }).join('');
+    $$('[data-copy]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var btn = this;
+        var done = function () { btn.textContent = T('co.copied'); setTimeout(function () { btn.textContent = T('co.copy'); }, 1500); };
+        if (navigator.clipboard) navigator.clipboard.writeText(btn.getAttribute('data-copy')).then(done, done); else done();
+      });
     });
 
     function totals() {

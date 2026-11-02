@@ -215,6 +215,9 @@ p { margin: 0 0 12px; }
 .hint { font-size: 14px; color: var(--muted); }
 .bkash-box { background: #FDF2F6; border: 2px dashed #D12053; border-radius: 14px; padding: 16px; margin-bottom: 14px; }
 .bkash-box strong.num { font-size: 22px; letter-spacing: .04em; color: #D12053; display: inline-flex; align-items: center; gap: 8px; }
+.pay-num { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 10px; padding: 8px 0; }
+.pay-num + .pay-num { border-top: 1px dashed rgba(209, 32, 83, .35); }
+.pay-num-label { font-weight: 600; font-size: 15px; }
 .copy-btn { border: 1px solid #D12053; background: #fff; color: #D12053; border-radius: 999px; font: 600 13px var(--bn); padding: 4px 12px; cursor: pointer; }
 .cod-box { background: #F3F8F5; border: 1px solid #CFE3D7; border-radius: 14px; padding: 14px 16px; margin-bottom: 14px; font-weight: 500; }
 .hp { position: absolute !important; left: -9999px !important; width: 1px; height: 1px; opacity: 0; }

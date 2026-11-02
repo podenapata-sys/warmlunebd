@@ -28,13 +28,14 @@ window.WL = {
   email: 'fssolutionsss@gmail.com',
 
   // Checkout & backend (same system as the Jaynamaz shop)
-  bkashNumber: '01632932249',       // advance number for every wallet below (Send Money)
+  bkashNumber: '01632932249',       // default advance number (Send Money) for wallets without their own `number`
   // Wallets accepted for the outside-Dhaka advance. Keep in sync with PAY_METHODS in Code.gs.
+  // Give a wallet its own `number` if it differs (Rocket account numbers have 12 digits).
   payMethods: [
     { id: 'bkash',  name: 'বিকাশ',  name_en: 'bKash' },
     { id: 'nagad',  name: 'নগদ',    name_en: 'Nagad' },
     { id: 'upay',   name: 'উপায়',  name_en: 'Upay' },
-    { id: 'rocket', name: 'রকেট',   name_en: 'Rocket' },
+    { id: 'rocket', name: 'রকেট',   name_en: 'Rocket', number: '016329322490' },
   ],
   advanceOutsideDhaka: 200,
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbwECdKABZwsqdkjTPgLuVbn7hCmg1K3-ne26MZoL9N5VAi39ByAcxBOSzdJGb4XzD8jvA/exec',                // Web App URL from Code.gs deployment (…/exec)

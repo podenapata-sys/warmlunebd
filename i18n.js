@@ -181,7 +181,7 @@
     'co.step3': ['৩. পেমেন্ট', '3. Payment'],
     'co.payHint': ['ডেলিভারি এলাকা নির্বাচন করলে পেমেন্টের নিয়ম দেখাবে।', 'Choose a delivery area to see how payment works.'],
     'co.cod': ['✅ ক্যাশ অন ডেলিভারি — পণ্য হাতে পেয়ে পুরো মূল্য পরিশোধ করবেন।', '✅ Cash on delivery — pay the full amount when your order arrives.'],
-    'co.bkash': ["অর্ডার কনফার্ম করতে <strong data-advance></strong> অগ্রিম পাঠান (Send Money) — বিকাশ, নগদ, উপায় বা রকেট:", "To confirm your order, send a <strong data-advance></strong> advance (Send Money) by bKash, Nagad, Upay or Rocket to:"],
+    'co.bkash': ["অর্ডার কনফার্ম করতে <strong data-advance></strong> অগ্রিম পাঠান (Send Money) — বিকাশ, নগদ, উপায় বা রকেট:", "To confirm your order, send a <strong data-advance></strong> advance (Send Money) by bKash, Nagad, Upay or Rocket:"],
     'co.bkashNote': ['এই টাকা মোট মূল্য থেকে বাদ যাবে। বাকি টাকা পণ্য হাতে পেয়ে দিবেন।', 'This is deducted from the total. Pay the rest when your order arrives.'],
     'co.copy': ['কপি', 'Copy'],
     'co.copied': ['কপি হয়েছে ✓', 'Copied ✓'],
