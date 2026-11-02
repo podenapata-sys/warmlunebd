@@ -675,6 +675,26 @@
   if (page === 'checkout') initCheckout();
   if (page === 'thanks') initThanks();
   if (page === 'review') initReview();
+  /* Hidden shortcut: tap the header logo 4 times quickly to open the admin dashboard.
+     The dashboard still needs the password; this only saves typing the address. */
+  (function () {
+    var logo = document.querySelector('header .logo');
+    if (!logo) return;
+    var taps = 0, timer = null;
+    logo.addEventListener('click', function (e) {
+      var href = logo.getAttribute('href') || '#';
+      e.preventDefault();
+      taps++; clearTimeout(timer);
+      if (taps >= 4) { taps = 0; location.href = 'admin.html'; return; }
+      if (href === '#') {                       // home page: logo scrolls to top, no wait needed
+        if (taps === 1) window.scrollTo({ top: 0, behavior: 'smooth' });
+        timer = setTimeout(function () { taps = 0; }, 700);
+      } else {                                  // other pages: go home unless more taps follow
+        timer = setTimeout(function () { taps = 0; location.href = href; }, 450);
+      }
+    });
+  })();
+
   initReveal();
   initCounters();
   initSliders();
