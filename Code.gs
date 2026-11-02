@@ -23,9 +23,7 @@
 /* ---------- Price: the source of truth. Keep in sync with config.js (price) ---------- */
 const PRICE = 0;   // ৳ per heating pad — SET THIS. Orders are refused while it is 0.
 const PRODUCTS = {
-  'pad-pink':     { name: 'WarmLune হিটিং প্যাড — ব্লাশ পিংক', price: PRICE },
-  'pad-white':    { name: 'WarmLune হিটিং প্যাড — পার্ল হোয়াইট', price: PRICE },
-  'pad-lavender': { name: 'WarmLune হিটিং প্যাড — ল্যাভেন্ডার', price: PRICE },
+  'pad-pink': { name: 'WarmLune হিটিং প্যাড — পিংক', price: PRICE },
 };
 const ADVANCE_OUTSIDE_DHAKA = 200;   // ৳ — must match config.js advanceOutsideDhaka
 const MAX_QTY = 10;

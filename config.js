@@ -44,17 +44,16 @@ window.WL = {
   lifestyleImage: '',               // "প্যাড পরে আরাম করছেন এমন একজন নারী"
   featureImages: ['', '', ''],      // heat close-up, display & control, worn under clothes
 
+  // The supplier lists one colour (pink). Add more only if you can actually ship them.
   colors: [
-    { name: 'ব্লাশ পিংক', name_en: 'Blush Pink', hex: '#F2A3BC' },
-    { name: 'পার্ল হোয়াইট', name_en: 'Pearl White', hex: '#F1E6EA' },
-    { name: 'ল্যাভেন্ডার', name_en: 'Lavender', hex: '#C9B2EA' },
+    { name: 'পিংক', name_en: 'Pink', hex: '#F2A3BC' },
   ],
 
   // Dark stats band. Fill with your real specs.
   stats: [
-    { value: '[ব্যাটারি mAh]', value_en: '[battery mAh]', label: 'বড় ক্ষমতার ব্যাটারি', label_en: 'High-capacity battery' },
-    { value: '[XX] মিনিট', value_en: '[XX] min', label: 'প্রতি চার্জে চলে', label_en: 'Runtime per charge' },
-    { value: '[XX] সেকেন্ড', value_en: '[XX] sec', label: 'দ্রুত গরম হয়', label_en: 'To heat up' },
+    { value: '৩ লেভেল', value_en: '3 levels', label: 'লো · মিডিয়াম · হাই তাপ', label_en: 'Low · medium · high heat' },
+    { value: 'LCD', value_en: 'LCD', label: 'ডিসপ্লেতে লেভেল দেখুন', label_en: 'See your level on the display' },
+    { value: 'অটো শাট-অফ', value_en: 'Auto shut-off', label: 'অতিরিক্ত গরম রোধে', label_en: 'Helps prevent overheating' },
   ],
 
   // REAL, verified customer reviews only. While this is empty, the page shows the
