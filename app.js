@@ -289,23 +289,29 @@
     els.forEach(function (el) { io.observe(el); });
     setTimeout(function () { els.forEach(function (el) { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in'); }); }, 2500);
   }
-  /* Hidden shortcut: tap the header logo 4 times quickly to open the admin dashboard.
-     The dashboard still needs the password; this only saves typing the address. */
+  /* Hidden shortcut: tap the header logo tap-tap, pause, tap-tap to open the admin dashboard.
+     (Each pair within ~0.45 s, the pause 0.6–2 s.) The dashboard still needs the password. */
   (function () {
     var logo = document.querySelector('header .logo');
     if (!logo) return;
-    var taps = 0, timer = null;
+    var QUICK = 450, PAUSE_MIN = 600, PAUSE_MAX = 2000;
+    var times = [], timer = null;
+    function matches(t) {
+      if (t.length < 4) return false;
+      var a = t.slice(-4), g1 = a[1] - a[0], g2 = a[2] - a[1], g3 = a[3] - a[2];
+      return g1 <= QUICK && g2 >= PAUSE_MIN && g2 <= PAUSE_MAX && g3 <= QUICK;
+    }
     logo.addEventListener('click', function (e) {
-      var href = logo.getAttribute('href') || '#';
+      var href = logo.getAttribute('href') || '#', now = Date.now();
       e.preventDefault();
-      taps++; clearTimeout(timer);
-      if (taps >= 4) { taps = 0; location.href = 'admin.html'; return; }
-      if (href === '#') {                       // home page: logo scrolls to top, no wait needed
-        if (taps === 1) window.scrollTo({ top: 0, behavior: 'smooth' });
-        timer = setTimeout(function () { taps = 0; }, 700);
-      } else {                                  // other pages: go home unless more taps follow
-        timer = setTimeout(function () { taps = 0; location.href = href; }, 450);
-      }
+      clearTimeout(timer);
+      times.push(now); if (times.length > 4) times.shift();
+      if (matches(times)) { times = []; location.href = 'admin.html'; return; }
+      var home = href === '#';
+      if (home && times.length === 1) window.scrollTo({ top: 0, behavior: 'smooth' });
+      // A lone tap acts normally right away; after 2+ taps wait to see if the pattern continues
+      var wait = times.length === 1 ? QUICK : PAUSE_MAX;
+      timer = setTimeout(function () { times = []; if (!home) location.href = href; }, wait);
     });
   })();
 })();
