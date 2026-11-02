@@ -512,6 +512,6 @@ function setup() {
 
 // Optional: run from the editor to check Telegram/email alerts without placing an order
 function testAlert() {
-  notify_({ orderId: 'ORD-TEST-0000', name: 'টেস্ট', phone: '01700000000', product: PRODUCTS.chair.name, qty: 1,
-            total: 6500, advance: 200, due: 6300, area: 'outside', district: 'চট্টগ্রাম', address: 'টেস্ট ঠিকানা', trxId: 'TEST12345', note: '' });
+  notify_({ orderId: 'ORD-TEST-0000', name: 'টেস্ট', phone: '01700000000', product: PRODUCTS['pad-pink'].name, qty: 1,
+            total: PRICE, advance: ADVANCE_OUTSIDE_DHAKA, due: PRICE - ADVANCE_OUTSIDE_DHAKA, area: 'outside', district: 'চট্টগ্রাম', address: 'টেস্ট ঠিকানা', payMethod: PAY_METHODS.bkash, trxId: 'TEST12345', note: '' });
 }
