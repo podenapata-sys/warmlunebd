@@ -1,8 +1,14 @@
-/* Ruposhi Bangla UI (Okkhor52 Originals, licence: fonts/RuposhiBangla-LICENSE.txt).
-   Original, unmodified TTF files as the EULA requires. unicode-range limits it to Bangla
-   characters, so English text keeps Jost. font-display: swap shows text immediately. */
-@font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0980-09FF, U+200C-200D, U+25CC; }
-@font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; unicode-range: U+0980-09FF, U+200C-200D, U+25CC; }
+/* Bangla fonts, split by character (unicode-range):
+   - Noto Serif Bengali (SIL OFL, fonts/NotoSerifBengali-OFL.txt): Bangla letters, signs and ৳, NOT digits.
+     Subset to the Bangla block and converted to WOFF2 (allowed by the OFL).
+   - Ruposhi Bangla UI (Okkhor52 Originals, fonts/RuposhiBangla-LICENSE.txt): Bangla digits ০-৯ only.
+     Original, unmodified TTF files as its EULA requires.
+   English text keeps Jost. font-display: swap shows text immediately. */
+@font-face { font-family: 'Noto Serif Bengali'; src: url('fonts/NotoSerifBengali-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0980-09E5, U+09F0-09FF, U+0964-0965, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Bengali'; src: url('fonts/NotoSerifBengali-SemiBold.woff2') format('woff2'); font-weight: 500 600; font-style: normal; font-display: swap; unicode-range: U+0980-09E5, U+09F0-09FF, U+0964-0965, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Noto Serif Bengali'; src: url('fonts/NotoSerifBengali-Bold.woff2') format('woff2'); font-weight: 700 900; font-style: normal; font-display: swap; unicode-range: U+0980-09E5, U+09F0-09FF, U+0964-0965, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Regular.ttf') format('truetype'); font-weight: 400 600; font-style: normal; font-display: swap; unicode-range: U+09E6-09EF; }
+@font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Bold.ttf') format('truetype'); font-weight: 700 900; font-style: normal; font-display: swap; unicode-range: U+09E6-09EF; }
 /* WarmLune product page — values measured from the design mockup */
 :root {
   --primary: #C8305F;
@@ -18,9 +24,9 @@
   --chip-bg: #E3F4EA;
   --chip-ink: #2F7A4D;
   --radius: 18px;
-  --bn: 'Ruposhi Bangla', 'Jost', system-ui, sans-serif;
-  --en: 'Jost', 'Ruposhi Bangla', system-ui, sans-serif;
-  --bn-display: 'Jost', 'Ruposhi Bangla', serif;
+  --bn: 'Noto Serif Bengali', 'Ruposhi Bangla', 'Jost', system-ui, sans-serif;
+  --en: 'Jost', 'Noto Serif Bengali', 'Ruposhi Bangla', system-ui, sans-serif;
+  --bn-display: 'Jost', 'Noto Serif Bengali', 'Ruposhi Bangla', serif;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -239,7 +245,7 @@ p { margin: 0; }
   .expand-sticky { position: relative; height: 80vh; }
 }
 
-/* Headings: Noto Serif Bengali for Bangla letters (Latin letters in headings keep Jost) */
+/* Headings: Noto Serif Bengali for Bangla letters, Ruposhi for Bangla digits, Jost for Latin */
 h1, h2, h3, .kicker, .stats .val { font-family: var(--bn-display); }
 h1, h2 { font-weight: 700; letter-spacing: 0; }
 :lang(en) h1, :lang(en) h2, :lang(en) h3 { font-family: var(--en); }
