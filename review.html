@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>রিভিউ দিন | {brand}</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#C8305F">
+<link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Jost:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shop.css">
+</head>
+<body data-page="review">
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html" data-brand>[BRAND NAME]</a>
+    <a class="header-call" href="#" data-tel><span data-phone></span></a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="thanks" style="text-align:left">
+    <h1 style="font-size:32px">আপনার মতামত দিন</h1>
+    <p>অর্ডার আইডি: <strong data-review-order></strong></p>
+    <p class="hint">আপনার রিভিউ অন্য ক্রেতাদের সঠিক সিদ্ধান্ত নিতে সাহায্য করবে। ভালো-মন্দ যা মনে হয়, সৎভাবে লিখুন।</p>
+
+    <div class="form-error" data-review-missing hidden>লিংকে অর্ডার আইডি নেই। আমাদের WhatsApp-এ পাঠানো লিংক থেকে রিভিউ দিন।</div>
+
+    <form id="review-form" class="panel" novalidate style="margin-top:18px">
+      <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+      <div class="field" data-field="rating">
+        <fieldset>
+          <legend>রেটিং <span class="req">*</span></legend>
+          <div class="star-picker" data-star-picker></div>
+          <span class="hint" data-star-label></span>
+        </fieldset>
+        <span class="err">স্টার দিয়ে রেটিং দিন।</span>
+      </div>
+
+      <div class="field" data-field="text">
+        <label for="r-text">আপনার অভিজ্ঞতা <span class="req">*</span></label>
+        <textarea id="r-text" name="text" rows="4" maxlength="400" placeholder="যেমন: আম্মা এখন চেয়ারে বসে আরামে নামাজ পড়েন…"></textarea>
+        <span class="err">অন্তত এক লাইন লিখুন।</span>
+      </div>
+
+      <div class="field" data-field="name">
+        <label for="r-name">নাম <span class="req">*</span></label>
+        <input id="r-name" name="name" maxlength="40" autocomplete="name">
+        <span class="hint">ওয়েবসাইটে শুধু প্রথম নাম ও পদবির প্রথম অক্ষর দেখাবে।</span>
+        <span class="err">নাম লিখুন।</span>
+      </div>
+
+      <div class="field">
+        <label for="r-place">এলাকা <span class="hint">(ঐচ্ছিক)</span></label>
+        <input id="r-place" name="place" maxlength="40" placeholder="যেমন: মিরপুর, ঢাকা">
+      </div>
+
+      <div class="field" data-field="phone">
+        <label for="r-phone">অর্ডারের মোবাইল নম্বর <span class="req">*</span></label>
+        <input id="r-phone" name="phone" type="tel" inputmode="numeric" maxlength="17" placeholder="01XXXXXXXXX">
+        <span class="hint">যাচাইয়ের জন্য। ওয়েবসাইটে দেখানো হবে না।</span>
+        <span class="err">অর্ডারে দেওয়া মোবাইল নম্বরটি দিন।</span>
+      </div>
+
+      <div class="form-error" data-form-error role="alert" hidden></div>
+      <button class="btn block" type="submit" data-submit>রিভিউ পাঠান</button>
+    </form>
+
+    <div class="panel" data-review-done hidden style="text-align:center;margin-top:18px">
+      <h2 style="font-size:26px">জাযাকাল্লাহু খাইরান!</h2>
+      <p style="margin-top:10px">আপনার রিভিউ পেয়েছি। যাচাইয়ের পর এটি ওয়েবসাইটে দেখানো হবে।</p>
+      <a class="btn outline" href="index.html" style="margin-top:12px">হোমপেজে যান</a>
+    </div>
+  </div>
+</main>
+
+<script src="config.js"></script>
+<script src="shop.js" defer></script>
+</body>
+</html>
