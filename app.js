@@ -173,6 +173,70 @@
     msg.textContent = T('news.ok'); msg.hidden = false; e.target.reset();
   });
 
+  /* ---------- Scroll-expansion showcase ----------
+     A tall section with a sticky stage: as the page scrolls through it, the media card
+     grows from a small card to (almost) full screen, the background fades and the two
+     title words slide apart. It only READS the scroll position — it never blocks or
+     redirects scrolling, so visitors can always keep moving towards "Buy now". */
+  (function initExpand() {
+    var sec = $('[data-expand]');
+    if (!sec) return;
+    var media = $('[data-expand-media]', sec), bg = $('[data-expand-bg]', sec);
+    var left = $('[data-expand-left]', sec), right = $('[data-expand-right]', sec), hint = $('[data-expand-hint]', sec);
+    var sc = W.showcase || {};
+    if (sc.src && sc.type === 'image') {
+      media.innerHTML = '<img src="' + esc(sc.src) + '" alt="' + esc(T('p.title')) + '" loading="lazy" decoding="async">';
+    } else if (sc.src) {
+      // Muted + playsinline so phones autoplay it; only loads when near the screen
+      media.innerHTML = '<video muted loop playsinline preload="none"' + (sc.poster ? ' poster="' + esc(sc.poster) + '"' : '') + ' data-src="' + esc(sc.src) + '"></video>';
+    } else {
+      media.innerHTML = '<div class="expand-ph"><span class="ph-icon" aria-hidden="true"></span><strong>' + esc(T('exp.ph')) + '</strong><small>' + esc(T('exp.phSub')) + '</small></div>';
+    }
+    var video = $('video', media);
+
+    var lerp = function (a, b, t) { return a + (b - a) * t; };
+    var ease = function (t) { return 1 - Math.pow(1 - t, 3); };   // ease-out cubic
+    var ticking = false;
+
+    function frame() {
+      ticking = false;
+      var vw = innerWidth, vh = innerHeight, mobile = vw < 768;
+      var r = sec.getBoundingClientRect();
+      var travel = Math.max(1, sec.offsetHeight - vh);
+      var p = Math.min(1, Math.max(0, -r.top / travel));
+      if (reduceMotion) p = 1;
+      var e = ease(p);
+      var w0 = mobile ? Math.min(240, vw * 0.62) : 300, h0 = mobile ? 320 : 400;
+      var w1 = vw * (mobile ? 0.94 : 0.92), h1 = vh * (mobile ? 0.72 : 0.82);
+      media.style.width = lerp(w0, w1, e) + 'px';
+      media.style.height = lerp(h0, h1, e) + 'px';
+      media.style.borderRadius = lerp(24, 16, e) + 'px';
+      bg.style.opacity = String(1 - e * 0.85);
+      var shift = e * (mobile ? 46 : 32);                          // vw each title word travels
+      left.style.transform = 'translateX(' + (-shift) + 'vw)';
+      right.style.transform = 'translateX(' + shift + 'vw)';
+      left.style.opacity = right.style.opacity = String(1 - Math.max(0, (p - 0.55) / 0.45));
+      hint.style.opacity = String(Math.max(0, 1 - p * 4));
+      sec.classList.toggle('is-full', p > 0.98);
+    }
+    function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(frame); } }
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll);
+    frame();
+
+    // Load / play the video only while the section is on screen (saves mobile data)
+    if (video && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function (en) {
+        en.forEach(function (x) {
+          if (x.isIntersecting) {
+            if (!video.src) video.src = video.getAttribute('data-src');
+            if (!reduceMotion) { var pr = video.play(); if (pr && pr.catch) pr.catch(function () {}); }
+          } else video.pause();
+        });
+      }, { rootMargin: '200px 0px' }).observe(sec);
+    }
+  })();
+
   /* ---------- Fade-up reveal ---------- */
   var els = $$('.reveal');
   if (reduceMotion || !('IntersectionObserver' in window)) els.forEach(function (el) { el.classList.add('in'); });

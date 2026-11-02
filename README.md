@@ -21,6 +21,9 @@ Also fill the bracketed accordion and FAQ answers in `index.html` (box contents,
 2. Deploy `Code.gs` as a Google Apps Script Web App: create a Sheet, paste in the script, set the Script Properties `ADMIN_PASSWORD` (plus optionally `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `ADMIN_EMAIL`, `BRAND`), run `setup`, then Deploy → Web app (Execute as: Me, Access: Anyone).
 3. Paste the `/exec` URL into `appsScriptUrl` in `config.js`. Set your `bkashNumber` and `pixelId`.
 
+## Scroll-expansion showcase
+Below the product block, a card grows to full screen as visitors scroll, while the title words slide apart. It never locks or redirects scrolling, so the "Buy now" path is never blocked. Add a short, silent, looping product video (MP4, ideally under 5 MB) in `config.js → showcase`. It only downloads when the section is near the screen. Visitors who prefer reduced motion see it already expanded.
+
 ## English / বাংলা
 The EN / বাংলা toggle (product page, checkout and thank-you) switches every label, message and number, and remembers the choice. Link straight to a language with `?lang=en` or `?lang=bn` (handy for ads).
 - Page wording lives in `i18n.js` as `[bangla, english]` pairs.

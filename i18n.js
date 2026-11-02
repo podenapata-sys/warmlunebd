@@ -81,6 +81,14 @@
     'acc.refund': ['রিটার্ন ও রিফান্ড পলিসি', 'Returns & refund policy'],
     'acc.refundBody': ['[৩০ দিনের মানি-ব্যাক গ্যারান্টির শর্তগুলো এখানে লিখুন]', '[Write the terms of the 30-day money-back guarantee here]'],
 
+    /* ---------- scroll-expansion showcase ---------- */
+    'exp.aria': ['WarmLune ভিডিও', 'WarmLune video'],
+    'exp.left': ['আরামের', 'Warmth'],
+    'exp.right': ['উষ্ণতা', 'on the go'],
+    'exp.hint': ['স্ক্রল করুন ↓', 'Scroll ↓'],
+    'exp.ph': ['এখানে প্রোডাক্ট ভিডিও দিন', 'Add your product video here'],
+    'exp.phSub': ['config.js → showcase', 'config.js → showcase'],
+
     /* ---------- lifestyle / why / stats ---------- */
     'life.ph': ['লাইফস্টাইল ছবি: প্যাড পরে আরাম করছেন এমন একজন নারী', 'Lifestyle photo: a woman relaxing while wearing the pad'],
     'life.kicker': ['পরিচিত হোন WARMLUNE™ হিটিং প্যাডের সাথে', 'MEET THE WARMLUNE™ HEATING PAD'],

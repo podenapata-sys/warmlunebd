@@ -41,6 +41,9 @@ window.WL = {
     { label: 'ডিসপ্লে',         label_en: 'Display',        src: '', hint: 'ডিসপ্লে ও কন্ট্রোলের ছবি দিন', hint_en: 'Add a photo of the display and controls' },
     { label: 'বক্সে যা আছে',    label_en: 'In the box',     src: '', hint: 'এখানে আসল প্রোডাক্টের ছবি দিন', hint_en: 'Add a photo of the box contents' },
   ],
+  // Scroll-expansion showcase under the product block. Best with a short, silent, looping
+  // product video (MP4, under ~5 MB). type: 'video' or 'image'. Empty src = branded placeholder.
+  showcase: { type: 'video', src: '', poster: '' },
   lifestyleImage: '',               // "প্যাড পরে আরাম করছেন এমন একজন নারী"
   featureImages: ['', '', ''],      // heat close-up, display & control, worn under clothes
 
