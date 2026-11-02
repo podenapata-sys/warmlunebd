@@ -43,16 +43,16 @@ window.WL = {
 
   // Product photos (gallery order matches the thumbnails). '' = placeholder box.
   gallery: [
-    { label: 'প্রোডাক্ট',       label_en: 'Product',        src: '', hint: 'এখানে আসল প্রোডাক্টের ছবি দিন', hint_en: 'Add the real product photo here' },
-    { label: 'ব্যবহাররত',      label_en: 'In use',         src: '', hint: 'প্যাড ব্যবহাররত অবস্থার ছবি দিন', hint_en: 'Add a photo of the pad being worn' },
-    { label: 'ডিসপ্লে',         label_en: 'Display',        src: '', hint: 'ডিসপ্লে ও কন্ট্রোলের ছবি দিন', hint_en: 'Add a photo of the display and controls' },
-    { label: 'বক্সে যা আছে',    label_en: 'In the box',     src: '', hint: 'এখানে আসল প্রোডাক্টের ছবি দিন', hint_en: 'Add a photo of the box contents' },
+    { label: 'প্রোডাক্ট',       label_en: 'Product',        src: 'img/gallery-1.jpg', hint: 'এখানে আসল প্রোডাক্টের ছবি দিন', hint_en: 'Add the real product photo here' },
+    { label: 'ব্যবহাররত',      label_en: 'In use',         src: 'img/gallery-2.jpg', hint: 'প্যাড ব্যবহাররত অবস্থার ছবি দিন', hint_en: 'Add a photo of the pad being worn' },
+    { label: 'ডিসপ্লে',         label_en: 'Display',        src: 'img/gallery-3.jpg', hint: 'ডিসপ্লে ও কন্ট্রোলের ছবি দিন', hint_en: 'Add a photo of the display and controls' },
+    { label: 'বক্সে যা আছে',    label_en: 'In the box',     src: 'img/gallery-4.jpg', hint: 'এখানে আসল প্রোডাক্টের ছবি দিন', hint_en: 'Add a photo of the box contents' },
   ],
   // Scroll-expansion showcase under the product block. Best with a short, silent, looping
   // product video (MP4, under ~5 MB). type: 'video' or 'image'. Empty src = branded placeholder.
-  showcase: { type: 'video', src: '', poster: '' },
-  lifestyleImage: '',               // "প্যাড পরে আরাম করছেন এমন একজন নারী"
-  featureImages: ['', '', ''],      // heat close-up, display & control, worn under clothes
+  showcase: { type: 'video', src: 'media/showcase.mp4', poster: 'img/showcase-poster.jpg' },
+  lifestyleImage: 'img/lifestyle.jpg',   // temporary: sofa photo. Replace with the 'woman on bed' shot when ready               // "প্যাড পরে আরাম করছেন এমন একজন নারী"
+  featureImages: ['img/feature-1.jpg', 'img/feature-2.jpg', 'img/feature-3.jpg'],      // heat close-up, display & control, worn under clothes
 
   // The supplier lists one colour (pink). Add more only if you can actually ship them.
   colors: [

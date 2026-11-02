@@ -1,0 +1,84 @@
+WARMLUNE - IMAGE PROMPTS (copy one block at a time)
+===================================================
+
+NEGATIVE PROMPT (paste in the "negative prompt" box if your tool has one):
+text, letters, watermark, logo, extra fingers, distorted hands, distorted product, wires, cables plugged in, hospital, medical setting, revealing clothing, cartoon, oversaturated
+
+IMPORTANT: For images 1 to 4, upload your supplier's real product photo as a reference (image-to-image) so the belt looks exactly like the one you ship.
+
+
+---------------------------------------------------
+1. GALLERY - PRODUCT (square 1:1, 1200x1200) -> img/gallery-1.jpg
+---------------------------------------------------
+Studio packshot of a slim pink wireless heating belt with a small rectangular LCD display on the front panel, belt laid in a soft curve on a seamless blush-pink background, centered, soft shadow underneath, three-quarter top-down angle, e-commerce hero product photo, soft blush-pink and warm ivory palette, gentle diffused light, clean minimal composition, premium skincare-brand aesthetic, photorealistic, high detail, no text, no logos, no watermark, 1:1
+
+
+---------------------------------------------------
+2. GALLERY - IN USE (square 1:1, 1200x1200) -> img/gallery-2.jpg
+---------------------------------------------------
+A calm young Bangladeshi woman in her 20s sitting cross-legged on a cream sofa, wearing a soft pastel kurti, a slim pink wireless heating belt fastened around her waist over her top, one hand resting on the belt, eyes closed with a gentle smile, cozy home interior with cushions, morning window light, soft blush-pink and warm ivory palette, shallow depth of field, premium lifestyle photography, photorealistic, no text, no logos, no watermark, 1:1
+
+
+---------------------------------------------------
+3. GALLERY - DISPLAY (square 1:1, 1200x1200) -> img/gallery-3.jpg
+---------------------------------------------------
+Extreme close-up of a small glowing LCD display on a pink fabric heating belt showing a heat-level indicator, a woman's finger with natural nails pressing the button beside it, macro product photography, blurred blush-pink background, gentle diffused light, premium minimal aesthetic, photorealistic, high detail, no text, no logos, no watermark, 1:1
+
+
+---------------------------------------------------
+4. GALLERY - IN THE BOX (square 1:1, 1200x1200) -> img/gallery-4.jpg
+---------------------------------------------------
+Flat lay photographed from directly above on a warm ivory surface: a pink wireless heating belt neatly coiled, a short white USB charging cable and a small folded instruction card, arranged with even spacing, soft shadows, minimal premium unboxing photo, soft blush-pink and warm ivory palette, gentle diffused light, photorealistic, no text, no logos, no watermark, 1:1
+
+
+---------------------------------------------------
+5. SCROLL SHOWCASE - VIDEO OR STILL (16:9, 1920x1080, keep subject in the center) -> showcase
+---------------------------------------------------
+Cinematic slow push-in on a young Bangladeshi woman relaxing on a cream sofa at golden hour, a slim pink wireless heating belt around her waist over a soft pastel top, holding a cup of tea, peaceful relaxed expression, warm sunlight through sheer curtains, dreamy blush-pink color grade, subject centered in the frame, shallow depth of field, photorealistic, no text, no logos, no watermark, 16:9
+
+
+---------------------------------------------------
+6. LIFESTYLE SECTION (6:5, 1440x1200) -> img/lifestyle.jpg
+---------------------------------------------------
+A young Bangladeshi woman curled up comfortably on a bed with soft cream and blush bedding, wearing modest pastel loungewear, a slim pink heating belt around her lower waist over her top, reading a book and smiling softly, warm afternoon window light, calm cozy self-care moment, soft blush-pink and warm ivory palette, shallow depth of field, editorial lifestyle photography, photorealistic, no text, no logos, no watermark, 6:5
+
+
+---------------------------------------------------
+7. FEATURE CARD 1 - HEAT LEVELS (square 1:1, 1000x1000) -> img/feature-1.jpg
+---------------------------------------------------
+Close-up of a pink wireless heating belt's LCD control panel, a soft warm orange-pink glow radiating gently from the pad surface to suggest warmth, blurred blush-pink background, clean product macro shot, gentle diffused light, premium minimal aesthetic, photorealistic, no text, no logos, no watermark, 1:1
+
+
+---------------------------------------------------
+8. FEATURE CARD 2 - AUTO SHUT-OFF (square 1:1, 1000x1000) -> img/feature-2.jpg
+---------------------------------------------------
+A young Bangladeshi woman at a bright home desk with a laptop, a slim pink heating belt at her waist over a cream kurti, focused and comfortable, a small analogue clock on the desk, soft daylight, calm productive mood, soft blush-pink and warm ivory palette, shallow depth of field, photorealistic, no text, no logos, no watermark, 1:1
+
+
+---------------------------------------------------
+9. FEATURE CARD 3 - PORTABLE (square 1:1, 1000x1000) -> img/feature-3.jpg
+---------------------------------------------------
+An open pastel handbag on a cafe table with a neatly folded pink wireless heating belt peeking out next to sunglasses, a phone and a lipstick, a woman's hand reaching in, bright natural light, lifestyle shot from a slight angle, soft blush-pink and warm ivory palette, shallow depth of field, photorealistic, no text, no logos, no watermark, 1:1
+
+
+---------------------------------------------------
+10. FACEBOOK AD / LINK PREVIEW (1200x630) -> img/og.jpg
+---------------------------------------------------
+Split composition: on the left a slim pink wireless heating belt with an LCD display floating at a slight angle on a blush-pink background, on the right empty soft-pink negative space for text overlay, soft studio lighting, premium minimal advertising layout, photorealistic, no text, no logos, no watermark, 1200x630
+
+(Add your Bangla text afterwards in Canva or DaVinci, e.g.
+"পিরিয়ডের ব্যথায় আরামের উষ্ণতা · ৳১,৯৯০ · ২টিতে ২০% ছাড়")
+
+
+---------------------------------------------------
+CUSTOMER REVIEW PHOTOS
+---------------------------------------------------
+No prompt on purpose. Use only real photos from real customers, with their permission.
+
+
+---------------------------------------------------
+AFTER YOU GENERATE
+---------------------------------------------------
+1. Export JPG at about 80% quality, under 200 KB each (squoosh.app).
+2. Use the file names above and put them in the img/ folder.
+3. Send them to me, or add the paths in config.js and push.
