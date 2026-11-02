@@ -76,7 +76,7 @@
     'g.boxPhoto': ['বক্সে যা আছে ছবি', 'What’s in the box photo'],
     'g.photoOf': ['{label} ছবি', '{label} photo'],
     'rating.placeholder': ['[রেটিং] — [সংখ্যা]টি যাচাইকৃত রিভিউ', '[rating] — [number] verified reviews'],
-    'rating.text': ['{r} — {n}টি যাচাইকৃত রিভিউ', '{r} — {n} verified reviews'],
+    'rating.text': ['{r} — {n}টি রিভিউ', '{r} — {n} reviews'],
 
     'acc.how': ['কীভাবে কাজ করে?', 'How does it work?'],
     'acc.howBody': ["বেল্টটি তলপেটে পরে নিন, তারপর LCD ডিসপ্লে দেখে লো, মিডিয়াম বা হাই — তিনটির একটি হিট লেভেল বেছে নিন। চাইলে ভাইব্রেশন ম্যাসাজও চালু করতে পারেন। নির্দিষ্ট সময় পর অটো শাট-অফ টাইমার নিজে থেকেই বন্ধ করে দেয়।", "Wear the belt over your lower belly, then use the LCD display to choose low, medium or high heat. Turn on vibration massage if you like. The auto shut-off timer switches it off by itself after a set time."],
@@ -118,8 +118,8 @@
     /* ---------- reviews ---------- */
     'rev.title': ['সত্যিকারের ক্রেতা, সত্যিকারের আরাম', 'Real customers, real comfort'],
     'rev.subPh': ['আপনার স্টোরের যাচাইকৃত রিভিউ ও ক্রেতাদের ছবি এখানে যোগ করুন।', 'Add your store’s verified reviews and customer photos here.'],
-    'rev.subReal': ['যাচাইকৃত ক্রেতাদের আসল অভিজ্ঞতা।', 'Real experiences from verified buyers.'],
-    'rev.chip': ['যাচাইকৃত ক্রেতা', 'Verified buyer'],
+    'rev.subReal': ['আমাদের ক্রেতাদের অভিজ্ঞতা।', 'What our customers say.'],
+    'rev.chip': ['ক্রেতা', 'Customer'],          // "verified" is only for reviews checked against a delivered order
     'rev.photo': ['ক্রেতার ছবি', 'Customer photo'],
     'rev.photoOf': ['{name}-এর ছবি', 'Photo from {name}'],
     'rev.phName': ['[ক্রেতার নাম]', '[customer name]'],

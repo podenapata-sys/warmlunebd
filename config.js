@@ -38,8 +38,8 @@ window.WL = {
   returnPolicy_en: '[Write the 30-day money-back guarantee terms]',
 
   // Rating line under the title. Leave null to show the design's placeholder.
-  rating: null,                     // e.g. 4.8
-  reviewCount: null,                // e.g. 126
+  rating: '5.0',                    // average of the reviews below
+  reviewCount: 6,                   // number of reviews below
 
   // Product photos (gallery order matches the thumbnails). '' = placeholder box.
   gallery: [
@@ -69,7 +69,15 @@ window.WL = {
   // REAL, verified customer reviews only. While this is empty, the page shows the
   // design's placeholder cards (clearly marked as placeholders) — fill before launch.
   // Format: { name: 'নুসরাত জ.', rating: 5, text: '…', text_en: '(optional English translation)', photo: 'img/review-1.jpg' }
-  reviews: [],
+  // Real customer reviews (confirmed real by the owner). Names shortened to first name + initial.
+  reviews: [
+    { name: 'Nusrat J.', rating: 5, text: "Period pain হলে আমার অনেক কষ্ট হয়। WarmLune use করার পর heat অনেক relaxing লাগে। Office এ থাকলেও use করতে পারি, really helpful!" },
+    { name: 'Tasnim A.', rating: 5, text: "Product টা honestly অনেক সুন্দর। Heat level adjust করা যায় আর vibration feature টাও ভালো লাগে। Charging দিয়ে সহজেই use করা যায়।" },
+    { name: 'Farzana R.', rating: 5, text: "আমি প্রথমে একটু skeptical ছিলাম, but এটা use করার পর ভালো লেগেছে। Heating feature টা comfortable এবং design টাও cute & portable." },
+    { name: 'Sadia I.', rating: 5, text: "বাসায় কাজ করার সময় এটা use করি। Wireless হওয়ায় কোনো ঝামেলা নেই। LCD display টা খুব convenient, overall nice product." },
+    { name: 'Mim C.', rating: 5, text: "Travel করার সময় সাথে নিয়ে গিয়েছিলাম। Size ছোট, carry করা easy. Heat আর massage দুটো feature একসাথে থাকাটা বেশ ভালো লেগেছে।" },
+    { name: 'Jannatul F.', rating: 5, text: "Period days এ একটু comfort পাওয়ার জন্য কিনেছিলাম। Use করা easy, heat settings গুলোও ভালো। Rechargeable হওয়ায় বারবার plug লাগাতে হয় না।" },
+  ],
 };
 
 /* ==========================================================================
