@@ -12,6 +12,9 @@ window.WL = {
   // ⚠ Also set PRICE in Code.gs — the server recalculates every order total.
   currency: '৳',
   price: 1990,
+  // Price framing (both honest: worked out from the price / true for an online-only shop)
+  showPerMonth: true,               // "used for a year, just ৳166 a month"
+  showWhyPrice: true,               // "why this price? online only, no shop rent"
   oldPrice: null,                   // only a price you REALLY sold at before; it turns on the sale badge, tag and crossed-out price
   saleBadge: '৫০% ছাড়',
   saleBadge_en: '50% off',

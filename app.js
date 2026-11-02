@@ -33,6 +33,14 @@
 
   /* ---------- Static values from config ---------- */
   if (W.announcement) $('[data-announce]').textContent = P(W, 'announcement');
+  // Price framing: monthly equivalent (price ÷ 12, rounded) and a short "why this price"
+  if (W.showPerMonth && W.price > 0) {
+    var pm = $('[data-per-month]');
+    pm.textContent = T('p.perMonth', { amt: money(Math.round(W.price / 12)) });
+    pm.hidden = false;
+  }
+  if (W.showWhyPrice) $('[data-why-price]').hidden = false;
+
   // Sale badge + "সেল" tag only when there is a real previous price to compare with
   var onSale = W.price > 0 && W.oldPrice > W.price;
   if (onSale && W.saleBadge) $('[data-sale-badge]').textContent = P(W, 'saleBadge'); else $('[data-sale-badge]').hidden = true;

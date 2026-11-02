@@ -238,3 +238,13 @@ p { margin: 0; }
 h1, h2, h3, .kicker, .stats .val { font-family: var(--bn-display); }
 h1, h2 { font-weight: 700; letter-spacing: 0; }
 :lang(en) h1, :lang(en) h2, :lang(en) h3 { font-family: var(--en); }
+
+/* Price framing under the price */
+.per-month { margin-top: 6px; font-size: 14px; font-weight: 600; color: var(--primary); }
+.why-price { margin-top: 10px; font-size: 13px; color: var(--body); background: var(--tint); border-radius: 12px; padding: 10px 12px; }
+.why-price strong { color: var(--ink); }
+
+/* Grid columns must not grow to fit long placeholder text (English labels are longer) */
+.product { grid-template-columns: minmax(0, 1fr); }
+.gallery, .info, .gallery-main, .gallery-track { min-width: 0; }
+@media (min-width: 900px) { .product { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
