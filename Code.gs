@@ -30,7 +30,9 @@ const QTY_DISCOUNT = { minQty: 2, percent: 20 };
 function discountFor_(subtotal, qty) {
   return QTY_DISCOUNT.percent > 0 && qty >= QTY_DISCOUNT.minQty ? Math.round(subtotal * QTY_DISCOUNT.percent / 100) : 0;
 }
-const ADVANCE_OUTSIDE_DHAKA = 200;   // ৳ — must match config.js advanceOutsideDhaka
+const ADVANCE_OUTSIDE_DHAKA = 200;
+// Wallets accepted for the outside-Dhaka advance — must match config.js payMethods
+const PAY_METHODS = { bkash: 'বিকাশ', nagad: 'নগদ', upay: 'উপায়', rocket: 'রকেট' };   // ৳ — must match config.js advanceOutsideDhaka
 const MAX_QTY = 10;
 const TZ = 'Asia/Dhaka';
 
@@ -38,7 +40,7 @@ const SHEET_NAME = 'Orders';
 const HEADERS = [
   'orderId', 'createdAt', 'name', 'phone', 'area', 'district', 'address',
   'productId', 'productName', 'qty', 'unitPrice', 'total', 'advance', 'due',
-  'bkashTrxId', 'status', 'note', 'updatedAt', 'requestId',
+  'bkashTrxId', 'status', 'note', 'updatedAt', 'requestId', 'payMethod',
 ];
 const STATUSES = ['New', 'Confirmed', 'Shipped', 'Delivered', 'Returned', 'Fake', 'Cancelled'];
 const TOKEN_TTL = 6 * 60 * 60;       // seconds (CacheService max)
@@ -114,11 +116,14 @@ function createOrder_(b) {
 
   let district = 'ঢাকা (সিটি)';
   let trxId = '';
+  let payMethod = '';
   if (area === 'outside') {
     district = clean_(b.district, 40);
     if (DISTRICTS.indexOf(district) === -1) throw userError_('সঠিক জেলা নির্বাচন করুন।');
     trxId = toEnDigits_(String(b.trxId || '')).trim().toUpperCase();
-    if (!/^[A-Z0-9]{8,12}$/.test(trxId)) throw userError_('সঠিক বিকাশ ট্রানজেকশন আইডি দিন।');
+    if (!/^[A-Z0-9]{8,12}$/.test(trxId)) throw userError_('সঠিক ট্রানজেকশন আইডি দিন।');
+    payMethod = String(b.payMethod || '');
+    if (!PAY_METHODS[payMethod]) throw userError_('কোন মাধ্যমে টাকা পাঠিয়েছেন (বিকাশ/নগদ/উপায়/রকেট) বেছে নিন।');
   }
 
   const address = clean_(b.address, 300);
@@ -156,7 +161,7 @@ function createOrder_(b) {
     sheet.appendRow([
       orderId, ts, name, phone, area, district, address,
       String(b.productId), product.name, qty, product.price, total, advance, due,
-      trxId, 'New', note, ts, requestId,
+      trxId, 'New', note, ts, requestId, payMethod ? PAY_METHODS[payMethod] : '',
     ].map(safeCell_));
     SpreadsheetApp.flush();
 
@@ -164,7 +169,7 @@ function createOrder_(b) {
     if (requestId) cache.put('req_' + requestId, JSON.stringify(result), TOKEN_TTL);
 
     // Alerts run after the row is safely written; a failure here never loses the order
-    notify_({ orderId, name, phone, product: product.name, qty, total, advance, due, area, district, address, trxId, note });
+    notify_({ orderId, name, phone, product: product.name, qty, total, advance, due, area, district, address, trxId, payMethod: payMethod ? PAY_METHODS[payMethod] : '', note });
     return Object.assign({ ok: true }, result);
   } finally {
     lock.releaseLock();
@@ -262,7 +267,7 @@ function notify_(o) {
     'মোট: ৳' + o.total + (o.advance ? ' (অগ্রিম ৳' + o.advance + ', বাকি ৳' + o.due + ')' : ' (ক্যাশ অন ডেলিভারি)'),
     'এলাকা: ' + (o.area === 'inside' ? 'ঢাকার ভেতরে' : 'ঢাকার বাইরে — ' + o.district),
     'ঠিকানা: ' + o.address,
-    'বিকাশ TrxID: ' + (o.trxId || '—'),
+    'অগ্রিম: ' + (o.trxId ? (o.payMethod || '') + ' · TrxID ' + o.trxId : '—'),
   ];
   if (o.note) lines.push('নোট: ' + o.note);
   notifyText_(lines.join('\n'), 'নতুন অর্ডার ' + o.orderId + ' — ৳' + o.total);

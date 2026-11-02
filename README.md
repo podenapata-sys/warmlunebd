@@ -14,12 +14,12 @@ A working build of the WarmLune product-page mockup: plain HTML, CSS and JS, no 
 Also fill the bracketed accordion and FAQ answers in `index.html` (box contents, specs, delivery, refund terms, battery, heat levels, skin use) from the manufacturer's information.
 
 ## Checkout & orders (Bangladesh)
-"এখনই কিনুন" opens `checkout.html` with the chosen colour and quantity: COD inside Dhaka, ৳200 bKash advance outside Dhaka, and every order saved to a Google Sheet with Telegram/email alerts. Manage orders and approve verified reviews at `admin.html`. It's the same tested system as the Jaynamaz shop.
+"এখনই কিনুন" opens `checkout.html` with the chosen colour and quantity: COD inside Dhaka, ৳200 advance outside Dhaka (bKash, Nagad, Upay or Rocket — the customer picks which one and enters the transaction ID), and every order saved to a Google Sheet with Telegram/email alerts. Manage orders and approve verified reviews at `admin.html`. It's the same tested system as the Jaynamaz shop.
 
 **Setup (once):**
 1. Set `price` (and optionally `oldPrice`) in `config.js` **and** `PRICE` in `Code.gs`. Checkout stays closed while there's no price.
-2. Deploy `Code.gs` as a Google Apps Script Web App: create a Sheet, paste in the script, set the Script Properties `ADMIN_PASSWORD` (plus optionally `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `ADMIN_EMAIL`, `BRAND`), run `setup`, then Deploy → Web app (Execute as: Me, Access: Anyone).
-3. Paste the `/exec` URL into `appsScriptUrl` in `config.js`. Set your `bkashNumber` and `pixelId`.
+2. Deploy `Code.gs` as a Google Apps Script Web App: create a Sheet, paste in the script, set the Script Properties `ADMIN_PASSWORD` (plus optionally `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `ADMIN_EMAIL` = fssolutionsss@gmail.com, `BRAND`), run `setup`, then Deploy → Web app (Execute as: Me, Access: Anyone).
+3. Paste the `/exec` URL into `appsScriptUrl` in `config.js`. Set `bkashNumber` (the one number shown for all wallets; edit `payMethods` to add or remove wallets, and `PAY_METHODS` in `Code.gs` to match) and `pixelId`.
 
 ## Quantity discount
 `qtyDiscount: { minQty: 2, percent: 20 }` in `config.js` shows an offer banner, a live total with "you save ৳…" and a nudge ("add 1 more for 20% off") on the product page, and a discount row at checkout and on the thank-you page. **Set the same values in `QTY_DISCOUNT` in `Code.gs`.** The server recalculates every total, so the browser can't fake it. Set `percent: 0` to turn it off.

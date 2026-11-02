@@ -357,6 +357,11 @@
         .map(function (d) { return '<option value="' + d + '">' + esc(L.district(d)) + '</option>'; }).join('');
 
     $('[data-bkash-number]').textContent = toBn(C.bkashNumber);
+    // Wallet picker (bKash / Nagad / Upay / Rocket) for the outside-Dhaka advance
+    var methods = C.payMethods || [{ id: 'bkash', name: 'বিকাশ', name_en: 'bKash' }];
+    $('[data-pay-methods]').innerHTML = methods.map(function (m) {
+      return '<label><input type="radio" name="payMethod" value="' + esc(m.id) + '"> ' + esc(L.lang === 'en' && m.name_en ? m.name_en : m.name) + '</label>';
+    }).join('');
     $('[data-copy-bkash]').addEventListener('click', function () {
       var btn = this;
       var done = function () { btn.textContent = T('co.copied'); setTimeout(function () { btn.textContent = T('co.copy'); }, 1500); };
@@ -382,6 +387,7 @@
       $('[data-district-field]').hidden = !outside;
       $('[data-bkash-box]').hidden = !outside;
       $('[data-trx-field]').hidden = !outside;
+      $('[data-pay-field]').hidden = !outside;
       $('[data-cod-box]').hidden = state.area !== 'inside';
       $('[data-payment-hint]').hidden = !!state.area;
       sel.required = outside;
@@ -428,6 +434,7 @@
       ok = setError('area', !state.area) && ok;
       if (state.area === 'outside') {
         ok = setError('district', !el.district.value) && ok;
+        ok = setError('payMethod', !form.querySelector('input[name=payMethod]:checked')) && ok;
         ok = setError('trxId', !/^[A-Z0-9]{8,12}$/.test(toEn(el.trxId.value).trim().toUpperCase())) && ok;
       }
       ok = setError('address', el.address.value.trim().length < 10) && ok;
@@ -462,6 +469,7 @@
         district: state.area === 'outside' ? el.district.value : 'ঢাকা (সিটি)',
         address: el.address.value.trim(),
         trxId: state.area === 'outside' ? toEn(el.trxId.value).trim().toUpperCase() : '',
+        payMethod: state.area === 'outside' ? ((form.querySelector('input[name=payMethod]:checked') || {}).value || '') : '',
         note: el.note.value.trim(),
       };
 

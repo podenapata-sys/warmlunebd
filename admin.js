@@ -258,7 +258,7 @@
         '<td data-l="পরিমাণ">' + o.qty + '</td>' +
         '<td data-l="মোট"><strong>' + money(o.total) + '</strong>' + (o.advance ? '<br><small>বাকি ' + money(o.due) + '</small>' : '') + '</td>' +
         '<td data-l="অগ্রিম">' + (o.advance ? money(o.advance) : '—') + '</td>' +
-        '<td data-l="TrxID">' + (o.bkashTrxId ? '<code>' + esc(o.bkashTrxId) + '</code>' : '—') + '</td>' +
+        '<td data-l="TrxID">' + (o.bkashTrxId ? (o.payMethod ? '<small>' + esc(o.payMethod) + '</small><br>' : '') + '<code>' + esc(o.bkashTrxId) + '</code>' : '—') + '</td>' +
         '<td data-l="স্ট্যাটাস"><select data-status class="badge-select st-' + esc(o.status) + '" aria-label="স্ট্যাটাস">' + opts + '</select></td>' +
         '<td data-l="নোট">' + (o.note ? esc(o.note) : '—') + '</td>' +
         '<td data-l="অ্যাকশন" class="acts">' +
@@ -310,7 +310,7 @@
 
   /* ---------- CSV export of the filtered view ---------- */
   $('[data-export]').addEventListener('click', function () {
-    var cols = ['orderId', 'createdAt', 'name', 'phone', 'area', 'district', 'address', 'productName', 'qty', 'total', 'advance', 'due', 'bkashTrxId', 'status', 'note', 'updatedAt'];
+    var cols = ['orderId', 'createdAt', 'name', 'phone', 'area', 'district', 'address', 'productName', 'qty', 'total', 'advance', 'due', 'payMethod', 'bkashTrxId', 'status', 'note', 'updatedAt'];
     var cell = function (v) {
       v = String(v == null ? '' : v);
       if (/^[=+\-@]/.test(v)) v = "'" + v;                 // no formula injection in Excel

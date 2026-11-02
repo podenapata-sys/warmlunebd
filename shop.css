@@ -587,3 +587,7 @@ body.admin .stat, body.admin .filters, body.admin .act, body.admin .orders tr, .
 @media (max-width: 899px) { .logo-img { width: 32px; height: 32px; } .logo-word { height: 13px; } }
 @media (max-width: 360px) { .logo-word { height: 11px; } }
 @media (max-width: 340px) { .logo-word { display: none; } .logo-img { width: 36px; height: 36px; } }
+
+/* Wallet picker: 2 per row on phones, 4 on wider screens */
+.pay-choice { grid-template-columns: 1fr 1fr; }
+@media (min-width: 560px) { .pay-choice { grid-template-columns: repeat(4, 1fr); } }

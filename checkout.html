@@ -106,10 +106,18 @@
           <p class="hint" style="margin:8px 0 0" data-i18n="co.bkashNote">এই টাকা মোট মূল্য থেকে বাদ যাবে। বাকি টাকা পণ্য হাতে পেয়ে দিবেন।</p>
         </div>
 
+        <div class="field" data-field="payMethod" data-pay-field hidden>
+          <fieldset>
+            <legend><span data-i18n="co.payMethod">কোন মাধ্যমে পাঠিয়েছেন?</span> <span class="req">*</span></legend>
+            <div class="choice pay-choice" data-pay-methods></div>
+          </fieldset>
+          <span class="err" data-i18n="co.payMethodErr">বিকাশ, নগদ, উপায় বা রকেট — একটি বেছে নিন।</span>
+        </div>
+
         <div class="field" data-field="trxId" data-trx-field hidden>
-          <label for="f-trx"><span data-i18n="co.trx">বিকাশ ট্রানজেকশন আইডি</span> <span class="req">*</span></label>
+          <label for="f-trx"><span data-i18n="co.trx">ট্রানজেকশন আইডি</span> <span class="req">*</span></label>
           <input id="f-trx" name="trxId" autocomplete="off" autocapitalize="characters" maxlength="12" placeholder="যেমন 9A7B6C5D4E" data-i18n-ph="co.trxPh" style="text-transform:uppercase">
-          <span class="err" data-i18n="co.trxErr">বিকাশ মেসেজে পাওয়া ট্রানজেকশন আইডি দিন (৮-১২ অক্ষর)।</span>
+          <span class="err" data-i18n="co.trxErr">পেমেন্টের মেসেজে পাওয়া ট্রানজেকশন আইডি দিন (৮-১২ অক্ষর)।</span>
         </div>
       </section>
     </div>

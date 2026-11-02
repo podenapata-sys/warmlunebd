@@ -25,10 +25,17 @@ window.WL = {
   // Contact
   whatsapp: '8801632932249',        // international format, no "+"
   phone: '01632932249',
-  email: '[আপনার ইমেইল]',
+  email: 'fssolutionsss@gmail.com',
 
   // Checkout & backend (same system as the Jaynamaz shop)
-  bkashNumber: '01XXXXXXXXX',       // outside-Dhaka customers send the advance here
+  bkashNumber: '01632932249',       // advance number for every wallet below (Send Money)
+  // Wallets accepted for the outside-Dhaka advance. Keep in sync with PAY_METHODS in Code.gs.
+  payMethods: [
+    { id: 'bkash',  name: 'বিকাশ',  name_en: 'bKash' },
+    { id: 'nagad',  name: 'নগদ',    name_en: 'Nagad' },
+    { id: 'upay',   name: 'উপায়',  name_en: 'Upay' },
+    { id: 'rocket', name: 'রকেট',   name_en: 'Rocket' },
+  ],
   advanceOutsideDhaka: 200,
   appsScriptUrl: '',                // Web App URL from Code.gs deployment (…/exec)
   pixelId: '',                      // Meta Pixel ID
@@ -89,7 +96,7 @@ window.WL = {
   var lang = window.I18N ? window.I18N.lang : 'bn';
   window.CONFIG = {
     brand: W.brand, phone: W.phone, whatsapp: W.whatsapp, facebookPage: '#',
-    bkashNumber: W.bkashNumber, advanceOutsideDhaka: W.advanceOutsideDhaka,
+    bkashNumber: W.bkashNumber, advanceOutsideDhaka: W.advanceOutsideDhaka, payMethods: W.payMethods,
     pixelId: W.pixelId, appsScriptUrl: W.appsScriptUrl, siteUrl: W.siteUrl,
     qtyDiscount: W.qtyDiscount,
     returnPolicy: lang === 'en' && W.returnPolicy_en ? W.returnPolicy_en : W.returnPolicy, maxQty: 10, happyCustomers: 0, testimonials: [], sellingPoints: [],
