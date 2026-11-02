@@ -39,7 +39,7 @@ window.WL = {
   ],
   advanceOutsideDhaka: 200,
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbwECdKABZwsqdkjTPgLuVbn7hCmg1K3-ne26MZoL9N5VAi39ByAcxBOSzdJGb4XzD8jvA/exec',                // Web App URL from Code.gs deployment (…/exec)
-  pixelId: '',                      // Meta Pixel ID
+  pixelId: '1460286499445516',                      // Meta Pixel ID
   siteUrl: 'https://podenapata-sys.github.io/warmlunebd',
   returnPolicy: '[৩০ দিনের মানি-ব্যাক গ্যারান্টির শর্ত লিখুন]',
   returnPolicy_en: '[Write the 30-day money-back guarantee terms]',
