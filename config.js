@@ -50,7 +50,7 @@ window.WL = {
   ],
   // Scroll-expansion showcase under the product block. Best with a short, silent, looping
   // product video (MP4, under ~5 MB). type: 'video' or 'image'. Empty src = branded placeholder.
-  showcase: { type: 'video', src: 'media/showcase.mp4', poster: 'img/showcase-poster.jpg' },
+  showcase: { type: 'video', src: 'media/showcase.mp4', srcWebm: 'media/showcase.webm', poster: 'img/showcase-poster.jpg' },
   lifestyleImage: 'img/lifestyle.jpg',   // temporary: sofa photo. Replace with the 'woman on bed' shot when ready               // "প্যাড পরে আরাম করছেন এমন একজন নারী"
   featureImages: ['img/feature-1.jpg', 'img/feature-2.jpg', 'img/feature-3.jpg'],      // heat close-up, display & control, worn under clothes
 

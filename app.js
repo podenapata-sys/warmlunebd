@@ -224,7 +224,10 @@
       media.innerHTML = '<img src="' + esc(sc.src) + '" alt="' + esc(T('p.title')) + '" loading="lazy" decoding="async">';
     } else if (sc.src) {
       // Muted + playsinline so phones autoplay it; only loads when near the screen
-      media.innerHTML = '<video muted loop playsinline preload="none"' + (sc.poster ? ' poster="' + esc(sc.poster) + '"' : '') + ' data-src="' + esc(sc.src) + '"></video>';
+      // WebM (VP9) first where available, MP4 (H.264) for every other browser
+      media.innerHTML = '<video muted loop playsinline preload="none"' + (sc.poster ? ' poster="' + esc(sc.poster) + '"' : '') + '>' +
+        (sc.srcWebm ? '<source data-src="' + esc(sc.srcWebm) + '" type="video/webm">' : '') +
+        '<source data-src="' + esc(sc.src) + '" type="video/mp4"></video>';
     } else {
       media.innerHTML = '<div class="expand-ph"><span class="ph-icon" aria-hidden="true"></span><strong>' + esc(T('exp.ph')) + '</strong><small>' + esc(T('exp.phSub')) + '</small></div>';
     }
@@ -265,7 +268,11 @@
       new IntersectionObserver(function (en) {
         en.forEach(function (x) {
           if (x.isIntersecting) {
-            if (!video.src) video.src = video.getAttribute('data-src');
+            if (!video.dataset.loaded) {
+              $$('source', video).forEach(function (s) { s.src = s.getAttribute('data-src'); });
+              video.dataset.loaded = '1';
+              video.load();
+            }
             if (!reduceMotion) { var pr = video.play(); if (pr && pr.catch) pr.catch(function () {}); }
           } else video.pause();
         });
