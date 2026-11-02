@@ -1,3 +1,8 @@
+/* Ruposhi Bangla UI (Okkhor52 Originals, licence: fonts/RuposhiBangla-LICENSE.txt).
+   Original, unmodified TTF files as the EULA requires. unicode-range limits it to Bangla
+   characters, so English text keeps Jost. font-display: swap shows text immediately. */
+@font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0980-09FF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; unicode-range: U+0980-09FF, U+200C-200D, U+25CC; }
 /* WarmLune product page — values measured from the design mockup */
 :root {
   --primary: #C8305F;
@@ -13,9 +18,9 @@
   --chip-bg: #E3F4EA;
   --chip-ink: #2F7A4D;
   --radius: 18px;
-  --bn: 'Hind Siliguri', system-ui, sans-serif;
-  --en: 'Jost', 'Hind Siliguri', system-ui, sans-serif;
-  --bn-display: 'Jost', 'Noto Serif Bengali', 'Hind Siliguri', serif;
+  --bn: 'Ruposhi Bangla', 'Jost', system-ui, sans-serif;
+  --en: 'Jost', 'Ruposhi Bangla', system-ui, sans-serif;
+  --bn-display: 'Jost', 'Ruposhi Bangla', serif;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }

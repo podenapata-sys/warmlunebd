@@ -1,3 +1,8 @@
+/* Ruposhi Bangla UI (Okkhor52 Originals, licence: fonts/RuposhiBangla-LICENSE.txt).
+   Original, unmodified TTF files as the EULA requires. unicode-range limits it to Bangla
+   characters, so English text keeps Jost. font-display: swap shows text immediately. */
+@font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0980-09FF, U+200C-200D, U+25CC; }
+@font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; font-display: swap; unicode-range: U+0980-09FF, U+200C-200D, U+25CC; }
 /* ==========================================================================
    Storefront + admin styles. Mobile-first; desktop tweaks at the bottom.
    ========================================================================== */
@@ -542,8 +547,8 @@ body.admin .stat strong { font-weight: 600; }
   --line: #EDE3E7;
   --radius: 16px;
   --shadow: 0 18px 40px -24px rgba(200, 48, 95, .35);
-  --bn: 'Hind Siliguri', system-ui, sans-serif;
-  --en: 'Jost', 'Hind Siliguri', system-ui, sans-serif;
+  --bn: 'Ruposhi Bangla', 'Jost', system-ui, sans-serif;
+  --en: 'Jost', 'Ruposhi Bangla', system-ui, sans-serif;
 }
 body { background: #fff; }
 .site-header { background: #fff; border-bottom: 1px solid var(--line); }
