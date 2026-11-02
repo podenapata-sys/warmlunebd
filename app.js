@@ -33,7 +33,10 @@
 
   /* ---------- Static values from config ---------- */
   if (W.announcement) $('[data-announce]').textContent = P(W, 'announcement');
-  if (W.saleBadge) $('[data-sale-badge]').textContent = P(W, 'saleBadge'); else $('[data-sale-badge]').hidden = true;
+  // Sale badge + "সেল" tag only when there is a real previous price to compare with
+  var onSale = W.price > 0 && W.oldPrice > W.price;
+  if (onSale && W.saleBadge) $('[data-sale-badge]').textContent = P(W, 'saleBadge'); else $('[data-sale-badge]').hidden = true;
+  if (!onSale) $$('.sale').forEach(function (el) { el.hidden = true; });
   $('[data-price]').textContent = money(W.price);
   if (W.price > 0 && W.oldPrice > W.price) $('[data-old-price]').textContent = money(W.oldPrice); else $('[data-old-price]').hidden = true;
   if (W.rating && W.reviewCount) $('[data-rating-text]').textContent = T('rating.text', { r: toBn(W.rating), n: toBn(W.reviewCount) });

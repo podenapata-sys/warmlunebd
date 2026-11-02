@@ -4,15 +4,15 @@
    ========================================================================== */
 window.WL = {
   brand: 'WarmLune',
-  announcement: 'সব অর্ডারে ৫০% ছাড় ও ফ্রি ডেলিভারি',
-  announcement_en: '50% off and free delivery on every order',
+  announcement: 'সারাদেশে ফ্রি ডেলিভারি · পণ্য হাতে পেয়ে মূল্য পরিশোধ',
+  announcement_en: 'Free delivery across Bangladesh · Pay when it arrives',
   // Any field ending in _en is the English version shown when the visitor picks EN.
 
   // Price in taka. Leave price null until decided: the page shows "[দাম]" and checkout stays closed.
   // ⚠ Also set PRICE in Code.gs — the server recalculates every order total.
   currency: '৳',
-  price: null,                      // e.g. 1990
-  oldPrice: null,                   // e.g. 3990 (shown crossed out)
+  price: 1990,
+  oldPrice: null,                   // only a price you REALLY sold at before; it turns on the sale badge, tag and crossed-out price
   saleBadge: '৫০% ছাড়',
   saleBadge_en: '50% off',
 
