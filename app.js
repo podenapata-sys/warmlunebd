@@ -108,13 +108,38 @@
   });
   if (colors[0]) $('[data-color-name]').textContent = P(colors[0], 'name');
 
-  $('[data-qty-val]').textContent = toBn(state.qty);
+  /* Quantity discount (config.js → qtyDiscount; the server applies the same rule) */
+  var QD = W.qtyDiscount || {};
+  var qdOn = QD.percent > 0 && QD.minQty > 1 && W.price > 0;
+  function priceFor(qty) {
+    var sub = W.price * qty;
+    var disc = qdOn && qty >= QD.minQty ? Math.round(sub * QD.percent / 100) : 0;
+    return { sub: sub, disc: disc, total: sub - disc };
+  }
+  if (qdOn) {
+    $('[data-offer-text]').textContent = T('p.offer', { n: toBn(QD.minQty), pct: toBn(QD.percent) });
+    $('[data-offer]').hidden = false;
+  }
+  function renderQty() {
+    $('[data-qty-val]').textContent = toBn(state.qty);
+    var box = $('[data-qty-total]');
+    if (!(W.price > 0)) { box.hidden = true; return; }
+    var p = priceFor(state.qty);
+    $('[data-total]').innerHTML = (p.disc ? '<s>' + money(p.sub) + '</s> ' : '') + money(p.total);
+    var save = $('[data-save]');
+    save.hidden = !p.disc;
+    if (p.disc) save.textContent = T('p.save', { amt: money(p.disc) });
+    var nudge = $('[data-nudge]');
+    nudge.hidden = !(qdOn && state.qty < QD.minQty);
+    if (!nudge.hidden) nudge.textContent = T('p.nudge', { k: toBn(QD.minQty - state.qty), pct: toBn(QD.percent) });
+  }
   $$('[data-qty]').forEach(function (b) {
     b.addEventListener('click', function () {
       state.qty = Math.max(1, Math.min(10, state.qty + Number(b.getAttribute('data-qty'))));
-      $('[data-qty-val]').textContent = toBn(state.qty);
+      renderQty();
     });
   });
+  renderQty();
 
   /* ---------- Cart + buy (WhatsApp order) ---------- */
   var cart = []; try { cart = JSON.parse(store.get('wl-cart')) || []; } catch (e) {}

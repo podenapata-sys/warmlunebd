@@ -12,6 +12,10 @@ window.WL = {
   // ⚠ Also set PRICE in Code.gs — the server recalculates every order total.
   currency: '৳',
   price: 1990,
+  // Quantity discount: buy minQty or more → percent off the WHOLE order. percent: 0 turns it off.
+  // ⚠ Mirror it in Code.gs (QTY_DISCOUNT) — the server recalculates every total.
+  qtyDiscount: { minQty: 2, percent: 20 },
+
   // Price framing (both honest: worked out from the price / true for an online-only shop)
   showPerMonth: true,               // "used for a year, just ৳166 a month"
   showWhyPrice: true,               // "why this price? online only, no shop rent"
@@ -80,6 +84,7 @@ window.WL = {
     brand: W.brand, phone: W.phone, whatsapp: W.whatsapp, facebookPage: '#',
     bkashNumber: W.bkashNumber, advanceOutsideDhaka: W.advanceOutsideDhaka,
     pixelId: W.pixelId, appsScriptUrl: W.appsScriptUrl, siteUrl: W.siteUrl,
+    qtyDiscount: W.qtyDiscount,
     returnPolicy: lang === 'en' && W.returnPolicy_en ? W.returnPolicy_en : W.returnPolicy, maxQty: 10, happyCustomers: 0, testimonials: [], sellingPoints: [],
     featuredProductId: 'pad-' + ids[0],
     products: (W.colors || []).map(function (c, i) {

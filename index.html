@@ -83,12 +83,22 @@
         <div class="swatches" data-swatches role="radiogroup" aria-label="রং" data-i18n-aria="aria.colors"></div>
       </div>
 
+      <div class="offer" data-offer hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M21.4 11.6 12.4 2.6A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7c0 .6.2 1 .6 1.4l9 9a2 2 0 0 0 2.8 0l7-7a2 2 0 0 0 0-2.8ZM5.5 7A1.5 1.5 0 1 1 7 5.5 1.5 1.5 0 0 1 5.5 7Z"/></svg>
+        <span data-offer-text></span>
+      </div>
+
       <div class="opt">
         <div class="opt-label" data-i18n="p.qty">পরিমাণ</div>
         <div class="qty">
           <button type="button" data-qty="-1" aria-label="কমান" data-i18n-aria="aria.dec">−</button>
           <output data-qty-val aria-live="polite">১</output>
           <button type="button" data-qty="1" aria-label="বাড়ান" data-i18n-aria="aria.inc">+</button>
+        </div>
+        <div class="qty-total" data-qty-total aria-live="polite">
+          <div class="qt-row"><span data-i18n="p.total">মোট</span><strong data-total></strong></div>
+          <div class="qt-save" data-save hidden></div>
+          <div class="qt-nudge" data-nudge hidden></div>
         </div>
       </div>
 

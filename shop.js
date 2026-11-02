@@ -366,8 +366,11 @@
     function totals() {
       var p = product(state.productId);
       var subtotal = p.price * state.qty;
-      var advance = state.area === 'outside' ? Math.min(C.advanceOutsideDhaka, subtotal) : 0;
-      return { p: p, subtotal: subtotal, advance: advance, due: subtotal - advance };
+      var qd = C.qtyDiscount || {};
+      var discount = qd.percent > 0 && state.qty >= qd.minQty ? Math.round(subtotal * qd.percent / 100) : 0;
+      var total = subtotal - discount;
+      var advance = state.area === 'outside' ? Math.min(C.advanceOutsideDhaka, total) : 0;
+      return { p: p, subtotal: subtotal, discount: discount, total: total, advance: advance, due: total - advance };
     }
 
     function render() {
@@ -388,6 +391,7 @@
         '<div class="summary-item"><img src="' + esc(t.p.image[0]) + '" alt="" width="64" height="64"><div><strong>' + esc(t.p.name) + '</strong><br>' +
           '<span class="hint">' + taka(t.p.price) + ' × ' + toBn(state.qty) + '</span></div></div>' +
         row(T('co.subtotal'), taka(t.subtotal)) +
+        (t.discount ? row(T('co.discount', { pct: toBn(C.qtyDiscount.percent), n: toBn(C.qtyDiscount.minQty) }), '<span class="free">− ' + taka(t.discount) + '</span>') : '') +
         row(T('co.delivery'), '<span class="free">' + T('co.free') + '</span>') +
         (t.advance ? row(T('co.advance'), '− ' + taka(t.advance)) : '') +
         '<div class="summary-row total"><span>' + T('co.due') + '</span><span>' + taka(t.due) + '</span></div>';
@@ -471,7 +475,7 @@
           clearTimeout(timer);
           if (!res.ok) throw new Error(res.error || T('co.failed'));
           // Keep a copy for the thank-you page summary; URL only carries id & value
-          ssSet('lastOrder', JSON.stringify({ id: res.orderId, productId: payload.productId, name: t.p.name || res.productName, qty: payload.qty, total: res.total, advance: res.advance, due: res.due, area: payload.area }));
+          ssSet('lastOrder', JSON.stringify({ id: res.orderId, productId: payload.productId, name: t.p.name || res.productName, qty: payload.qty, total: res.total, discount: res.discount || 0, advance: res.advance, due: res.due, area: payload.area }));
           try { sessionStorage.removeItem('checkoutRequestId'); } catch (x) {}
           location.href = 'thank-you.html?id=' + encodeURIComponent(res.orderId) + '&value=' + encodeURIComponent(res.total);
         })
@@ -578,6 +582,7 @@
       $('[data-thanks-summary]').innerHTML =
         '<div class="summary-row"><span>' + T('ty.product') + '</span><span>' + esc(last.name) + ' × ' + toBn(last.qty) + '</span></div>' +
         '<div class="summary-row"><span>' + T('ty.total') + '</span><span>' + taka(last.total) + '</span></div>' +
+        (last.discount ? '<div class="summary-row"><span>' + T('co.discount', { pct: toBn((C.qtyDiscount || {}).percent || ''), n: toBn((C.qtyDiscount || {}).minQty || '') }) + '</span><span class="free">− ' + taka(last.discount) + '</span></div>' : '') +
         (last.advance ? '<div class="summary-row"><span>' + T('co.advance') + '</span><span>− ' + taka(last.advance) + '</span></div>' : '') +
         '<div class="summary-row"><span>' + T('ty.delivery') + '</span><span class="free">' + T('co.free') + '</span></div>' +
         '<div class="summary-row total"><span>' + T('co.due') + '</span><span>' + taka(last.due) + '</span></div>';

@@ -248,3 +248,13 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 .product { grid-template-columns: minmax(0, 1fr); }
 .gallery, .info, .gallery-main, .gallery-track { min-width: 0; }
 @media (min-width: 900px) { .product { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+
+/* Quantity-discount offer + live total (product page) */
+.offer { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 12px 14px; border: 1.5px dashed #F2A3BC; background: #FDF1F5; color: var(--primary); border-radius: 12px; font-size: 14px; font-weight: 600; }
+.offer svg { flex: none; }
+.qty-total { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+.qt-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; color: var(--body); }
+.qt-row strong { font: 700 22px var(--en); color: var(--ink); }
+.qt-row s { font-size: 15px; font-weight: 500; color: var(--muted); margin-right: 4px; }
+.qt-save { text-align: right; color: #2F7A4D; font-weight: 600; font-size: 14px; margin-top: 2px; }
+.qt-nudge { margin-top: 6px; font-size: 13px; color: var(--primary); }

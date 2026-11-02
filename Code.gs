@@ -25,6 +25,11 @@ const PRICE = 1990;   // ৳ per heating pad. Keep in sync with config.js (price
 const PRODUCTS = {
   'pad-pink': { name: 'WarmLune হিটিং প্যাড — পিংক', price: PRICE },
 };
+// Quantity discount — must match config.js qtyDiscount. percent: 0 turns it off.
+const QTY_DISCOUNT = { minQty: 2, percent: 20 };
+function discountFor_(subtotal, qty) {
+  return QTY_DISCOUNT.percent > 0 && qty >= QTY_DISCOUNT.minQty ? Math.round(subtotal * QTY_DISCOUNT.percent / 100) : 0;
+}
 const ADVANCE_OUTSIDE_DHAKA = 200;   // ৳ — must match config.js advanceOutsideDhaka
 const MAX_QTY = 10;
 const TZ = 'Asia/Dhaka';
@@ -122,7 +127,9 @@ function createOrder_(b) {
   const requestId = String(b.requestId || '').replace(/[^a-z0-9]/gi, '').slice(0, 40);
 
   // ---- Server-side pricing
-  const total = product.price * qty;
+  const subtotal = product.price * qty;
+  const discount = discountFor_(subtotal, qty);
+  const total = subtotal - discount;
   const advance = area === 'outside' ? Math.min(ADVANCE_OUTSIDE_DHAKA, total) : 0;
   const due = total - advance;
 
@@ -153,7 +160,7 @@ function createOrder_(b) {
     ].map(safeCell_));
     SpreadsheetApp.flush();
 
-    const result = { orderId: orderId, productName: product.name, total: total, advance: advance, due: due };
+    const result = { orderId: orderId, productName: product.name, subtotal: subtotal, discount: discount, total: total, advance: advance, due: due };
     if (requestId) cache.put('req_' + requestId, JSON.stringify(result), TOKEN_TTL);
 
     // Alerts run after the row is safely written; a failure here never loses the order
