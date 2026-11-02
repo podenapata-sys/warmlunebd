@@ -11,7 +11,7 @@ window.WL = {
   // Price in taka. Leave price null until decided: the page shows "[দাম]" and checkout stays closed.
   // ⚠ Also set PRICE in Code.gs — the server recalculates every order total.
   currency: '৳',
-  price: 1990,
+  price: 1690,                      // sale price
   // Quantity discount: buy minQty or more → percent off the WHOLE order. percent: 0 turns it off.
   // ⚠ Mirror it in Code.gs (QTY_DISCOUNT) — the server recalculates every total.
   qtyDiscount: { minQty: 2, percent: 20 },
@@ -19,9 +19,8 @@ window.WL = {
   // Price framing (both honest: worked out from the price / true for an online-only shop)
   showPerMonth: true,               // "used for a year, just ৳166 a month"
   showWhyPrice: true,               // "why this price? online only, no shop rent"
-  oldPrice: null,                   // only a price you REALLY sold at before; it turns on the sale badge, tag and crossed-out price
-  saleBadge: '৫০% ছাড়',
-  saleBadge_en: '50% off',
+  oldPrice: 1990,                   // regular price (real — the price the site sold at before)                   // only a price you REALLY sold at before; it turns on the sale badge, tag and crossed-out price
+  // Sale badge is calculated from price + oldPrice (e.g. ১৫% ছাড়) — no fixed number to keep in sync
 
   // Contact
   whatsapp: '8801632932249',        // international format, no "+"
@@ -61,9 +60,9 @@ window.WL = {
 
   // Dark stats band. Fill with your real specs.
   stats: [
-    { value: '৩ লেভেল', value_en: '3 levels', label: 'লো · মিডিয়াম · হাই তাপ', label_en: 'Low · medium · high heat' },
-    { value: 'LCD', value_en: 'LCD', label: 'ডিসপ্লেতে লেভেল দেখুন', label_en: 'See your level on the display' },
-    { value: 'অটো শাট-অফ', value_en: 'Auto shut-off', label: 'অতিরিক্ত গরম রোধে', label_en: 'Helps prevent overheating' },
+    { value: '৩–৬ সেকেন্ড', value_en: '3–6 sec', label: 'দ্রুত গরম হয়', label_en: 'To heat up' },
+    { value: '৫০–৬০°C', value_en: '50–60°C', label: '৩ লেভেলের তাপ', label_en: '3 heat levels' },
+    { value: '২–৩ ঘণ্টা', value_en: '2–3 hrs', label: 'এক চার্জে চলে', label_en: 'Per charge' },
   ],
 
   // REAL, verified customer reviews only. While this is empty, the page shows the

@@ -21,7 +21,7 @@
  */
 
 /* ---------- Price: the source of truth. Keep in sync with config.js (price) ---------- */
-const PRICE = 1990;   // ৳ per heating pad. Keep in sync with config.js (price).
+const PRICE = 1690;   // ৳ per heating pad. Keep in sync with config.js (price).
 const PRODUCTS = {
   'pad-pink': { name: 'WarmLune হিটিং প্যাড — পিংক', price: PRICE },
 };
