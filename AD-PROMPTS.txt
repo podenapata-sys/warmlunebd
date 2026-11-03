@@ -1,0 +1,142 @@
+WARMLUNE - FACEBOOK AD POSTER PROMPTS
+=====================================
+
+HOW TO USE
+1. Use ChatGPT (image), Gemini, Ideogram or Leonardo.
+2. UPLOAD YOUR REAL PRODUCT PHOTO as a reference image every time, and add:
+   "Use the uploaded product exactly as it looks: same shape, colour, strap and display."
+3. Size: 4:5 portrait (1080 x 1350) for Facebook/Instagram feed.
+   For Stories/Reels make a second version at 9:16 (1080 x 1920).
+4. The image comes out WITHOUT text. Add the Bangla text in Canva
+   (font: "Noto Serif Bengali" or "Hind Siliguri", colours #C8305F pink and #2B2620 dark).
+5. Check the display on the belt: it must not show a wrong number. If it does, cover it in Canva.
+
+PASTE THIS AT THE END OF EVERY PROMPT (style lock):
+soft blush-pink and warm ivory palette, gentle diffused natural light, premium minimal
+skincare-brand advertising style, photorealistic, high detail, clean composition,
+no text, no letters, no logos, no watermark, 4:5 portrait
+
+
+---------------------------------------------------
+AD 1 - THE OFFER (start with this one)
+---------------------------------------------------
+PROMPT:
+Premium product advertising photo of a slim pink wireless heating belt with a grey
+adjustable strap and a small glowing LCD display showing only a heat icon, floating at a
+slight angle in the lower-middle of the frame above a soft blush-pink seamless background,
+subtle warm orange glow coming from the pad to suggest heat, soft shadow below, the top
+40% of the image is empty smooth pink gradient space for headline text, the bottom 15%
+empty for a price banner
+
+TEXT TO ADD IN CANVA:
+  Top (big):      পিরিয়ডের দিনগুলোয় আরামের উষ্ণতা
+  Under it:       তারবিহীন হিটিং ও ম্যাসাজ বেল্ট
+  Price badge:    ৳১,৬৯০   (small, crossed out: ৳১,৯৯০)   ১৫% ছাড়
+  Bottom strip:   ফ্রি ডেলিভারি · পণ্য হাতে পেয়ে টাকা
+  Button:         এখনই অর্ডার করুন →
+
+
+---------------------------------------------------
+AD 2 - FAST HEAT (features)
+---------------------------------------------------
+PROMPT:
+Close-up advertising shot of a pink wireless heating belt on a warm ivory linen surface,
+a woman's hand with natural nails pressing the power button, the pad emitting a soft warm
+orange-pink glow, gentle heat-haze effect above the pad, shallow depth of field, the right
+side and the top third left as clean empty space for text
+
+TEXT TO ADD:
+  Big:     মাত্র ৩–৬ সেকেন্ডে গরম
+  List:    ✓ ৩টি হিট লেভেল (৫০° / ৫৫° / ৬০°C)
+           ✓ ৪টি ভাইব্রেশন ম্যাসাজ মোড
+           ✓ তারবিহীন, এক চার্জে ২–৩ ঘণ্টা
+  Bottom:  ৳১,৬৯০ · ফ্রি ডেলিভারি
+
+
+---------------------------------------------------
+AD 3 - ANYWHERE (office / class / home)
+---------------------------------------------------
+PROMPT:
+A young Bangladeshi woman in her 20s working at a bright modern desk with a laptop,
+wearing a modest cream kurti, a slim pink wireless heating belt fastened around her waist
+over her clothes, relaxed and focused with a gentle smile, cup of tea beside the laptop,
+morning window light, subject on the right half of the frame, left half softly blurred
+room with space for text, editorial lifestyle photography
+
+TEXT TO ADD:
+  Big:     অফিসে, ক্লাসে, ঘরে
+  Under:   কোনো তার নেই — উষ্ণতা থাকুক সবসময় সাথে
+  Bottom:  ৳১,৬৯০ · ক্যাশ অন ডেলিভারি
+
+
+---------------------------------------------------
+AD 4 - BUY 2, SAVE 20% (highest order value)
+---------------------------------------------------
+PROMPT:
+Two identical slim pink wireless heating belts placed side by side on a soft blush-pink
+background, each next to an elegant pink gift box with a satin ribbon, a few scattered
+dried rose petals, top-down three-quarter angle, soft shadows, upper third empty for text,
+bottom area empty for a price banner
+
+TEXT TO ADD:
+  Big:      ২টি নিলে ২০% ছাড়
+  Under:    একটি নিজের জন্য, একটি বোন বা বান্ধবীর জন্য
+  Price:    ২টি মাত্র ৳২,৭০৪   (small, crossed out: ৳৩,৩৮০)
+  Bottom:   ফ্রি ডেলিভারি · পণ্য হাতে পেয়ে টাকা
+
+
+---------------------------------------------------
+AD 5 - TRUST (for people who are unsure)
+---------------------------------------------------
+PROMPT:
+A delivery moment at a home doorway: a young Bangladeshi woman in modest everyday clothes
+smiling as she opens a small pink package and looks at a pink heating belt inside, a
+friendly delivery person's arm holding a parcel in the foreground slightly out of focus,
+warm afternoon light, subject on the lower half, top 40% clean wall space for text
+
+TEXT TO ADD:
+  Big:     খুলে দেখে নিন, তারপর টাকা দিন
+  List:    ✓ সারাদেশে ফ্রি ডেলিভারি
+           ✓ ক্যাশ অন ডেলিভারি
+           ✓ ৭ দিনের রিপ্লেসমেন্ট গ্যারান্টি
+  Bottom:  ৳১,৬৯০ · এখনই অর্ডার করুন
+
+
+---------------------------------------------------
+AD 6 - GIFT (for men buying for wife/sister - test later)
+---------------------------------------------------
+PROMPT:
+An elegant pink gift box half open on a cream bedside table, revealing a neatly coiled
+pink wireless heating belt inside on tissue paper, a small handwritten-style blank card
+leaning on the box, a cup of tea and fairy lights softly blurred behind, warm cosy
+evening light, top third empty for text
+
+TEXT TO ADD:
+  Big:     যত্নের সবচেয়ে সুন্দর উপহার
+  Under:   স্ত্রী, বোন বা বান্ধবীর জন্য
+  Bottom:  ৳১,৬৯০ · ফ্রি ডেলিভারি
+
+
+---------------------------------------------------
+STORY / REEL VERSION (9:16) - for any ad above
+---------------------------------------------------
+Add to the prompt: "vertical 9:16, keep the top 15% and bottom 20% empty (Facebook covers
+them with the profile name and buttons), product and person in the middle".
+
+
+---------------------------------------------------
+META AD RULES - READ BEFORE YOU PUBLISH
+---------------------------------------------------
+Facebook rejects or restricts health ads that talk TO the person about their body.
+  NOT allowed:  "আপনার কি পিরিয়ডে ব্যথা হয়?"   "Do you suffer from cramps?"
+                "আপনার ব্যথা দূর করবে"   "Cures period pain"
+  Allowed:      "পিরিয়ডের দিনগুলোয় আরামের উষ্ণতা"   "আরাম"   "উষ্ণতা"   "স্বস্তি"
+Say comfort/warmth, never cure/treat/heal. No before/after.
+Use only real prices (৳১,৬৯০, was ৳১,৯৯০). No fake countdowns or "only 3 left".
+
+
+---------------------------------------------------
+TESTING PLAN
+---------------------------------------------------
+Launch AD 1, AD 3 and AD 5 together (৳200/day each, same audience).
+After 3 days keep the one with the lowest cost per purchase, then test AD 4 against it.
