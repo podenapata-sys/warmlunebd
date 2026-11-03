@@ -70,7 +70,7 @@ window.WL = {
   // Dark stats band. Fill with your real specs.
   stats: [
     { value: '৩–৬ সেকেন্ড', value_en: '3–6 sec', label: 'দ্রুত গরম হয়', label_en: 'To heat up' },
-    { value: '৫০–৬০°C', value_en: '50–60°C', label: '৩ লেভেলের তাপ', label_en: '3 heat levels' },
+    { value: '৫২°C', value_en: '52°C', label: 'সর্বোচ্চ তাপ, ৩টি লেভেল', label_en: 'max heat, 3 levels' },
     { value: '২–৩ ঘণ্টা', value_en: '2–3 hrs', label: 'এক চার্জে চলে', label_en: 'Per charge' },
   ],
 
@@ -106,7 +106,7 @@ window.WL = {
     products: (W.colors || []).map(function (c, i) {
       return {
         id: 'pad-' + (ids[i] || i),
-        name: (lang === 'en' ? 'WarmLune Heating Pad — ' + (c.name_en || c.name) : 'WarmLune হিটিং প্যাড — ' + c.name),
+        name: (lang === 'en' ? 'WarmLune Heating & Massage Belt — ' + (c.name_en || c.name) : 'WarmLune হিটিং ম্যাসাজ বেল্ট — ' + c.name),
         price: Number(W.price) || 0, oldPrice: W.oldPrice || null,
         image: [(W.gallery && W.gallery[0] && W.gallery[0].src) || 'img/swatch-' + (ids[i] || i) + '.svg'],
         short: '', features: [], color: c.hex,

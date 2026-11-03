@@ -47,7 +47,7 @@ side and the top third left as clean empty space for text
 
 TEXT TO ADD:
   Big:     মাত্র ৩–৬ সেকেন্ডে গরম
-  List:    ✓ ৩টি হিট লেভেল (৫০° / ৫৫° / ৬০°C)
+  List:    ✓ ৩টি হিট লেভেল (সর্বোচ্চ ৫২°C)
            ✓ ৪টি ভাইব্রেশন ম্যাসাজ মোড
            ✓ তারবিহীন, এক চার্জে ২–৩ ঘণ্টা
   Bottom:  ৳১,৬৯০ · ফ্রি ডেলিভারি

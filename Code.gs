@@ -24,9 +24,9 @@
  */
 
 /* ---------- Price: the source of truth. Keep in sync with config.js (price) ---------- */
-const PRICE = 1690;   // ৳ per heating pad. Keep in sync with config.js (price).
+const PRICE = 1690;   // ৳ per belt. Keep in sync with config.js (price).
 const PRODUCTS = {
-  'pad-pink': { name: 'WarmLune হিটিং প্যাড — পিংক', price: PRICE },
+  'pad-pink': { name: 'WarmLune হিটিং ম্যাসাজ বেল্ট — পিংক', price: PRICE },
 };
 // Quantity discount — must match config.js qtyDiscount. percent: 0 turns it off.
 const QTY_DISCOUNT = { minQty: 2, percent: 20 };

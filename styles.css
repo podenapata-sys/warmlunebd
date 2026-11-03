@@ -285,3 +285,18 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 }
 @media (max-width: 360px) { .logo-word { height: 11px; } .lang button { padding: 5px 9px; } }
 @media (max-width: 340px) { .logo-word { display: none; } .logo-img { width: 36px; height: 36px; } }
+
+/* Product title: English name + Bangla line under it */
+.info h1 .title-main { display: block; font-family: var(--en); font-weight: 600; letter-spacing: -.01em; }
+.info h1 .title-sub { display: block; margin-top: 6px; font-size: .62em; line-height: 1.45; font-weight: 600; color: var(--primary, #C8305F); font-family: var(--bn); }
+
+/* Old price: bold red strike-through so the 15% saving stands out */
+.price-row .old { color: #D11A2A; font-size: 22px; font-weight: 700; font-family: var(--en); text-decoration: line-through; text-decoration-color: #D11A2A; text-decoration-thickness: 2.5px; }
+
+/* Trust badges right above the order buttons */
+.perks { list-style: none; margin: 16px 0 4px; padding: 0; border: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; }
+.perks li { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; padding: 12px 6px 11px; border-radius: 14px;
+  background: #FFF4F7; border: 1.5px solid #F4C6D4; color: var(--ink); font-size: 13.5px; font-weight: 700; line-height: 1.35; }
+.perks li svg { width: 34px; height: 34px; padding: 7px; border-radius: 50%; background: var(--primary); color: #fff; stroke: #fff; flex: none; }
+@media (min-width: 560px) { .perks li { font-size: 14.5px; } }
+.price-row .sale { background: #D11A2A; font-size: 14px; font-weight: 700; padding: 5px 12px; border-radius: 999px; }
