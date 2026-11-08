@@ -24,7 +24,7 @@
  */
 
 /* ---------- Price: the source of truth. Keep in sync with config.js (price) ---------- */
-const PRICE = 899;    // ৳ per belt. Keep in sync with config.js (price).
+const PRICE = 1099;   // ৳ per belt. Keep in sync with config.js (price).
 const PRODUCTS = {
   'pad-pink': { name: 'Bakaina হিটিং ম্যাসাজ বেল্ট — পিংক', price: PRICE },
 };
