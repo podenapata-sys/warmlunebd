@@ -28,7 +28,7 @@ Once a customer types a valid mobile number at checkout, what they've entered (n
 `delivery.html`, `refund.html` and `privacy.html` hold the full text in Bangla and English (both versions are in each file). Delivery 1–2 days in Dhaka, 2–4 outside; check-at-delivery plus a 7-day replacement for defects, no change-of-mind returns; the ৳200 advance is kept if a parcel is refused with nothing wrong with it. If you change a term, edit it in the page, the FAQ text in `i18n.js` (`acc.deliveryBody`, `acc.refundBody`) and `returnPolicy` in `config.js`.
 
 ## Quantity discount
-`qtyDiscount: { minQty: 2, percent: 20 }` in `config.js` shows an offer banner, a live total with "you save ৳…" and a nudge ("add 1 more for 20% off") on the product page, and a discount row at checkout and on the thank-you page. **Set the same values in `QTY_DISCOUNT` in `Code.gs`.** The server recalculates every total, so the browser can't fake it. Set `percent: 0` to turn it off.
+`qtyDiscount: { minQty: 2, percent: 10 }` in `config.js` shows an offer banner, a live total with "you save ৳…" and a nudge ("add 1 more for 10% off") on the product page, and a discount row at checkout and on the thank-you page. **Set the same values in `QTY_DISCOUNT` in `Code.gs`.** The server recalculates every total, so the browser can't fake it. Set `percent: 0` to turn it off.
 
 ## Scroll-expansion showcase
 Below the product block, a card grows to full screen as visitors scroll, while the title words slide apart. It never locks or redirects scrolling, so the "Buy now" path is never blocked. Add a short, silent, looping product video (MP4, ideally under 5 MB) in `config.js → showcase`. It only downloads when the section is near the screen. Visitors who prefer reduced motion see it already expanded.

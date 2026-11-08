@@ -121,30 +121,41 @@
     var disc = qdOn && qty >= QD.minQty ? Math.round(sub * QD.percent / 100) : 0;
     return { sub: sub, disc: disc, total: sub - disc };
   }
-  if (qdOn) {
-    $('[data-offer-text]').textContent = T('p.offer', { n: toBn(QD.minQty), pct: toBn(QD.percent) });
-    $('[data-offer]').hidden = false;
+  /* Bundle cards (1 / 2 / 3 pieces). Crossed-out price = pieces × the real old price, same rule as the price row. */
+  var bundles = (W.bundles && W.bundles.length ? W.bundles : [1, 2, 3]).filter(function (n) { return n >= 1 && n <= 10; });
+  var bundleBox = $('[data-bundle]'), bundleList = $('[data-bundle-list]');
+  state.qty = bundles.indexOf(W.bundleDefault) > -1 ? W.bundleDefault : bundles[0];
+  if (!(W.price > 0)) { bundleBox.hidden = true; state.qty = 1; }
+  else {
+    bundleList.innerHTML = bundles.map(function (n) {
+      var p = priceFor(n), was = W.oldPrice > W.price ? W.oldPrice * n : (p.disc ? p.sub : 0);
+      var sub = p.disc ? T('b.each', { amt: money(Math.round(p.total / n)), pct: toBn(QD.percent) }) : (n === 1 ? T('b.std') : '');
+      return '<label class="bopt" data-n="' + n + '"><input type="radio" name="bundle" value="' + n + '"' + (n === state.qty ? ' checked' : '') + '>' +
+        '<span class="bopt-q"><strong>' + esc(n === 1 ? T('b.qty1') : T('b.qtyN', { n: toBn(n) })) + '</strong>' + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span>' +
+        '<span class="bopt-p"><strong>' + money(p.total) + '</strong>' + (was > p.total ? '<s>' + money(was) + '</s>' : '') + '</span></label>';
+    }).join('');
+    bundleList.addEventListener('change', function (e) { if (e.target.name === 'bundle') { state.qty = Number(e.target.value); renderQty(); } });
   }
   function renderQty() {
-    $('[data-qty-val]').textContent = toBn(state.qty);
-    var box = $('[data-qty-total]');
-    if (!(W.price > 0)) { box.hidden = true; return; }
-    var p = priceFor(state.qty);
-    $('[data-total]').innerHTML = (p.disc ? '<s>' + money(p.sub) + '</s> ' : '') + money(p.total);
-    var save = $('[data-save]');
-    save.hidden = !p.disc;
-    if (p.disc) save.textContent = T('p.save', { amt: money(p.disc) });
-    var nudge = $('[data-nudge]');
-    nudge.hidden = !(qdOn && state.qty < QD.minQty);
-    if (!nudge.hidden) nudge.textContent = T('p.nudge', { k: toBn(QD.minQty - state.qty), pct: toBn(QD.percent) });
+    $$('.bopt').forEach(function (l) { l.classList.toggle('on', Number(l.getAttribute('data-n')) === state.qty); });
+    if (!(W.price > 0)) return;
+    var total = money(priceFor(state.qty).total);
+    $('[data-bundle-total]').textContent = total;
+    $('[data-sb-total]').textContent = total;
+    $('[data-sb-items]').textContent = T('sb.items', { n: toBn(state.qty) });
   }
-  $$('[data-qty]').forEach(function (b) {
-    b.addEventListener('click', function () {
-      state.qty = Math.max(1, Math.min(10, state.qty + Number(b.getAttribute('data-qty'))));
-      renderQty();
-    });
-  });
   renderQty();
+
+  /* Sticky buy bar: shows whenever the main order buttons are off screen */
+  var sticky = $('[data-sticky]'), mainBuy = $('.info [data-buy]');
+  if (sticky && mainBuy && W.price > 0 && 'IntersectionObserver' in window) {
+    if (gallery[0] && gallery[0].src) $('[data-sb-img]').src = gallery[0].src;
+    new IntersectionObserver(function (en) {
+      var show = !en[0].isIntersecting;
+      sticky.hidden = !show;
+      document.body.classList.toggle('has-sticky', show);
+    }).observe(mainBuy);
+  }
 
   /* ---------- Cart + buy (WhatsApp order) ---------- */
   var cart = []; try { cart = JSON.parse(store.get('wl-cart')) || []; } catch (e) {}
@@ -162,7 +173,7 @@
     var c = current(), hit = cart.filter(function (x) { return x.idx === c.idx; })[0];
     if (hit) hit.qty = Math.min(10, hit.qty + c.qty); else cart.push(c);
     store.set('wl-cart', JSON.stringify(cart)); renderCart();
-    if (window.fbq) fbq('track', 'AddToCart', { content_ids: ['pad-' + COLOR_IDS[c.idx]], value: (W.price || 0) * c.qty, currency: 'BDT' });
+    if (window.fbq) fbq('track', 'AddToCart', { content_ids: ['pad-' + COLOR_IDS[c.idx]], value: W.price > 0 ? priceFor(c.qty).total : 0, currency: 'BDT' });
     toast(T('toast.added'));
   });
   $$('[data-buy]').forEach(function (b) { b.addEventListener('click', function () { location.href = checkoutUrl(state.color, state.qty); }); });

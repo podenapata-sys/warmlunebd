@@ -24,12 +24,12 @@
  */
 
 /* ---------- Price: the source of truth. Keep in sync with config.js (price) ---------- */
-const PRICE = 1690;   // ৳ per belt. Keep in sync with config.js (price).
+const PRICE = 899;    // ৳ per belt. Keep in sync with config.js (price).
 const PRODUCTS = {
   'pad-pink': { name: 'WarmLune হিটিং ম্যাসাজ বেল্ট — পিংক', price: PRICE },
 };
 // Quantity discount — must match config.js qtyDiscount. percent: 0 turns it off.
-const QTY_DISCOUNT = { minQty: 2, percent: 20 };
+const QTY_DISCOUNT = { minQty: 2, percent: 10 };
 function discountFor_(subtotal, qty) {
   return QTY_DISCOUNT.percent > 0 && qty >= QTY_DISCOUNT.minQty ? Math.round(subtotal * QTY_DISCOUNT.percent / 100) : 0;
 }

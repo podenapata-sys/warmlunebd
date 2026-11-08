@@ -74,7 +74,7 @@ Files: `img/feature-1.jpg`, `feature-2.jpg`, `feature-3.jpg` → `config.js → 
 File: `img/og.jpg`, then set `<meta property="og:image">` in `index.html` to its full URL
 > Split composition: on the left, a slim pink wireless heating belt with an LCD display floating at a slight angle on a blush-pink background; on the right, empty soft-pink negative space for text overlay; soft studio lighting, premium minimal ad layout, 1200×630
 
-Add the text yourself in Canva or DaVinci (e.g. "পিরিয়ডের ব্যথায় আরামের উষ্ণতা · ৳১,৯৯০ · ২টিতে ২০% ছাড়"). AI tools garble Bangla text.
+Add the text yourself in Canva or DaVinci (e.g. "পিরিয়ডের ব্যথায় আরামের উষ্ণতা · ৳৮৯৯ · ২টিতে ১০% ছাড়"). AI tools garble Bangla text.
 
 ---
 

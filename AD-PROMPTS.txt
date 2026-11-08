@@ -31,7 +31,7 @@ empty for a price banner
 TEXT TO ADD IN CANVA:
   Top (big):      পিরিয়ডের দিনগুলোয় আরামের উষ্ণতা
   Under it:       তারবিহীন হিটিং ও ম্যাসাজ বেল্ট
-  Price badge:    ৳১,৬৯০   (small, crossed out: ৳১,৯৯০)   ১৫% ছাড়
+  Price badge:    ৳৮৯৯   (small, crossed out: ৳১,৬৯০)   ৪৭% ছাড়
   Bottom strip:   ফ্রি ডেলিভারি · পণ্য হাতে পেয়ে টাকা
   Button:         এখনই অর্ডার করুন →
 
@@ -50,7 +50,7 @@ TEXT TO ADD:
   List:    ✓ ৩টি হিট লেভেল (সর্বোচ্চ ৫২°C)
            ✓ ৪টি ভাইব্রেশন ম্যাসাজ মোড
            ✓ তারবিহীন, এক চার্জে ২–৩ ঘণ্টা
-  Bottom:  ৳১,৬৯০ · ফ্রি ডেলিভারি
+  Bottom:  ৳৮৯৯ · ফ্রি ডেলিভারি
 
 
 ---------------------------------------------------
@@ -66,7 +66,7 @@ room with space for text, editorial lifestyle photography
 TEXT TO ADD:
   Big:     অফিসে, ক্লাসে, ঘরে
   Under:   কোনো তার নেই — উষ্ণতা থাকুক সবসময় সাথে
-  Bottom:  ৳১,৬৯০ · ক্যাশ অন ডেলিভারি
+  Bottom:  ৳৮৯৯ · ক্যাশ অন ডেলিভারি
 
 
 ---------------------------------------------------
@@ -79,9 +79,9 @@ dried rose petals, top-down three-quarter angle, soft shadows, upper third empty
 bottom area empty for a price banner
 
 TEXT TO ADD:
-  Big:      ২টি নিলে ২০% ছাড়
+  Big:      ২টি নিলে ১০% ছাড়
   Under:    একটি নিজের জন্য, একটি বোন বা বান্ধবীর জন্য
-  Price:    ২টি মাত্র ৳২,৭০৪   (small, crossed out: ৳৩,৩৮০)
+  Price:    ২টি মাত্র ৳১,৬১৮   (small, crossed out: ৳১,৭৯৮)
   Bottom:   ফ্রি ডেলিভারি · পণ্য হাতে পেয়ে টাকা
 
 
@@ -99,7 +99,7 @@ TEXT TO ADD:
   List:    ✓ সারাদেশে ফ্রি ডেলিভারি
            ✓ ক্যাশ অন ডেলিভারি
            ✓ ৭ দিনের রিপ্লেসমেন্ট গ্যারান্টি
-  Bottom:  ৳১,৬৯০ · এখনই অর্ডার করুন
+  Bottom:  ৳৮৯৯ · এখনই অর্ডার করুন
 
 
 ---------------------------------------------------
@@ -114,7 +114,7 @@ evening light, top third empty for text
 TEXT TO ADD:
   Big:     যত্নের সবচেয়ে সুন্দর উপহার
   Under:   স্ত্রী, বোন বা বান্ধবীর জন্য
-  Bottom:  ৳১,৬৯০ · ফ্রি ডেলিভারি
+  Bottom:  ৳৮৯৯ · ফ্রি ডেলিভারি
 
 
 ---------------------------------------------------
@@ -132,7 +132,7 @@ Facebook rejects or restricts health ads that talk TO the person about their bod
                 "আপনার ব্যথা দূর করবে"   "Cures period pain"
   Allowed:      "পিরিয়ডের দিনগুলোয় আরামের উষ্ণতা"   "আরাম"   "উষ্ণতা"   "স্বস্তি"
 Say comfort/warmth, never cure/treat/heal. No before/after.
-Use only real prices (৳১,৬৯০, was ৳১,৯৯০). No fake countdowns or "only 3 left".
+Use only real prices (৳৮৯৯, was ৳১,৬৯০). No fake countdowns or "only 3 left".
 
 
 ---------------------------------------------------

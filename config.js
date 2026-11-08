@@ -11,16 +11,19 @@ window.WL = {
   // Price in taka. Leave price null until decided: the page shows "[দাম]" and checkout stays closed.
   // ⚠ Also set PRICE in Code.gs — the server recalculates every order total.
   currency: '৳',
-  price: 1690,                      // sale price
+  price: 899,                       // sale price
   // Quantity discount: buy minQty or more → percent off the WHOLE order. percent: 0 turns it off.
   // ⚠ Mirror it in Code.gs (QTY_DISCOUNT) — the server recalculates every total.
-  qtyDiscount: { minQty: 2, percent: 20 },
+  qtyDiscount: { minQty: 2, percent: 10 },
+  // Bundle cards on the product page (pieces per card) and which one starts selected
+  bundles: [1, 2, 3],
+  bundleDefault: 2,
 
   // Price framing (both honest: worked out from the price / true for an online-only shop)
   showPerMonth: true,               // "used for a year, just ৳166 a month"
   showWhyPrice: true,               // "why this price? online only, no shop rent"
-  oldPrice: 1990,                   // regular price (real — the price the site sold at before)                   // only a price you REALLY sold at before; it turns on the sale badge, tag and crossed-out price
-  // Sale badge is calculated from price + oldPrice (e.g. ১৫% ছাড়) — no fixed number to keep in sync
+  oldPrice: 1690,                   // the real price the site sold at before ৳899; only a price you REALLY sold at turns on the sale badge, tag and crossed-out price
+  // Sale badge is calculated from price + oldPrice (e.g. ৪৭% ছাড়) — no fixed number to keep in sync
 
   // Contact
   whatsapp: '8801632932249',        // international format, no "+"
