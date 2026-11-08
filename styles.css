@@ -9,17 +9,17 @@
 @font-face { font-family: 'Noto Serif Bengali'; src: url('fonts/NotoSerifBengali-Bold.woff2') format('woff2'); font-weight: 700 900; font-style: normal; font-display: swap; unicode-range: U+0980-09E5, U+09F0-09FF, U+0964-0965, U+200C-200D, U+25CC; }
 @font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Regular.ttf') format('truetype'); font-weight: 400 600; font-style: normal; font-display: swap; unicode-range: U+09E6-09EF; }
 @font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Bold.ttf') format('truetype'); font-weight: 700 900; font-style: normal; font-display: swap; unicode-range: U+09E6-09EF; }
-/* WarmLune product page — values measured from the design mockup */
+/* Bakaina product page — values measured from the design mockup */
 :root {
-  --primary: #C8305F;
-  --primary-dark: #A9264F;
-  --blush: #FBE4EC;
-  --tint: #FDF1F5;
+  --primary: #012863;
+  --primary-dark: #011B45;
+  --blush: #EEF2F9;
+  --tint: #F3F6FB;
   --ink: #231A1D;
   --body: #4A3F43;
   --muted: #7A6C71;
   --line: #EDE3E7;
-  --stat: #FF9CB8;
+  --stat: #FF7701;
   --star: #E9A23B;
   --chip-bg: #E3F4EA;
   --chip-ink: #2F7A4D;
@@ -70,8 +70,8 @@ p { margin: 0; }
 .menu-btn { display: none; border: 0; background: none; padding: 6px; cursor: pointer; color: var(--ink); }
 
 /* Placeholders (design's pink boxes) */
-.ph { background: var(--blush); border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #9C5068; font-size: 14px; text-align: center; padding: 20px; overflow: hidden; }
-.ph strong { font-size: 17px; font-weight: 600; color: #8A3A55; }
+.ph { background: var(--blush); border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #2E4A7A; font-size: 14px; text-align: center; padding: 20px; overflow: hidden; }
+.ph strong { font-size: 17px; font-weight: 600; color: #012863; }
 .ph-icon { width: 30px; height: 26px; border: 2px solid currentColor; border-radius: 4px; position: relative; }
 .ph-icon::before { content: ''; position: absolute; left: 4px; top: 4px; width: 6px; height: 6px; border-radius: 50%; border: 2px solid currentColor; }
 .ph-icon::after { content: ''; position: absolute; left: 4px; right: 3px; bottom: 4px; height: 8px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: skewX(-25deg); border-left: 0; background: linear-gradient(135deg, transparent 50%, currentColor 50%, currentColor 60%, transparent 60%); }
@@ -129,7 +129,7 @@ p { margin: 0; }
 .tint { background: var(--tint); }
 .lifestyle { padding: 48px 0; }
 .lifestyle-in { display: grid; gap: 28px; align-items: center; }
-.ph-tall { aspect-ratio: 4 / 3.4; background: #F7D3DF; }
+.ph-tall { aspect-ratio: 4 / 3.4; background: #DCE4F3; }
 .kicker { color: var(--primary); font: 600 13px var(--en); letter-spacing: .02em; }
 .lifestyle h2 { font-size: clamp(28px, 6vw, 40px); margin: 8px 0 14px; }
 .lifestyle p { color: var(--body); }
@@ -231,10 +231,10 @@ p { margin: 0; }
    ========================================================================== */
 .expand { position: relative; height: 230vh; }
 .expand-sticky { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; display: grid; place-items: center; }
-.expand-bg { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 40%, #FBE4EC 0%, #F6C9D8 55%, #EFA9C0 100%); }
-.expand-media { position: relative; z-index: 1; width: 300px; height: 400px; overflow: hidden; border-radius: 24px; background: #F7D3DF; box-shadow: 0 30px 60px rgba(35, 26, 29, .25); will-change: width, height; }
+.expand-bg { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 40%, #EEF2F9 0%, #C9D6EE 55%, #9FB4DC 100%); }
+.expand-media { position: relative; z-index: 1; width: 300px; height: 400px; overflow: hidden; border-radius: 24px; background: #DCE4F3; box-shadow: 0 30px 60px rgba(35, 26, 29, .25); will-change: width, height; }
 .expand-media img, .expand-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.expand-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 28px !important; gap: 6px; color: #9C5068; text-align: center; padding: 20px; background: linear-gradient(160deg, #FBE4EC, #F2B9CB); }
+.expand-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 28px !important; gap: 6px; color: #2E4A7A; text-align: center; padding: 20px; background: linear-gradient(160deg, #EEF2F9, #C5D2EA); }
 .expand-ph strong { font-size: 16px; }
 .expand-ph small { font-size: 12px; opacity: .7; }
 .expand-title { position: absolute; z-index: 2; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; pointer-events: none; }
@@ -261,7 +261,7 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 @media (min-width: 900px) { .product { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 
 /* Quantity-discount offer + live total (product page) */
-.offer { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 12px 14px; border: 1.5px dashed #F2A3BC; background: #FDF1F5; color: var(--primary); border-radius: 12px; font-size: 14px; font-weight: 600; }
+.offer { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 12px 14px; border: 1.5px dashed #FFB97A; background: #F3F6FB; color: var(--primary); border-radius: 12px; font-size: 14px; font-weight: 600; }
 .offer svg { flex: none; }
 .qty-total { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
 .qt-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; color: var(--body); }
@@ -270,7 +270,7 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 .qt-save { text-align: right; color: #2F7A4D; font-weight: 600; font-size: 14px; margin-top: 2px; }
 .qt-nudge { margin-top: 6px; font-size: 13px; color: var(--primary); }
 
-/* Brand logo (symbol + wordmark from the WarmLune logo) */
+/* Brand logo (symbol + wordmark from the Bakaina logo) */
 .logo { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
 .logo-img { width: 40px; height: 40px; flex: none; }
 .logo-word { height: 16px; width: auto; }
@@ -288,7 +288,7 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 
 /* Product title: English name + Bangla line under it */
 .info h1 .title-main { display: block; font-family: var(--en); font-weight: 600; letter-spacing: -.01em; }
-.info h1 .title-sub { display: block; margin-top: 6px; font-size: .62em; line-height: 1.45; font-weight: 600; color: var(--primary, #C8305F); font-family: var(--bn); }
+.info h1 .title-sub { display: block; margin-top: 6px; font-size: .62em; line-height: 1.45; font-weight: 600; color: var(--primary, #012863); font-family: var(--bn); }
 
 /* Old price: bold red strike-through so the 15% saving stands out */
 .price-row .old { color: #D11A2A; font-size: 22px; font-weight: 700; font-family: var(--en); text-decoration: line-through; text-decoration-color: #D11A2A; text-decoration-thickness: 2.5px; }
@@ -296,7 +296,7 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 /* Trust badges right above the order buttons */
 .perks { list-style: none; margin: 16px 0 4px; padding: 0; border: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; }
 .perks li { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 6px; padding: 12px 6px 11px; border-radius: 14px;
-  background: #FFF4F7; border: 1.5px solid #F4C6D4; color: var(--ink); font-size: 13.5px; font-weight: 700; line-height: 1.35; }
+  background: #FFF5EC; border: 1.5px solid #FFD3AD; color: var(--ink); font-size: 13.5px; font-weight: 700; line-height: 1.35; }
 .perks li svg { width: 34px; height: 34px; padding: 7px; border-radius: 50%; background: var(--primary); color: #fff; stroke: #fff; flex: none; }
 @media (min-width: 560px) { .perks li { font-size: 14.5px; } }
 .price-row .sale { background: #D11A2A; font-size: 14px; font-weight: 700; padding: 5px 12px; border-radius: 999px; }
@@ -305,9 +305,9 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 .bundle { margin-top: 20px; }
 .bundle-head { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; color: var(--primary); font-size: 14px; font-weight: 700; }
 .bundle-head::before, .bundle-head::after { content: ''; flex: 1; height: 1px; background: var(--line); }
-.bopt { display: flex; align-items: center; gap: 12px; margin-top: 10px; padding: 14px 16px; border-radius: 14px; background: #FFF4F7; border: 1.5px solid transparent; cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s; }
-.bopt:hover { border-color: #F4C6D4; }
-.bopt.on { background: #fff; border-color: var(--primary); box-shadow: 0 8px 20px -12px rgba(200, 48, 95, .55); }
+.bopt { display: flex; align-items: center; gap: 12px; margin-top: 10px; padding: 14px 16px; border-radius: 14px; background: #FFF5EC; border: 1.5px solid transparent; cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s; }
+.bopt:hover { border-color: #FFD3AD; }
+.bopt.on { background: #fff; border-color: var(--primary); box-shadow: 0 8px 20px -12px rgba(1, 40, 99, .55); }
 .bopt input { width: 20px; height: 20px; margin: 0; flex: none; accent-color: var(--primary); cursor: pointer; }
 .bopt-q { display: flex; flex-direction: column; min-width: 0; }
 .bopt-q strong { font-size: 17px; font-weight: 700; line-height: 1.3; }
@@ -330,3 +330,27 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 body.has-sticky { padding-bottom: 76px; }
 body.has-sticky .toast { bottom: 92px; }
 @media (prefers-reduced-motion: reduce) { .sticky-buy { animation: none; } }
+
+/* ==========================================================================
+   Bakaina brand: navy (primary) + orange (accent), cool neutrals
+   ========================================================================== */
+:root {
+  --accent: #FF7701;
+  --accent-text: #C95A00;   /* orange that stays readable as text on white */
+  --ink: #1B2333;
+  --body: #444B5A;
+  --muted: #6B7385;
+  --line: #E4E8EF;
+}
+.logo-word { height: auto; font: 700 23px/1 var(--en); letter-spacing: .01em; color: var(--primary); white-space: nowrap; }
+@media (min-width: 900px) { .logo-word { height: auto; font-size: 26px; } }
+@media (max-width: 899px) { .logo-word { height: auto; font-size: 20px; } }
+@media (max-width: 360px) { .logo-word { height: auto; font-size: 18px; } }
+.badge { background: var(--accent); color: var(--primary); font-weight: 700; }
+.cart-count { background: var(--accent); color: var(--primary); font-weight: 700; }
+.info h1 .title-sub, .kicker, .bundle-head, .bopt-q small { color: var(--accent-text); }
+.bundle-head::before, .bundle-head::after { background: #FFD3AD; }
+.offer { color: var(--accent-text); background: #FFF5EC; }
+.bopt { background: #F3F6FB; }
+.bopt:hover { border-color: #C5D2EA; }
+.stats .val { color: var(--accent); }

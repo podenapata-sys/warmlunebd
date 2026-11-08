@@ -1,4 +1,4 @@
-WARMLUNE - IMAGE PROMPTS (copy one block at a time)
+BAKAINA - IMAGE PROMPTS (copy one block at a time)
 ===================================================
 
 NEGATIVE PROMPT (paste in the "negative prompt" box if your tool has one):

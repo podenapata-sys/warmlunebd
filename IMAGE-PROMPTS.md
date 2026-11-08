@@ -1,4 +1,4 @@
-# WarmLune — image prompts for every section
+# Bakaina — image prompts for every section
 
 ## Read first: real product vs AI
 - **Product shots (gallery 1–4) must show the exact product you ship**: a pink wireless belt with an LCD display. AI tools invent wrong buttons, screens and shapes, and a buyer who gets something different returns it and leaves a bad review. Use your **supplier's real photos** for these. If you use AI, use **image-to-image / reference mode** with the real product photo uploaded, and check every detail before publishing.
@@ -56,7 +56,7 @@ File: `img/lifestyle.jpg` → `config.js → lifestyleImage`
 
 ---
 
-## 4. "WarmLune কেন সবার পছন্দ" (3 cards, square 1:1, 1000 × 1000 px)
+## 4. "Bakaina কেন সবার পছন্দ" (3 cards, square 1:1, 1000 × 1000 px)
 Files: `img/feature-1.jpg`, `feature-2.jpg`, `feature-3.jpg` → `config.js → featureImages`
 
 **Card 1 · 3 heat levels on an LCD display**

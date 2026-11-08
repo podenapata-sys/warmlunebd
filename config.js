@@ -1,9 +1,9 @@
 /* ==========================================================================
-   WarmLune product page — everything you edit lives here.
+   Bakaina product page — everything you edit lives here.
    Anything left empty shows the design's placeholder box/text instead.
    ========================================================================== */
 window.WL = {
-  brand: 'WarmLune',
+  brand: 'Bakaina',
   announcement: 'সারাদেশে ফ্রি ডেলিভারি · পণ্য হাতে পেয়ে মূল্য পরিশোধ',
   announcement_en: 'Free delivery across Bangladesh · Pay when it arrives',
   // Any field ending in _en is the English version shown when the visitor picks EN.
@@ -82,7 +82,7 @@ window.WL = {
   // Format: { name: 'নুসরাত জ.', rating: 5, text: '…', text_en: '(optional English translation)', photo: 'img/review-1.jpg' }
   // Real customer reviews (confirmed real by the owner). Names shortened to first name + initial.
   reviews: [
-    { name: 'Nusrat J.', rating: 5, text: "Period pain হলে আমার অনেক কষ্ট হয়। WarmLune use করার পর heat অনেক relaxing লাগে। Office এ থাকলেও use করতে পারি, really helpful!" },
+    { name: 'Nusrat J.', rating: 5, text: "Period pain হলে আমার অনেক কষ্ট হয়। Bakaina use করার পর heat অনেক relaxing লাগে। Office এ থাকলেও use করতে পারি, really helpful!" },
     { name: 'Tasnim A.', rating: 5, photo: 'img/review-tasnim.jpg', text: "Product টা honestly অনেক সুন্দর। Heat level adjust করা যায় আর vibration feature টাও ভালো লাগে। Charging দিয়ে সহজেই use করা যায়।" },
     { name: 'Farzana R.', rating: 5, text: "আমি প্রথমে একটু skeptical ছিলাম, but এটা use করার পর ভালো লেগেছে। Heating feature টা comfortable এবং design টাও cute & portable." },
     { name: 'Sadia I.', rating: 5, photo: 'img/review-sadia.jpg', text: "বাসায় কাজ করার সময় এটা use করি। Wireless হওয়ায় কোনো ঝামেলা নেই। LCD display টা খুব convenient, overall nice product." },
@@ -109,7 +109,7 @@ window.WL = {
     products: (W.colors || []).map(function (c, i) {
       return {
         id: 'pad-' + (ids[i] || i),
-        name: (lang === 'en' ? 'WarmLune Heating & Massage Belt — ' + (c.name_en || c.name) : 'WarmLune হিটিং ম্যাসাজ বেল্ট — ' + c.name),
+        name: (lang === 'en' ? 'Bakaina Heating & Massage Belt — ' + (c.name_en || c.name) : 'Bakaina হিটিং ম্যাসাজ বেল্ট — ' + c.name),
         price: Number(W.price) || 0, oldPrice: W.oldPrice || null,
         image: [(W.gallery && W.gallery[0] && W.gallery[0].src) || 'img/swatch-' + (ids[i] || i) + '.svg'],
         short: '', features: [], color: c.hex,

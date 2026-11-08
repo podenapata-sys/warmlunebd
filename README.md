@@ -1,6 +1,6 @@
-# WarmLune — product page
+# Bakaina — product page
 
-A working build of the WarmLune product-page mockup: plain HTML, CSS and JS, no build step and no libraries. Open `index.html` or upload the folder to any static host (GitHub Pages, Netlify drop).
+A working build of the Bakaina product-page mockup: plain HTML, CSS and JS, no build step and no libraries. Open `index.html` or upload the folder to any static host (GitHub Pages, Netlify drop).
 
 ## Edit `config.js` (the only file you need to touch)
 - **Price:** `currency`, `price`, `oldPrice`. For Bangladesh use `currency: '৳'`; whole taka shows without decimals.
