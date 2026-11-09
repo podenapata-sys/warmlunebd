@@ -19,6 +19,22 @@ window.WL = {
   bundles: [1, 2, 3],
   bundleDefault: 2,
 
+  // Products shown on the home page (home.html), in this order.
+  // To add a product: copy a block, change the details, put its photo in img/ and set url to its page.
+  // usePagePrice: true shows the price set above (price / oldPrice) so the belt never shows two prices.
+  catalog: [
+    {
+      id: 'belt',
+      name: 'তারবিহীন হিটিং ও ম্যাসাজ বেল্ট', name_en: 'Cordless Heating & Massage Belt',
+      blurb: '৩–৬ সেকেন্ডে গরম · ৩টি হিট লেভেল · ৪টি ম্যাসাজ মোড', blurb_en: 'Warm in 3–6 s · 3 heat levels · 4 massage modes',
+      image: 'img/gallery-1.jpg', url: './',
+      usePagePrice: true,
+      tag: 'নতুন', tag_en: 'New',
+    },
+    // { id: 'next-product', name: 'পণ্যের নাম', name_en: 'Product name', blurb: 'ছোট বর্ণনা', blurb_en: 'Short description',
+    //   image: 'img/next-product.jpg', url: 'next-product.html', price: 990, oldPrice: 1290, tag: 'নতুন', tag_en: 'New' },
+  ],
+
   // Price framing (both honest: worked out from the price / true for an online-only shop)
   showPerMonth: true,               // "used for a year, just ৳166 a month"
   showWhyPrice: true,               // "why this price? online only, no shop rent"
@@ -82,7 +98,7 @@ window.WL = {
   // Format: { name: 'নুসরাত জ.', rating: 5, text: '…', text_en: '(optional English translation)', photo: 'img/review-1.jpg' }
   // Real customer reviews (confirmed real by the owner). Names shortened to first name + initial.
   reviews: [
-    { name: 'Nusrat J.', rating: 5, text: "Period pain হলে আমার অনেক কষ্ট হয়। Bakaina use করার পর heat অনেক relaxing লাগে। Office এ থাকলেও use করতে পারি, really helpful!" },
+    { name: 'Nusrat J.', rating: 5, text: "Period pain হলে আমার অনেক কষ্ট হয়। WarmLune use করার পর heat অনেক relaxing লাগে। Office এ থাকলেও use করতে পারি, really helpful!" },
     { name: 'Tasnim A.', rating: 5, photo: 'img/review-tasnim.jpg', text: "Product টা honestly অনেক সুন্দর। Heat level adjust করা যায় আর vibration feature টাও ভালো লাগে। Charging দিয়ে সহজেই use করা যায়।" },
     { name: 'Farzana R.', rating: 5, text: "আমি প্রথমে একটু skeptical ছিলাম, but এটা use করার পর ভালো লেগেছে। Heating feature টা comfortable এবং design টাও cute & portable." },
     { name: 'Sadia I.', rating: 5, photo: 'img/review-sadia.jpg', text: "বাসায় কাজ করার সময় এটা use করি। Wireless হওয়ায় কোনো ঝামেলা নেই। LCD display টা খুব convenient, overall nice product." },
