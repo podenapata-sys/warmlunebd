@@ -35,7 +35,29 @@
     fbq('track', 'ViewContent', { content_ids: [p.id], content_name: p.name_en || p.name, content_type: 'product', value: p.price, currency: 'BDT' });
   }
 
-  $('[data-pp-img]').src = p.image; $('[data-pp-img]').alt = name;
+  /* Photo gallery: p.images (list) if given, else the single p.image. Swipe, arrows or thumbnails. */
+  var pics = (p.images && p.images.length ? p.images : [p.image]).filter(Boolean);
+  var track = $('[data-pp-track]'), thumbs = $('[data-pp-thumbs]'), slide = 0;
+  track.innerHTML = pics.map(function (src, i) {
+    return '<div class="gallery-slide pp-slide"><img src="' + esc(src) + '" alt="' + esc(name) + (i ? ' (' + L.num(i + 1) + ')' : '') + '" width="900" height="900"' + (i ? ' loading="lazy"' : '') + '></div>';
+  }).join('');
+  if (pics.length > 1) {
+    thumbs.hidden = false; $('[data-pp-prev]').hidden = false; $('[data-pp-next]').hidden = false;
+    thumbs.innerHTML = pics.map(function (src, i) {
+      return '<button type="button" role="tab" aria-label="' + esc(T('g.photo', { n: L.num(i + 1) })) + '"><img src="' + esc(src) + '" alt=""></button>';
+    }).join('');
+    var go = function (i) { i = (i + pics.length) % pics.length; track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' }); };
+    var sync = function () {
+      slide = Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+      $$('button', thumbs).forEach(function (b, k) { b.classList.toggle('on', k === slide); b.setAttribute('aria-selected', k === slide); });
+    };
+    $$('button', thumbs).forEach(function (b, i) { b.addEventListener('click', function () { go(i); }); });
+    $('[data-pp-prev]').addEventListener('click', function () { go(slide - 1); });
+    $('[data-pp-next]').addEventListener('click', function () { go(slide + 1); });
+    track.addEventListener('scroll', function () { requestAnimationFrame(sync); }, { passive: true });
+    track.addEventListener('keydown', function (e) { if (e.key === 'ArrowRight') go(slide + 1); if (e.key === 'ArrowLeft') go(slide - 1); });
+    sync();
+  }
   $('[data-pp-brand]').textContent = p.brand || '';
   $('[data-pp-name]').textContent = name;
   $('[data-pp-blurb]').textContent = P(p, 'blurb') || '';
