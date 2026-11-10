@@ -138,13 +138,13 @@
   state.qty = bundles.indexOf(W.bundleDefault) > -1 ? W.bundleDefault : bundles[0];
   if (!(W.price > 0)) { bundleBox.hidden = true; state.qty = 1; }
   else {
-    bundleList.innerHTML = (COMBO ? comboCard() : '') + bundles.map(function (n) {
+    bundleList.innerHTML = bundles.map(function (n) {
       var p = priceFor(n), was = W.oldPrice > W.price ? W.oldPrice * n : (p.disc ? p.sub : 0);
       var sub = p.disc ? T('b.each', { amt: money(Math.round(p.total / n)), pct: toBn(QD.percent) }) : (n === 1 ? T('b.std') : '');
       return '<label class="bopt" data-n="' + n + '"><input type="radio" name="bundle" value="' + n + '"' + (n === state.qty ? ' checked' : '') + '>' +
         '<span class="bopt-q"><strong>' + esc(n === 1 ? T('b.qty1') : T('b.qtyN', { n: toBn(n) })) + '</strong>' + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span>' +
         '<span class="bopt-p"><strong>' + money(p.total) + '</strong>' + (was > p.total ? '<s>' + money(was) + '</s>' : '') + '</span></label>';
-    }).join('');
+    }).join('') + (COMBO ? comboCard() : '');
     bundleList.addEventListener('change', function (e) {
       if (e.target.name !== 'bundle') return;
       state.combo = e.target.value === 'combo';

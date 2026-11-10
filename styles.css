@@ -455,3 +455,6 @@ a.hm-card:hover { box-shadow: 0 16px 34px -20px rgba(1, 40, 99, .45); transform:
 .bopt-combo { background: #FFF5EC; border-style: dashed; border-color: #FFB97A; }
 .bopt-combo.on { border-style: solid; }
 .bopt-img { width: 46px; height: 46px; border-radius: 10px; object-fit: cover; flex: none; }
+
+/* Belt page: offer box moved up under the price; intro + feature list follow the buy buttons */
+.info .btn-block + .lead { margin-top: 28px; }
