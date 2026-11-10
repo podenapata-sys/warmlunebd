@@ -202,7 +202,7 @@ window.WL = {
   advanceOutsideDhaka: 200,
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbwECdKABZwsqdkjTPgLuVbn7hCmg1K3-ne26MZoL9N5VAi39ByAcxBOSzdJGb4XzD8jvA/exec',                // Web App URL from Code.gs deployment (…/exec)
   pixelId: '1460286499445516',                      // Meta Pixel ID
-  siteUrl: 'https://podenapata-sys.github.io/warmlunebd',
+  siteUrl: 'https://bakaina.com',
   // Short version; the full terms are in refund.html
   returnPolicy: 'ডেলিভারিম্যানের সামনে খুলে দেখে নিন। ভাঙা, ভুল বা কিছু কম থাকলে তখনই ফেরত দিন। ৭ দিনের মধ্যে উৎপাদনগত ত্রুটিতে বিনামূল্যে নতুন বেল্ট।',
   returnPolicy_en: 'Check it in front of the delivery person and refuse it if it is broken, wrong or incomplete. Manufacturing defects within 7 days get a free new belt.',
