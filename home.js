@@ -39,7 +39,19 @@
     return (off ? '<s>' + money(p.was) + '</s> ' : '') + '<strong>' + money(p.now) + '</strong>' +
       (off ? ' <span class="hm-off">' + esc(T('p.badge', { pct: L.num(off) })) + '</span>' : '');
   }
-  var catalog = (W.catalog || []).filter(function (c) { return c && c.name && c.url; });
+  // Catalog entries can point at a product in shopProducts (productId); name, photo and price then come from there
+  var shop = W.shopProducts || [];
+  var catalog = (W.catalog || []).map(function (c) {
+    if (!c || !c.productId) return c;
+    var sp = shop.filter(function (x) { return x.id === c.productId; })[0];
+    if (!sp) return null;
+    var out = {}, k;
+    for (k in sp) out[k] = sp[k];
+    for (k in c) out[k] = c[k];
+    out.id = sp.id;
+    out.url = sp.url || ('product.html?id=' + encodeURIComponent(sp.id));
+    return out;
+  }).filter(function (c) { return c && c.name && c.url; });
   $('[data-catalog]').innerHTML = catalog.map(function (c) {
     return '<a class="hm-card" role="listitem" href="' + esc(c.url) + '" data-product="' + esc(c.id) + '">' +
       '<span class="hm-card-img">' + (c.tag ? '<span class="hm-tag">' + esc(P(c, 'tag')) + '</span>' : '') +

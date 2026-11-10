@@ -14,7 +14,8 @@ window.WL = {
   price: 1099,                      // sale price
   // Quantity discount: buy minQty or more → percent off the WHOLE order. percent: 0 turns it off.
   // ⚠ Mirror it in Code.gs (QTY_DISCOUNT) — the server recalculates every total.
-  qtyDiscount: { minQty: 2, percent: 10 },
+  // products: which products get it (the belt only — the skincare margins are too thin for 10% off)
+  qtyDiscount: { minQty: 2, percent: 10, products: ['pad-pink'] },
   // Bundle cards on the product page (pieces per card) and which one starts selected
   bundles: [1, 2, 3],
   bundleDefault: 2,
@@ -31,8 +32,146 @@ window.WL = {
       usePagePrice: true,
       tag: 'নতুন', tag_en: 'New',
     },
-    // { id: 'next-product', name: 'পণ্যের নাম', name_en: 'Product name', blurb: 'ছোট বর্ণনা', blurb_en: 'Short description',
-    //   image: 'img/next-product.jpg', url: 'next-product.html', price: 990, oldPrice: 1290, tag: 'নতুন', tag_en: 'New' },
+    // Other products: just give the id of a product in shopProducts below (name, photo and price come from there)
+    { productId: 'combo-belt-mask', tag: 'কম্বো অফার', tag_en: 'Combo offer' },
+    { productId: 'anua-serum' },
+    { productId: 'medicube-pdrn-serum' },
+    { productId: 'medicube-capsule-cream' },
+    { productId: 'medicube-gel-mask' },
+  ],
+
+  // Products with their own page (product.html?id=…), shipped by Zatiq.
+  // ⚠ Every price here must match PRODUCTS in Code.gs — the server recalculates every order total.
+  // oldPrice: only a price the product REALLY sold at before (leave it out otherwise).
+  // Write benefits as "helps / the look of", never "removes / cures": customers and Meta treat skincare promises strictly.
+  shopProducts: [
+    {
+      id: 'combo-belt-mask', combo: true,
+      name: 'কম্বো: হিটিং ম্যাসাজ বেল্ট + Medicube জেল মাস্ক', name_en: 'Combo: Heating & Massage Belt + Medicube Gel Mask',
+      blurb: 'বেল্ট + ১টি PDRN পিংক কোলাজেন জেল মাস্ক', blurb_en: 'Belt + 1 PDRN Pink Collagen Gel Mask',
+      price: 1799, oldPrice: 1898,      // oldPrice = the two bought separately (৳1,099 + ৳799)
+      image: 'img/p-combo-belt-mask.jpg', url: 'checkout.html?product=combo-belt-mask',
+    },
+    {
+      id: 'anua-serum', brand: 'Anua', size: '30ml',
+      name: 'Anua Niacinamide 10% + TXA 4% ডার্ক স্পট সিরাম', name_en: 'Anua Niacinamide 10% + TXA 4% Dark Spot Serum',
+      blurb: 'দাগ ও অসমান স্কিন টোন কম দেখাতে', blurb_en: 'For the look of dark spots & uneven tone',
+      price: 2499, image: 'img/p-anua-serum.jpg',
+      intro: 'হালকা টেক্সচারের এই সিরাম কালো দাগ, ব্রণের দাগ, পিগমেন্টেশন ও অসমান স্কিন টোন কম দেখাতে সাহায্য করে, আর ত্বককে আরও উজ্জ্বল দেখায়।',
+      intro_en: 'A lightweight serum that helps reduce the appearance of dark spots, acne marks, hyperpigmentation and uneven skin tone while improving overall radiance.',
+      benefits: [
+        ['<strong>দাগ কম দেখায়:</strong> পিগমেন্টেশন ও ব্রণের দাগ হালকা দেখাতে সাহায্য করে।', '<strong>Fades the look of spots:</strong> helps fade the appearance of pigmentation and post-acne marks.'],
+        ['<strong>উজ্জ্বল ত্বক:</strong> আরও উজ্জ্বল ও সমান দেখতে স্কিন টোন।', '<strong>Brighter skin:</strong> a more radiant, even-looking complexion.'],
+        ['<strong>অতিরিক্ত তেল নিয়ন্ত্রণ:</strong> নায়াসিনামাইড সিবাম ব্যালান্স করতে সাহায্য করে।', '<strong>Controls excess oil:</strong> niacinamide helps balance sebum.'],
+        ['<strong>মসৃণ টেক্সচার:</strong> বড় লোমকূপ কম দেখাতে সাহায্য করে।', '<strong>Smoother texture:</strong> helps minimise the look of enlarged pores.'],
+        ['<strong>হালকা ফর্মুলা:</strong> সহজে শোষিত হয়, ভারী বা তৈলাক্ত লাগে না।', '<strong>Lightweight:</strong> absorbs easily without feeling heavy or greasy.'],
+      ],
+      ingredients: [
+        ['<strong>১০% নায়াসিনামাইড:</strong> অসমান স্কিন টোন, অতিরিক্ত তেল ও দৃশ্যমান লোমকূপের যত্নে।', '<strong>10% Niacinamide:</strong> for uneven tone, excess oil and visible pores.'],
+        ['<strong>৪% ট্রানেক্সামিক অ্যাসিড (TXA):</strong> একগুঁয়ে কালো দাগ ও বিবর্ণতা কম দেখাতে।', '<strong>4% Tranexamic Acid (TXA):</strong> targets the look of stubborn dark spots and discoloration.'],
+      ],
+      howTo: [
+        ['মুখ পরিষ্কার করে চাইলে টোনার লাগান।', 'Cleanse and apply toner if you like.'],
+        ['২–৩ ফোঁটা সিরাম মুখে লাগান।', 'Apply 2–3 drops to your face.'],
+        ['আলতো চাপ দিয়ে শোষিত হতে দিন।', 'Pat gently until absorbed.'],
+        ['এরপর ময়েশ্চারাইজার লাগান।', 'Follow with moisturiser.'],
+        ['দিনে অবশ্যই SPF 30+ সানস্ক্রিন ব্যবহার করুন।', 'Use SPF 30+ sunscreen during the day.'],
+      ],
+      details: ['ব্র্যান্ড: Anua · সাইজ: 30ml · ধরন: ফেসিয়াল সিরাম · যাদের জন্য: কালো দাগ, পিগমেন্টেশন, অসমান স্কিন টোন, ব্রণের দাগ', 'Brand: Anua · Size: 30ml · Type: facial serum · For: dark spots, hyperpigmentation, uneven tone, acne marks'],
+    },
+    {
+      id: 'medicube-pdrn-serum', brand: 'Medicube', size: '30ml',
+      name: 'Medicube PDRN পিংক পেপটাইড সিরাম', name_en: 'Medicube PDRN Pink Peptide Serum',
+      blurb: 'হাইড্রেশন, উজ্জ্বলতা ও টানটান ভাব', blurb_en: 'Hydration, glow and firmness',
+      price: 2300, image: 'img/p-medicube-pdrn-serum.jpg',
+      intro: '1% PDRN, ৫-পেপটাইড কমপ্লেক্স ও নায়াসিনামাইড সমৃদ্ধ কোরিয়ান সিরাম। ত্বককে আর্দ্র রাখে, উজ্জ্বল দেখায় এবং সূক্ষ্ম রেখা, অসমান টোন ও নিস্তেজ ভাব কম দেখাতে সাহায্য করে।',
+      intro_en: 'A Korean serum with 1% PDRN, a 5-peptide complex and niacinamide that hydrates, brightens and helps reduce the appearance of fine lines, uneven tone and dullness.',
+      benefits: [
+        ['<strong>ইলাস্টিসিটি:</strong> ত্বক আরও টানটান ও ভরাট দেখায়।', '<strong>Elasticity:</strong> skin looks firmer and plumper.'],
+        ['<strong>উজ্জ্বল ত্বক:</strong> আরও উজ্জ্বল, সমান দেখতে ত্বক।', '<strong>Brighter skin:</strong> a radiant, even-looking complexion.'],
+        ['<strong>অ্যান্টি-এজিং কেয়ার:</strong> সূক্ষ্ম রেখা ও বলিরেখা কম দেখাতে সাহায্য করে।', '<strong>Anti-ageing care:</strong> helps minimise the look of fine lines and wrinkles.'],
+        ['<strong>গভীর হাইড্রেশন:</strong> ত্বক নরম ও আর্দ্র রাখে।', '<strong>Deep hydration:</strong> keeps skin soft and moisturised.'],
+        ['<strong>স্কিন ব্যারিয়ার সাপোর্ট:</strong> স্বাস্থ্যকর আর্দ্রতার স্তর বজায় রাখতে সাহায্য করে।', '<strong>Barrier support:</strong> helps maintain a healthy moisture barrier.'],
+        ['<strong>গ্লাস স্কিন গ্লো:</strong> মসৃণ, সতেজ ও উজ্জ্বল দেখায়।', '<strong>Glass-skin glow:</strong> leaves skin looking smooth, dewy and refreshed.'],
+      ],
+      ingredients: [
+        ['<strong>1% PDRN (Sodium DNA):</strong> হাইড্রেশন ও সতেজ দেখাতে।', '<strong>1% PDRN (Sodium DNA):</strong> hydration and a revitalised look.'],
+        ['<strong>5-Peptide Complex:</strong> টানটান ও ইলাস্টিক দেখাতে।', '<strong>5-Peptide Complex:</strong> for the look of firmness and elasticity.'],
+        ['<strong>নায়াসিনামাইড:</strong> নিস্তেজ ত্বক উজ্জ্বল দেখাতে।', '<strong>Niacinamide:</strong> brightens dull-looking skin.'],
+        ['<strong>অ্যাডেনোসিন:</strong> সূক্ষ্ম রেখা মসৃণ দেখাতে।', '<strong>Adenosine:</strong> smooths the look of fine lines.'],
+        ['<strong>হায়ালুরোনিক অ্যাসিড:</strong> আর্দ্রতা ধরে রাখে।', '<strong>Hyaluronic acid:</strong> attracts moisture.'],
+      ],
+      howTo: [
+        ['মুখ পরিষ্কার করে টোনার লাগান।', 'Cleanse and apply toner.'],
+        ['২–৩ ফোঁটা মুখ ও গলায় লাগান।', 'Apply 2–3 drops to face and neck.'],
+        ['আলতো ম্যাসাজ করে শোষিত হতে দিন।', 'Massage gently until absorbed.'],
+        ['এরপর ময়েশ্চারাইজার লাগান।', 'Follow with moisturiser.'],
+        ['সকাল ও রাতে ব্যবহার করুন, দিনে SPF 30+ সানস্ক্রিন।', 'Use morning and night; SPF 30+ during the day.'],
+      ],
+      details: ['ব্র্যান্ড: Medicube · সাইজ: 30ml · উৎপত্তি: দক্ষিণ কোরিয়া · বেশিরভাগ ত্বকের জন্য · যাদের জন্য: সূক্ষ্ম রেখা, নিস্তেজ ভাব, শুষ্কতা, অসমান টোন', 'Brand: Medicube · Size: 30ml · Origin: South Korea · Most skin types · For: fine lines, dullness, dryness, uneven tone'],
+    },
+    {
+      id: 'medicube-capsule-cream', brand: 'Medicube', size: '55g',
+      name: 'Medicube PDRN পিংক কোলাজেন ক্যাপসুল ক্রিম', name_en: 'Medicube PDRN Pink Collagen Capsule Cream',
+      blurb: 'ক্যাপসুল + জেল ময়েশ্চারাইজার', blurb_en: 'Capsule + gel moisturiser',
+      price: 2600, image: 'img/p-medicube-capsule-cream.jpg',
+      intro: 'গোলাপি কোলাজেন ক্যাপসুল ও স্বচ্ছ জেলের ডুয়াল-টেক্সচার কোরিয়ান ময়েশ্চারাইজার। গভীর আর্দ্রতা দেয়, উজ্জ্বল দেখায় এবং শুষ্ক, নিস্তেজ ও অসমান দেখতে ত্বকের যত্ন নেয়।',
+      intro_en: 'A dual-texture Korean moisturiser of pink collagen capsules and clear gel that deeply hydrates, brightens and cares for dry, dull, uneven-looking skin.',
+      benefits: [
+        ['<strong>গভীর হাইড্রেশন:</strong> ত্বক নরম, আর্দ্র ও ভরাট রাখে।', '<strong>Deep hydration:</strong> keeps skin moisturised, soft and plump.'],
+        ['<strong>ইলাস্টিসিটি:</strong> আরও টানটান, তারুণ্যময় দেখায়।', '<strong>Elasticity:</strong> firmer, more youthful-looking skin.'],
+        ['<strong>উজ্জ্বল ত্বক:</strong> নিস্তেজ ও অসমান টোন উজ্জ্বল দেখায়।', '<strong>Brighter skin:</strong> helps with dullness and uneven tone.'],
+        ['<strong>দাগের যত্ন:</strong> বিবর্ণতা কম দেখাতে সাহায্য করে।', '<strong>Spot care:</strong> helps reduce the look of discoloration.'],
+        ['<strong>গ্লাস স্কিন গ্লো:</strong> সতেজ, মসৃণ ও উজ্জ্বল দেখায়।', '<strong>Glass-skin glow:</strong> dewy, smooth and radiant-looking.'],
+        ['<strong>নিজের মতো টেক্সচার:</strong> ক্যাপসুল ও জেলের অনুপাত বদলে নিন।', '<strong>Your texture:</strong> adjust the capsule-to-gel ratio.'],
+      ],
+      ingredients: [
+        ['<strong>Salmon PDRN (Sodium DNA):</strong> সতেজ, স্বাস্থ্যকর দেখাতে।', '<strong>Salmon PDRN (Sodium DNA):</strong> healthy-looking, revitalised skin.'],
+        ['<strong>৫% নায়াসিনামাইড:</strong> উজ্জ্বল ও সমান দেখাতে।', '<strong>5% Niacinamide:</strong> brighter, more even-looking tone.'],
+        ['<strong>হাইড্রোলাইজড কোলাজেন:</strong> ভরাট দেখাতে আর্দ্রতা।', '<strong>Hydrolysed collagen:</strong> moisture for plumper-looking skin.'],
+        ['<strong>হায়ালুরোনিক অ্যাসিড:</strong> আর্দ্রতা ধরে রাখে।', '<strong>Hyaluronic acid:</strong> helps retain moisture.'],
+        ['<strong>পেপটাইড:</strong> মসৃণ ও টানটান দেখাতে।', '<strong>Peptides:</strong> smoother, firmer-looking skin.'],
+        ['<strong>সেরামাইড NP:</strong> ত্বকের প্রাকৃতিক আর্দ্রতার স্তর রক্ষায়।', '<strong>Ceramide NP:</strong> supports the natural moisture barrier.'],
+      ],
+      howTo: [
+        ['মুখ পরিষ্কার করে টোনার ও সিরাম লাগান।', 'Cleanse, then apply toner and serum.'],
+        ['পরিমাণমতো গোলাপি ক্যাপসুল ও স্বচ্ছ জেল নিন।', 'Take some pink capsules and clear gel.'],
+        ['ভালোভাবে মিশিয়ে নিন।', 'Mix until blended.'],
+        ['মুখ ও গলায় আলতো করে লাগান।', 'Apply gently to face and neck.'],
+        ['সকাল ও রাতে ব্যবহার করুন, দিনে সানস্ক্রিন। টিপ: হালকা ফিনিশের জন্য জেল বেশি, বেশি আর্দ্রতার জন্য ক্যাপসুল বেশি নিন।', 'Use morning and night with sunscreen by day. Tip: more gel for a light finish, more capsules for richer moisture.'],
+      ],
+      details: ['ব্র্যান্ড: Medicube · সাইজ: 55g · উৎপত্তি: দক্ষিণ কোরিয়া · সব ধরনের ত্বকের জন্য · যাদের জন্য: শুষ্কতা, নিস্তেজ ভাব, অসমান টোন, সূক্ষ্ম রেখা', 'Brand: Medicube · Size: 55g · Origin: South Korea · All skin types · For: dryness, dullness, uneven tone, fine lines'],
+    },
+    {
+      id: 'medicube-gel-mask', brand: 'Medicube', size: '28g',
+      name: 'Medicube PDRN পিংক কোলাজেন জেল মাস্ক', name_en: 'Medicube PDRN Pink Collagen Gel Mask',
+      blurb: '১টি হাইড্রোজেল শিট মাস্ক', blurb_en: '1 hydrogel sheet mask',
+      price: 799, image: 'img/p-medicube-gel-mask.jpg',
+      intro: 'Salmon PDRN, কোলাজেন, নায়াসিনামাইড ও পেপটাইড সমৃদ্ধ কোরিয়ান হাইড্রোজেল মাস্ক (১টি শিট)। ত্বককে গভীরভাবে আর্দ্র করে এবং টানটান ও উজ্জ্বল দেখাতে সাহায্য করে। ব্যবহারের সময় ধীরে ধীরে স্বচ্ছ হয়ে যায়।',
+      intro_en: 'A Korean hydrogel mask (1 sheet) with salmon PDRN, collagen, niacinamide and peptides that deeply hydrates and helps skin look firmer and radiant. It turns clear as it works.',
+      benefits: [
+        ['<strong>গভীর হাইড্রেশন:</strong> আর্দ্রতা ফিরিয়ে শুষ্কতা কমায়।', '<strong>Deep hydration:</strong> replenishes moisture and relieves dryness.'],
+        ['<strong>ইলাস্টিসিটি:</strong> আরও টানটান ও ভরাট দেখায়।', '<strong>Elasticity:</strong> firmer, plumper-looking skin.'],
+        ['<strong>গ্লাস স্কিন গ্লো:</strong> উজ্জ্বল ও সতেজ দেখায়।', '<strong>Glass-skin glow:</strong> radiant and refreshed-looking.'],
+        ['<strong>অ্যান্টি-এজিং কেয়ার:</strong> সূক্ষ্ম রেখা কম দেখাতে সাহায্য করে।', '<strong>Anti-ageing care:</strong> helps reduce the look of fine lines.'],
+        ['<strong>রং বদলানো জেল:</strong> ব্যবহারের সময় ধীরে ধীরে স্বচ্ছ হয়।', '<strong>Colour-changing gel:</strong> turns clear during use.'],
+      ],
+      ingredients: [
+        ['<strong>Salmon PDRN (Sodium DNA):</strong> আর্দ্র ও স্বাস্থ্যকর দেখাতে।', '<strong>Salmon PDRN (Sodium DNA):</strong> hydrated, healthier-looking skin.'],
+        ['<strong>হাইড্রোলাইজড কোলাজেন:</strong> কোমলতা ও ইলাস্টিসিটি।', '<strong>Hydrolysed collagen:</strong> softness and elasticity.'],
+        ['<strong>নায়াসিনামাইড:</strong> উজ্জ্বল, সমান দেখতে ত্বক।', '<strong>Niacinamide:</strong> brighter, even-looking skin.'],
+        ['<strong>পেপটাইড:</strong> টানটান ও মসৃণ দেখাতে।', '<strong>Peptides:</strong> firmer, smoother-looking skin.'],
+        ['<strong>প্যানথেনল ও অ্যালানটোইন:</strong> প্রশান্তি ও আর্দ্রতা দেয়।', '<strong>Panthenol & allantoin:</strong> soothe and moisturise.'],
+      ],
+      howTo: [
+        ['মুখ পরিষ্কার করে টোনার লাগান।', 'Cleanse and apply toner.'],
+        ['মাস্কের দুই অংশ থেকে প্রোটেকটিভ ফিল্ম খুলে নিন।', 'Peel the protective films off both mask pieces.'],
+        ['চোখ ও ঠোঁট বাদ দিয়ে মুখে সমানভাবে লাগান।', 'Apply evenly, avoiding eyes and lips.'],
+        ['৩–৪ ঘণ্টা বা মাস্ক স্বচ্ছ হওয়া পর্যন্ত রাখুন, চাইলে সারা রাত।', 'Leave 3–4 hours or until clear, or overnight.'],
+        ['খুলে নিয়ে বাকি এসেন্স আলতো চাপে মিশিয়ে নিন।', 'Remove and pat in the remaining essence.'],
+      ],
+      details: ['ব্র্যান্ড: Medicube · সাইজ: 28g (১টি শিট) · উৎপত্তি: দক্ষিণ কোরিয়া · সব ধরনের ত্বকের জন্য · যাদের জন্য: শুষ্কতা, নিস্তেজ ভাব, সূক্ষ্ম রেখা', 'Brand: Medicube · Size: 28g (1 sheet) · Origin: South Korea · All skin types · For: dryness, dullness, fine lines'],
+    },
   ],
 
   // Price framing (both honest: worked out from the price / true for an online-only shop)
@@ -130,6 +269,13 @@ window.WL = {
         image: [(W.gallery && W.gallery[0] && W.gallery[0].src) || 'img/swatch-' + (ids[i] || i) + '.svg'],
         short: '', features: [], color: c.hex,
       };
-    }),
+    }).concat((W.shopProducts || []).map(function (p) {
+      return {
+        id: p.id,
+        name: lang === 'en' && p.name_en ? p.name_en : p.name,
+        price: Number(p.price) || 0, oldPrice: p.oldPrice || null,
+        image: [p.image], short: '', features: [],
+      };
+    })),
   };
 })(window.WL);

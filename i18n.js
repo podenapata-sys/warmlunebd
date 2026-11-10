@@ -82,6 +82,27 @@
     'aria.bundle': ['পরিমাণ বেছে নিন', 'Choose quantity'],
     'sb.buy': ['এখনই অর্ডার করুন', 'Order now'],
     'sb.items': ['{n}টি · ফ্রি ডেলিভারি', '{n} pc · free delivery'],
+    'b.combo': ['বেল্ট + জেল মাস্ক কম্বো', 'Belt + Gel Mask combo'],
+    'b.comboSub': ['আলাদা কেনার চেয়ে {amt} কম', '{amt} less than buying separately'],
+    'sb.combo': ['কম্বো · ফ্রি ডেলিভারি', 'Combo · free delivery'],
+
+    /* ---------- skincare product page (product.html) ---------- */
+    'pp.benefits': ['মূল সুবিধা', 'Key benefits'],
+    'pp.ingredients': ['মূল উপাদান', 'Key ingredients'],
+    'pp.how': ['ব্যবহারের নিয়ম', 'How to use'],
+    'pp.details': ['পণ্যের বিবরণ', 'Product details'],
+    'pp.patchT': ['প্যাচ টেস্ট', 'Patch test'],
+    'pp.patch': ['প্রথমবার ব্যবহারের আগে হাতের ভেতরের দিকে অল্প লাগিয়ে ২৪ ঘণ্টা দেখে নিন। জ্বালা, চুলকানি বা লালচে ভাব হলে ব্যবহার বন্ধ করুন।', 'Before first use, try a little on your inner arm and wait 24 hours. Stop if you notice stinging, itching or redness.'],
+    'pp.qty': ['পরিমাণ', 'Quantity'],
+    'pp.total': ['মোট', 'Total'],
+    'pp.buy': ['এখনই অর্ডার করুন', 'Order now'],
+    'pp.returnsT': ['রিটার্ন', 'Returns'],
+    'pp.returns': ['স্কিনকেয়ার পণ্য সিল না খোলা অবস্থায় ৭ দিনের মধ্যে ফেরত দেওয়া যায়। খোলা বা ব্যবহার করা পণ্য স্বাস্থ্যবিধির কারণে ফেরত নেওয়া হয় না (ভুল বা ক্ষতিগ্রস্ত পণ্য ছাড়া)। <a href="refund.html">বিস্তারিত →</a>', 'Skincare can be returned unopened within 7 days. Opened or used items cannot be taken back for hygiene reasons (unless wrong or damaged). <a href="refund.html">Details →</a>'],
+    'pp.deliveryT': ['ডেলিভারি', 'Delivery'],
+    'pp.delivery': ['সারাদেশে ফ্রি ডেলিভারি। ঢাকায় পুরো টাকা পণ্য হাতে পেয়ে; ঢাকার বাইরে ৳২০০ অগ্রিম, বাকিটা হাতে পেয়ে। <a href="delivery.html">বিস্তারিত →</a>', 'Free delivery across Bangladesh. Dhaka pays in full on delivery; outside Dhaka pays a ৳200 advance, the rest on delivery. <a href="delivery.html">Details →</a>'],
+    'pp.comboT': ['বেল্টের সাথে কম্বোতে নিন', 'Get it with the belt'],
+    'pp.notFound': ['পণ্যটি পাওয়া যায়নি।', 'Product not found.'],
+    'pp.all': ['সব পণ্য দেখুন', 'See all products'],
 
     /* ---------- home page (home.html) ---------- */
     'doc.home': ['Bakaina — প্রয়োজনীয় জিনিস, ঘরে বসেই', 'Bakaina — everyday essentials, delivered'],

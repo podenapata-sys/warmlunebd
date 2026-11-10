@@ -25,13 +25,22 @@
 
 /* ---------- Price: the source of truth. Keep in sync with config.js (price) ---------- */
 const PRICE = 1099;   // ৳ per belt. Keep in sync with config.js (price).
+// Every product the checkout can sell. Prices must match config.js (price / shopProducts).
+// supplier: who ships it, shown in the sheet and alerts so you know where to place the order.
 const PRODUCTS = {
-  'pad-pink': { name: 'Bakaina হিটিং ম্যাসাজ বেল্ট — পিংক', price: PRICE },
+  'pad-pink':               { name: 'Bakaina হিটিং ম্যাসাজ বেল্ট — পিংক', price: PRICE },
+  'combo-belt-mask':        { name: 'কম্বো: হিটিং ম্যাসাজ বেল্ট + Medicube জেল মাস্ক', price: 1799 },
+  'anua-serum':             { name: 'Anua Niacinamide 10% + TXA 4% সিরাম 30ml', price: 2499, supplier: 'Zatiq' },
+  'medicube-pdrn-serum':    { name: 'Medicube PDRN পিংক পেপটাইড সিরাম 30ml', price: 2300, supplier: 'Zatiq' },
+  'medicube-capsule-cream': { name: 'Medicube PDRN পিংক কোলাজেন ক্যাপসুল ক্রিম 55g', price: 2600, supplier: 'Zatiq' },
+  'medicube-gel-mask':      { name: 'Medicube PDRN পিংক কোলাজেন জেল মাস্ক 28g', price: 799, supplier: 'Zatiq' },
 };
 // Quantity discount — must match config.js qtyDiscount. percent: 0 turns it off.
-const QTY_DISCOUNT = { minQty: 2, percent: 10 };
-function discountFor_(subtotal, qty) {
-  return QTY_DISCOUNT.percent > 0 && qty >= QTY_DISCOUNT.minQty ? Math.round(subtotal * QTY_DISCOUNT.percent / 100) : 0;
+// Only the products listed get it (the skincare margins are too thin for a discount).
+const QTY_DISCOUNT = { minQty: 2, percent: 10, products: ['pad-pink'] };
+function discountFor_(subtotal, qty, productId) {
+  const applies = QTY_DISCOUNT.products.indexOf(String(productId)) > -1;
+  return applies && QTY_DISCOUNT.percent > 0 && qty >= QTY_DISCOUNT.minQty ? Math.round(subtotal * QTY_DISCOUNT.percent / 100) : 0;
 }
 const ADVANCE_OUTSIDE_DHAKA = 200;
 // Wallets accepted for the outside-Dhaka advance — must match config.js payMethods
@@ -145,7 +154,7 @@ function createOrder_(b) {
 
   // ---- Server-side pricing
   const subtotal = product.price * qty;
-  const discount = discountFor_(subtotal, qty);
+  const discount = discountFor_(subtotal, qty, b.productId);
   const total = subtotal - discount;
   const advance = area === 'outside' ? Math.min(ADVANCE_OUTSIDE_DHAKA, total) : 0;
   const due = total - advance;
@@ -184,7 +193,7 @@ function createOrder_(b) {
     if (requestId) markDraftOrdered_(requestId, orderId);
 
     // Alerts run after the row is safely written; a failure here never loses the order
-    notify_({ orderId, name, phone, product: product.name, qty, total, advance, due, area, district, address, trxId, payMethod: payMethod ? PAY_METHODS[payMethod] : '', note });
+    notify_({ orderId, name, phone, product: product.name + (product.supplier ? ' (' + product.supplier + ' থেকে অর্ডার দিন)' : ''), qty, total, advance, due, area, district, address, trxId, payMethod: payMethod ? PAY_METHODS[payMethod] : '', note });
     return Object.assign({ ok: true }, result);
   } finally {
     lock.releaseLock();

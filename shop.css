@@ -631,3 +631,7 @@ body.admin .stat, body.admin .filters, body.admin .act, body.admin .orders tr, .
 .logo-word { height: auto; font: 700 21px/1 'Jost', system-ui, sans-serif; letter-spacing: .01em; color: #012863; white-space: nowrap; }
 @media (max-width: 360px) { .logo-word { font-size: 18px; } }
 .logo .logo-word { text-transform: none; letter-spacing: .01em; }
+
+/* Checkout: link to the full catalogue under the product choices */
+.choice .c-more { display: inline-block; margin-top: 4px; font-size: .9rem; font-weight: 600; color: var(--accent-text, #C95A00); text-decoration: none; }
+.choice .c-more:hover { text-decoration: underline; }

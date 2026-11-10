@@ -346,13 +346,20 @@
     var requestId = ssGet('checkoutRequestId');
     if (!requestId) { requestId = 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); ssSet('checkoutRequestId', requestId); }
 
-    // Product choices
-    $('[data-product-choices]').innerHTML = C.products.map(function (p) {
+    // Product choices: only the product the customer came for, plus the belt + mask combo as an upsell
+    // where it fits (belt or gel mask). Other products stay one tap away via "all products".
+    var COMBO_ID = 'combo-belt-mask', comboFor = { 'medicube-gel-mask': 1 };
+    comboFor[C.featuredProductId] = 1;
+    var choices = C.products.filter(function (p) {
+      return p.id === state.productId || (p.id === COMBO_ID && comboFor[state.productId]);
+    }).sort(function (a, b) { return (b.id === state.productId) - (a.id === state.productId); });
+    $('[data-product-choices]').innerHTML = choices.map(function (p) {
       return '<label><input type="radio" name="product" value="' + esc(p.id) + '"' + (p.id === state.productId ? ' checked' : '') + '>' +
         '<img src="' + esc(p.image[0]) + '" alt="" width="56" height="56">' +
         '<span><span class="c-name">' + esc(p.name) + '</span><br><span class="c-price">' + (p.price > 0 ? taka(p.price) : T('co.priceSoon')) +
         (p.oldPrice ? ' <s>' + taka(p.oldPrice) + '</s>' : '') + '</span></span></label>';
-    }).join('');
+    }).join('') + (C.products.length > choices.length
+      ? '<a class="c-more" href="home.html#products">' + esc(T('pp.all')) + ' →</a>' : '');
 
     // Districts
     var sel = form.elements.district;
@@ -388,7 +395,8 @@
       var p = product(state.productId);
       var subtotal = p.price * state.qty;
       var qd = C.qtyDiscount || {};
-      var discount = qd.percent > 0 && state.qty >= qd.minQty ? Math.round(subtotal * qd.percent / 100) : 0;
+      var applies = !qd.products || qd.products.indexOf(state.productId) > -1;   // belt only (config.js qtyDiscount.products)
+      var discount = applies && qd.percent > 0 && state.qty >= qd.minQty ? Math.round(subtotal * qd.percent / 100) : 0;
       var total = subtotal - discount;
       var advance = state.area === 'outside' ? Math.min(C.advanceOutsideDhaka, total) : 0;
       return { p: p, subtotal: subtotal, discount: discount, total: total, advance: advance, due: total - advance };

@@ -121,6 +121,17 @@
     var disc = qdOn && qty >= QD.minQty ? Math.round(sub * QD.percent / 100) : 0;
     return { sub: sub, disc: disc, total: sub - disc };
   }
+  /* Combo (belt + gel mask) from config.js shopProducts: a 4th card after the 1/2/3-piece cards */
+  var COMBO = (W.shopProducts || []).filter(function (p) { return p.combo && p.price > 0; })[0];
+  state.combo = false;
+  function comboCard() {
+    var save = COMBO.oldPrice > COMBO.price ? COMBO.oldPrice - COMBO.price : 0;
+    return '<label class="bopt bopt-combo" data-n="combo"><input type="radio" name="bundle" value="combo">' +
+      '<span class="bopt-q"><strong>' + esc(T('b.combo')) + '</strong><small>' + esc(save ? T('b.comboSub', { amt: money(save) }) : P(COMBO, 'blurb')) + '</small></span>' +
+      '<img class="bopt-img" src="' + esc(COMBO.image) + '" alt="" width="46" height="46">' +
+      '<span class="bopt-p"><strong>' + money(COMBO.price) + '</strong>' + (save ? '<s>' + money(COMBO.oldPrice) + '</s>' : '') + '</span></label>';
+  }
+
   /* Bundle cards (1 / 2 / 3 pieces). Crossed-out price = pieces × the real old price, same rule as the price row. */
   var bundles = (W.bundles && W.bundles.length ? W.bundles : [1, 2, 3]).filter(function (n) { return n >= 1 && n <= 10; });
   var bundleBox = $('[data-bundle]'), bundleList = $('[data-bundle-list]');
@@ -133,16 +144,22 @@
       return '<label class="bopt" data-n="' + n + '"><input type="radio" name="bundle" value="' + n + '"' + (n === state.qty ? ' checked' : '') + '>' +
         '<span class="bopt-q"><strong>' + esc(n === 1 ? T('b.qty1') : T('b.qtyN', { n: toBn(n) })) + '</strong>' + (sub ? '<small>' + esc(sub) + '</small>' : '') + '</span>' +
         '<span class="bopt-p"><strong>' + money(p.total) + '</strong>' + (was > p.total ? '<s>' + money(was) + '</s>' : '') + '</span></label>';
-    }).join('');
-    bundleList.addEventListener('change', function (e) { if (e.target.name === 'bundle') { state.qty = Number(e.target.value); renderQty(); } });
+    }).join('') + (COMBO ? comboCard() : '');
+    bundleList.addEventListener('change', function (e) {
+      if (e.target.name !== 'bundle') return;
+      state.combo = e.target.value === 'combo';
+      if (!state.combo) state.qty = Number(e.target.value);
+      renderQty();
+    });
   }
   function renderQty() {
-    $$('.bopt').forEach(function (l) { l.classList.toggle('on', Number(l.getAttribute('data-n')) === state.qty); });
+    var key = state.combo ? 'combo' : String(state.qty);
+    $$('.bopt').forEach(function (l) { l.classList.toggle('on', l.getAttribute('data-n') === key); });
     if (!(W.price > 0)) return;
-    var total = money(priceFor(state.qty).total);
+    var total = money(state.combo ? COMBO.price : priceFor(state.qty).total);
     $('[data-bundle-total]').textContent = total;
     $('[data-sb-total]').textContent = total;
-    $('[data-sb-items]').textContent = T('sb.items', { n: toBn(state.qty) });
+    $('[data-sb-items]').textContent = state.combo ? T('sb.combo') : T('sb.items', { n: toBn(state.qty) });
   }
   renderQty();
 
@@ -165,23 +182,27 @@
   }
   // Checkout handles one colour per order; colour IDs match config.js → CONFIG.products
   var COLOR_IDS = ['pink', 'white', 'lavender'];
-  function checkoutUrl(colorIndex, qty) {
+  function checkoutUrl(colorIndex, qty, combo) {
+    if (combo && COMBO) return 'checkout.html?product=' + encodeURIComponent(COMBO.id) + '&qty=' + qty;
     return 'checkout.html?product=pad-' + (COLOR_IDS[colorIndex] || COLOR_IDS[0]) + '&qty=' + qty;
   }
-  var current = function () { return { color: (colors[state.color] || {}).name || '', idx: state.color, qty: state.qty }; };
+  var current = function () {
+    if (state.combo) return { color: '', idx: -1, qty: 1, combo: true };
+    return { color: (colors[state.color] || {}).name || '', idx: state.color, qty: state.qty };
+  };
   $('[data-add]').addEventListener('click', function () {
-    var c = current(), hit = cart.filter(function (x) { return x.idx === c.idx; })[0];
+    var c = current(), hit = cart.filter(function (x) { return !!x.combo === !!c.combo && x.idx === c.idx; })[0];
     if (hit) hit.qty = Math.min(10, hit.qty + c.qty); else cart.push(c);
     store.set('wl-cart', JSON.stringify(cart)); renderCart();
-    if (window.fbq) fbq('track', 'AddToCart', { content_ids: ['pad-' + COLOR_IDS[c.idx]], value: W.price > 0 ? priceFor(c.qty).total : 0, currency: 'BDT' });
+    if (window.fbq) fbq('track', 'AddToCart', { content_ids: [c.combo ? COMBO.id : 'pad-' + COLOR_IDS[c.idx]], value: c.combo ? COMBO.price * c.qty : (W.price > 0 ? priceFor(c.qty).total : 0), currency: 'BDT' });
     toast(T('toast.added'));
   });
-  $$('[data-buy]').forEach(function (b) { b.addEventListener('click', function () { location.href = checkoutUrl(state.color, state.qty); }); });
+  $$('[data-buy]').forEach(function (b) { b.addEventListener('click', function () { location.href = checkoutUrl(state.color, state.combo ? 1 : state.qty, state.combo); }); });
   $('[data-cart]').addEventListener('click', function () {
     if (!cart.length) { toast(T('toast.empty')); return; }
     var last = cart[cart.length - 1];
     if (cart.length > 1) toast(T('toast.oneColor'));
-    setTimeout(function () { location.href = checkoutUrl(last.idx, last.qty); }, cart.length > 1 ? 900 : 0);
+    setTimeout(function () { location.href = checkoutUrl(last.idx, last.qty, last.combo); }, cart.length > 1 ? 900 : 0);
   });
   renderCart();
 
