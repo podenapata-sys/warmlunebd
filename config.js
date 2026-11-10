@@ -57,6 +57,7 @@ window.WL = {
       name: 'Anua Niacinamide 10% + TXA 4% ডার্ক স্পট সিরাম', name_en: 'Anua Niacinamide 10% + TXA 4% Dark Spot Serum',
       blurb: 'দাগ ও অসমান স্কিন টোন কম দেখাতে', blurb_en: 'For the look of dark spots & uneven tone',
       price: 2499, image: 'img/p-anua-serum.jpg',
+      images: ['img/p-anua-serum.jpg', 'img/p-anua-serum-2.jpg', 'img/p-anua-serum-3.jpg', 'img/p-anua-serum-4.jpg', 'img/p-anua-serum-5.jpg'],
       intro: 'হালকা টেক্সচারের এই সিরাম কালো দাগ, ব্রণের দাগ, পিগমেন্টেশন ও অসমান স্কিন টোন কম দেখাতে সাহায্য করে, আর ত্বককে আরও উজ্জ্বল দেখায়।',
       intro_en: 'A lightweight serum that helps reduce the appearance of dark spots, acne marks, hyperpigmentation and uneven skin tone while improving overall radiance.',
       benefits: [
@@ -84,6 +85,7 @@ window.WL = {
       name: 'Medicube PDRN পিংক পেপটাইড সিরাম', name_en: 'Medicube PDRN Pink Peptide Serum',
       blurb: 'হাইড্রেশন, উজ্জ্বলতা ও টানটান ভাব', blurb_en: 'Hydration, glow and firmness',
       price: 2300, image: 'img/p-medicube-pdrn-serum.jpg',
+      images: ['img/p-medicube-pdrn-serum.jpg', 'img/p-medicube-pdrn-serum-2.jpg', 'img/p-medicube-pdrn-serum-3.jpg', 'img/p-medicube-pdrn-serum-4.jpg'],
       intro: '1% PDRN, ৫-পেপটাইড কমপ্লেক্স ও নায়াসিনামাইড সমৃদ্ধ কোরিয়ান সিরাম। ত্বককে আর্দ্র রাখে, উজ্জ্বল দেখায় এবং সূক্ষ্ম রেখা, অসমান টোন ও নিস্তেজ ভাব কম দেখাতে সাহায্য করে।',
       intro_en: 'A Korean serum with 1% PDRN, a 5-peptide complex and niacinamide that hydrates, brightens and helps reduce the appearance of fine lines, uneven tone and dullness.',
       benefits: [
@@ -115,6 +117,7 @@ window.WL = {
       name: 'Medicube PDRN পিংক কোলাজেন ক্যাপসুল ক্রিম', name_en: 'Medicube PDRN Pink Collagen Capsule Cream',
       blurb: 'ক্যাপসুল + জেল ময়েশ্চারাইজার', blurb_en: 'Capsule + gel moisturiser',
       price: 2600, image: 'img/p-medicube-capsule-cream.jpg',
+      images: ['img/p-medicube-capsule-cream.jpg', 'img/p-medicube-capsule-cream-2.jpg', 'img/p-medicube-capsule-cream-3.jpg', 'img/p-medicube-capsule-cream-4.jpg'],
       intro: 'গোলাপি কোলাজেন ক্যাপসুল ও স্বচ্ছ জেলের ডুয়াল-টেক্সচার কোরিয়ান ময়েশ্চারাইজার। গভীর আর্দ্রতা দেয়, উজ্জ্বল দেখায় এবং শুষ্ক, নিস্তেজ ও অসমান দেখতে ত্বকের যত্ন নেয়।',
       intro_en: 'A dual-texture Korean moisturiser of pink collagen capsules and clear gel that deeply hydrates, brightens and cares for dry, dull, uneven-looking skin.',
       benefits: [
@@ -147,6 +150,7 @@ window.WL = {
       name: 'Medicube PDRN পিংক কোলাজেন জেল মাস্ক', name_en: 'Medicube PDRN Pink Collagen Gel Mask',
       blurb: '১টি হাইড্রোজেল শিট মাস্ক', blurb_en: '1 hydrogel sheet mask',
       price: 799, image: 'img/p-medicube-gel-mask.jpg',
+      images: ['img/p-medicube-gel-mask.jpg', 'img/p-medicube-gel-mask-2.jpg', 'img/p-medicube-gel-mask-3.jpg', 'img/p-medicube-gel-mask-4.jpg', 'img/p-medicube-gel-mask-5.jpg'],
       intro: 'Salmon PDRN, কোলাজেন, নায়াসিনামাইড ও পেপটাইড সমৃদ্ধ কোরিয়ান হাইড্রোজেল মাস্ক (১টি শিট)। ত্বককে গভীরভাবে আর্দ্র করে এবং টানটান ও উজ্জ্বল দেখাতে সাহায্য করে। ব্যবহারের সময় ধীরে ধীরে স্বচ্ছ হয়ে যায়।',
       intro_en: 'A Korean hydrogel mask (1 sheet) with salmon PDRN, collagen, niacinamide and peptides that deeply hydrates and helps skin look firmer and radiant. It turns clear as it works.',
       benefits: [
