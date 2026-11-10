@@ -20,7 +20,7 @@ window.WL = {
   bundles: [1, 2, 3],
   bundleDefault: 2,
 
-  // Products shown on the home page (home.html), in this order.
+  // Products shown on the home page (index.html), in this order.
   // To add a product: copy a block, change the details, put its photo in img/ and set url to its page.
   // usePagePrice: true shows the price set above (price / oldPrice) so the belt never shows two prices.
   catalog: [
@@ -28,7 +28,7 @@ window.WL = {
       id: 'belt',
       name: 'WarmLune™ Heating Belt', name_en: 'WarmLune™ Heating Belt',
       blurb: '৩–৬ সেকেন্ডে গরম · ৩টি হিট লেভেল · ৪টি ম্যাসাজ মোড', blurb_en: 'Warm in 3–6 s · 3 heat levels · 4 massage modes',
-      image: 'img/gallery-1.jpg', url: './',
+      image: 'img/gallery-1.jpg', url: 'heating-belt.html',
       usePagePrice: true,
       tag: 'নতুন', tag_en: 'New',
     },

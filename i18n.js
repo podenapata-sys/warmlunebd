@@ -104,7 +104,7 @@
     'pp.notFound': ['পণ্যটি পাওয়া যায়নি।', 'Product not found.'],
     'pp.all': ['সব পণ্য দেখুন', 'See all products'],
 
-    /* ---------- home page (home.html) ---------- */
+    /* ---------- home page (index.html) ---------- */
     'doc.home': ['Bakaina — প্রয়োজনীয় জিনিস, ঘরে বসেই', 'Bakaina — everyday essentials, delivered'],
     'nav.shop': ['সব পণ্য', 'All products'],
     'nav.how': ['কীভাবে অর্ডার করবেন', 'How to order'],

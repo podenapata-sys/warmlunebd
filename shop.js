@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Storefront logic for index.html, checkout.html and thank-you.html.
+   Storefront logic for heating-belt.html, checkout.html and thank-you.html.
    Page is chosen by <body data-page="...">. Settings live in config.js.
    ========================================================================== */
 (function () {
@@ -359,7 +359,7 @@
         '<span><span class="c-name">' + esc(p.name) + '</span><br><span class="c-price">' + (p.price > 0 ? taka(p.price) : T('co.priceSoon')) +
         (p.oldPrice ? ' <s>' + taka(p.oldPrice) + '</s>' : '') + '</span></span></label>';
     }).join('') + (C.products.length > choices.length
-      ? '<a class="c-more" href="home.html#products">' + esc(T('pp.all')) + ' →</a>' : '');
+      ? '<a class="c-more" href="./#products">' + esc(T('pp.all')) + ' →</a>' : '');
 
     // Districts
     var sel = form.elements.district;
