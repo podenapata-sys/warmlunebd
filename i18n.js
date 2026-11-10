@@ -16,7 +16,7 @@
 
   var D = {
     /* ---------- page titles ---------- */
-    'doc.product': ['Bakaina Cordless Heating & Massage Belt — তারবিহীন ও USB রিচার্জেবল হিটিং ম্যাসাজ বেল্ট', 'Bakaina Cordless Heating & Massage Belt — USB rechargeable'],
+    'doc.product': ['WarmLune™ Heating Belt — তারবিহীন ও USB রিচার্জেবল হিটিং ম্যাসাজ বেল্ট', 'WarmLune™ Heating Belt — USB rechargeable'],
     'doc.checkout': ['অর্ডার করুন | Bakaina', 'Checkout | Bakaina'],
     'doc.thanks': ['ধন্যবাদ! অর্ডার সম্পন্ন | Bakaina', 'Thank you! Order received | Bakaina'],
     'doc.delivery': ['ডেলিভারি পলিসি | Bakaina', 'Delivery policy | Bakaina'],
@@ -46,8 +46,8 @@
     'foot.privacy': ['প্রাইভেসি পলিসি', 'Privacy policy'],
 
     /* ---------- product block ---------- */
-    'p.title': ['<span class="title-main">Bakaina Cordless Heating &amp; Massage Belt</span><span class="title-sub">তারবিহীন ও USB রিচার্জেবল হিটিং ম্যাসাজ বেল্ট</span>', '<span class="title-main">Bakaina Cordless Heating &amp; Massage Belt</span><span class="title-sub">USB rechargeable · 3 heat levels · 4 massage modes</span>'],
-    'p.lead': ["পিরিয়ডের দিনগুলোতে পেট ও কোমরের ব্যথায় দ্রুত আরাম পেতে Bakaina Cordless Heating & Massage Belt তৈরি করা হয়েছে আধুনিক ফাস্ট-হিটিং প্রযুক্তিতে।", "Bakaina Cordless Heating & Massage Belt is built with modern fast-heating technology to bring quick, soothing comfort to your belly and lower back on period days."],
+    'p.title': ['<span class="title-main">WarmLune™ Heating Belt</span><span class="title-sub">তারবিহীন ও USB রিচার্জেবল হিটিং ম্যাসাজ বেল্ট</span>', '<span class="title-main">WarmLune™ Heating Belt</span><span class="title-sub">USB rechargeable · 3 heat levels · 4 massage modes</span>'],
+    'p.lead': ["পিরিয়ডের দিনগুলোতে পেট ও কোমরের ব্যথায় দ্রুত আরাম পেতে WarmLune™ Heating Belt তৈরি করা হয়েছে আধুনিক ফাস্ট-হিটিং প্রযুক্তিতে।", "WarmLune™ Heating Belt is built with modern fast-heating technology to bring quick, soothing comfort to your belly and lower back on period days."],
     'p.c1': ["<strong>দ্রুত হিটিং:</strong> অন করার মাত্র ৩–৬ সেকেন্ডের মধ্যে আরামদায়ক উষ্ণতা ছড়িয়ে দেয়, সর্বোচ্চ ৫২°C পর্যন্ত — তাপমাত্রা ডিসপ্লেতে দেখা যায়।", "<strong>Fast heating:</strong> soothing warmth within 3–6 seconds of switching on, up to 52°C, with the temperature shown on the display."],
     'p.c2': ["<strong>কাস্টমাইজড কন্ট্রোল:</strong> আপনার প্রয়োজন অনুযায়ী ৩টি হিট লেভেল এবং ৪টি ভাইব্রেশন ম্যাসাজ মোড।", "<strong>Custom control:</strong> 3 heat levels and 4 vibration massage modes to suit you."],
     'p.c3': ["<strong>তারবিহীন ও পোর্টেবল:</strong> সম্পূর্ণ তারবিহীন ও USB রিচার্জেবল — বাসায়, অফিসে বা ভ্রমণে যেকোনো সময় ব্যবহার করুন।", "<strong>Cordless &amp; portable:</strong> fully cordless and USB rechargeable — use it at home, at the office or while travelling."],

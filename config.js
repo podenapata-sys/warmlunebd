@@ -26,7 +26,7 @@ window.WL = {
   catalog: [
     {
       id: 'belt',
-      name: 'তারবিহীন হিটিং ও ম্যাসাজ বেল্ট', name_en: 'Cordless Heating & Massage Belt',
+      name: 'WarmLune™ Heating Belt', name_en: 'WarmLune™ Heating Belt',
       blurb: '৩–৬ সেকেন্ডে গরম · ৩টি হিট লেভেল · ৪টি ম্যাসাজ মোড', blurb_en: 'Warm in 3–6 s · 3 heat levels · 4 massage modes',
       image: 'img/gallery-1.jpg', url: './',
       usePagePrice: true,
@@ -47,7 +47,7 @@ window.WL = {
   shopProducts: [
     {
       id: 'combo-belt-mask', combo: true,
-      name: 'কম্বো: হিটিং ম্যাসাজ বেল্ট + Medicube জেল মাস্ক', name_en: 'Combo: Heating & Massage Belt + Medicube Gel Mask',
+      name: 'কম্বো: WarmLune™ Heating Belt + Medicube জেল মাস্ক', name_en: 'Combo: WarmLune™ Heating Belt + Medicube Gel Mask',
       blurb: 'বেল্ট + ১টি PDRN পিংক কোলাজেন জেল মাস্ক', blurb_en: 'Belt + 1 PDRN Pink Collagen Gel Mask',
       price: 1799, oldPrice: 1898,      // oldPrice = the two bought separately (৳1,099 + ৳799)
       image: 'img/p-combo-belt-mask.jpg', url: 'checkout.html?product=combo-belt-mask',
@@ -264,7 +264,7 @@ window.WL = {
     products: (W.colors || []).map(function (c, i) {
       return {
         id: 'pad-' + (ids[i] || i),
-        name: (lang === 'en' ? 'Bakaina Heating & Massage Belt — ' + (c.name_en || c.name) : 'Bakaina হিটিং ম্যাসাজ বেল্ট — ' + c.name),
+        name: (lang === 'en' ? 'WarmLune™ Heating Belt — ' + (c.name_en || c.name) : 'WarmLune™ Heating Belt — ' + c.name),
         price: Number(W.price) || 0, oldPrice: W.oldPrice || null,
         image: [(W.gallery && W.gallery[0] && W.gallery[0].src) || 'img/swatch-' + (ids[i] || i) + '.svg'],
         short: '', features: [], color: c.hex,

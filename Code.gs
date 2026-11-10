@@ -28,7 +28,7 @@ const PRICE = 1099;   // ৳ per belt. Keep in sync with config.js (price).
 // Every product the checkout can sell. Prices must match config.js (price / shopProducts).
 // supplier: who ships it, shown in the sheet and alerts so you know where to place the order.
 const PRODUCTS = {
-  'pad-pink':               { name: 'Bakaina হিটিং ম্যাসাজ বেল্ট — পিংক', price: PRICE },
+  'pad-pink':               { name: 'WarmLune™ Heating Belt — পিংক', price: PRICE },
   'combo-belt-mask':        { name: 'কম্বো: হিটিং ম্যাসাজ বেল্ট + Medicube জেল মাস্ক', price: 1799 },
   'anua-serum':             { name: 'Anua Niacinamide 10% + TXA 4% সিরাম 30ml', price: 2499, supplier: 'Zatiq' },
   'medicube-pdrn-serum':    { name: 'Medicube PDRN পিংক পেপটাইড সিরাম 30ml', price: 2300, supplier: 'Zatiq' },
