@@ -635,3 +635,7 @@ body.admin .stat, body.admin .filters, body.admin .act, body.admin .orders tr, .
 /* Checkout: link to the full catalogue under the product choices */
 .choice .c-more { display: inline-block; margin-top: 4px; font-size: .9rem; font-weight: 600; color: var(--accent-text, #C95A00); text-decoration: none; }
 .choice .c-more:hover { text-decoration: underline; }
+
+/* Order failed: one-tap WhatsApp order with all details */
+.form-error .btn-wa { display: inline-flex; align-items: center; justify-content: center; margin-top: 10px; padding: 12px 18px; border-radius: 999px; background: #25D366; color: #fff; font-weight: 700; text-decoration: none; }
+.form-error .btn-wa:hover { background: #1EBE5A; }

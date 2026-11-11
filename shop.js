@@ -555,6 +555,16 @@
           var real = err && err.name !== 'AbortError' && err.message && !/fetch|network|JSON/i.test(err.message);
           // Server messages are written in Bangla; in English mode show an English explanation instead
           showError(!real ? T('co.network') : (L.lang === 'en' && /[\u0980-\u09FF]/.test(err.message) ? T('co.serverErr') : err.message));
+          // Never lose the customer: one tap sends the whole order to our WhatsApp
+          var waMsg = T('co.waOrder', {
+            product: t.p.name, qty: toBn(payload.qty), total: taka(t.total), name: payload.name, phone: payload.phone,
+            area: payload.area === 'outside' ? payload.district : T('co.inside'), address: payload.address,
+            note: payload.note ? '\n' + payload.note : '' });
+          var wa = document.createElement('a');
+          wa.className = 'btn btn-wa'; wa.href = waLink(waMsg); wa.target = '_blank'; wa.rel = 'noopener';
+          wa.textContent = T('co.waBtn');
+          $('[data-form-error]').appendChild(document.createElement('br'));
+          $('[data-form-error]').appendChild(wa);
         });
     });
 
