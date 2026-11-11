@@ -200,7 +200,7 @@ window.WL = {
     { id: 'rocket', name: 'রকেট',   name_en: 'Rocket', number: '016329322490' },
   ],
   advanceOutsideDhaka: 200,
-  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbwECdKABZwsqdkjTPgLuVbn7hCmg1K3-ne26MZoL9N5VAi39ByAcxBOSzdJGb4XzD8jvA/exec',                // Web App URL from Code.gs deployment (…/exec)
+  appsScriptUrl: 'https://script.google.com/macros/s/AKfycbzE2BSASzT0BJ11xYvWOZPx04jM9WO4nopnW213HCL7ssIkY_OZy04m56XskJHETrKd/exec',                // Web App URL from Code.gs deployment (…/exec)
   pixelId: '1460286499445516',                      // Meta Pixel ID
   siteUrl: 'https://bakaina.com',
   // Short version; the full terms are in refund.html
