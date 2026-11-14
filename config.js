@@ -18,7 +18,7 @@ window.WL = {
   qtyDiscount: { minQty: 2, percent: 10, products: ['pad-pink'] },
   // Bundle cards on the product page (pieces per card) and which one starts selected
   bundles: [1, 2, 3],
-  bundleDefault: 2,
+  bundleDefault: 1,   // matches the ৳১,০৯৯ in the ads; 2–3 pieces stay one tap away
 
   // Products shown on the home page (index.html), in this order.
   // To add a product: copy a block, change the details, put its photo in img/ and set url to its page.
