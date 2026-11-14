@@ -42,7 +42,7 @@ function discountFor_(subtotal, qty, productId) {
   const applies = QTY_DISCOUNT.products.indexOf(String(productId)) > -1;
   return applies && QTY_DISCOUNT.percent > 0 && qty >= QTY_DISCOUNT.minQty ? Math.round(subtotal * QTY_DISCOUNT.percent / 100) : 0;
 }
-const ADVANCE_OUTSIDE_DHAKA = 200;
+const ADVANCE_OUTSIDE_DHAKA = 0;   // ৳; 0 = full cash on delivery everywhere. Keep in sync with config.js
 // Wallets accepted for the outside-Dhaka advance — must match config.js payMethods
 const PAY_METHODS = { bkash: 'বিকাশ', nagad: 'নগদ', upay: 'উপায়', rocket: 'রকেট' };   // ৳ — must match config.js advanceOutsideDhaka
 const MAX_QTY = 10;
@@ -141,10 +141,12 @@ function createOrder_(b) {
   if (area === 'outside') {
     district = clean_(b.district, 40);
     if (DISTRICTS.indexOf(district) === -1) throw userError_('সঠিক জেলা নির্বাচন করুন।');
-    trxId = toEnDigits_(String(b.trxId || '')).trim().toUpperCase();
-    if (!/^[A-Z0-9]{8,12}$/.test(trxId)) throw userError_('সঠিক ট্রানজেকশন আইডি দিন।');
-    payMethod = String(b.payMethod || '');
-    if (!PAY_METHODS[payMethod]) throw userError_('কোন মাধ্যমে টাকা পাঠিয়েছেন (বিকাশ/নগদ/উপায়/রকেট) বেছে নিন।');
+    if (ADVANCE_OUTSIDE_DHAKA > 0) {   // advance payment only when it is switched on
+      trxId = toEnDigits_(String(b.trxId || '')).trim().toUpperCase();
+      if (!/^[A-Z0-9]{8,12}$/.test(trxId)) throw userError_('সঠিক ট্রানজেকশন আইডি দিন।');
+      payMethod = String(b.payMethod || '');
+      if (!PAY_METHODS[payMethod]) throw userError_('কোন মাধ্যমে টাকা পাঠিয়েছেন (বিকাশ/নগদ/উপায়/রকেট) বেছে নিন।');
+    }
   }
 
   const address = clean_(b.address, 300);

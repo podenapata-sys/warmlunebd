@@ -408,14 +408,15 @@
       $('[data-qty-minus]').disabled = state.qty <= 1;
       $('[data-qty-plus]').disabled = state.qty >= C.maxQty;
       var outside = state.area === 'outside';
+      var adv = outside && C.advanceOutsideDhaka > 0;   // bKash advance only when switched on in config.js
       $('[data-district-field]').hidden = !outside;
-      $('[data-bkash-box]').hidden = !outside;
-      $('[data-trx-field]').hidden = !outside;
-      $('[data-pay-field]').hidden = !outside;
-      $('[data-cod-box]').hidden = state.area !== 'inside';
+      $('[data-bkash-box]').hidden = !adv;
+      $('[data-trx-field]').hidden = !adv;
+      $('[data-pay-field]').hidden = !adv;
+      $('[data-cod-box]').hidden = !state.area || adv;
       $('[data-payment-hint]').hidden = !!state.area;
       sel.required = outside;
-      form.elements.trxId.required = outside;
+      form.elements.trxId.required = adv;
 
       $('[data-summary]').innerHTML =
         '<div class="summary-item"><img src="' + esc(t.p.image[0]) + '" alt="" width="64" height="64"><div><strong>' + esc(t.p.name) + '</strong><br>' +
@@ -458,8 +459,10 @@
       ok = setError('area', !state.area) && ok;
       if (state.area === 'outside') {
         ok = setError('district', !el.district.value) && ok;
-        ok = setError('payMethod', !form.querySelector('input[name=payMethod]:checked')) && ok;
-        ok = setError('trxId', !/^[A-Z0-9]{8,12}$/.test(toEn(el.trxId.value).trim().toUpperCase())) && ok;
+        if (C.advanceOutsideDhaka > 0) {
+          ok = setError('payMethod', !form.querySelector('input[name=payMethod]:checked')) && ok;
+          ok = setError('trxId', !/^[A-Z0-9]{8,12}$/.test(toEn(el.trxId.value).trim().toUpperCase())) && ok;
+        }
       }
       ok = setError('address', el.address.value.trim().length < 10) && ok;
       if (!ok) {
@@ -529,8 +532,8 @@
         area: state.area,
         district: state.area === 'outside' ? el.district.value : 'ঢাকা (সিটি)',
         address: el.address.value.trim(),
-        trxId: state.area === 'outside' ? toEn(el.trxId.value).trim().toUpperCase() : '',
-        payMethod: state.area === 'outside' ? ((form.querySelector('input[name=payMethod]:checked') || {}).value || '') : '',
+        trxId: state.area === 'outside' && C.advanceOutsideDhaka > 0 ? toEn(el.trxId.value).trim().toUpperCase() : '',
+        payMethod: state.area === 'outside' && C.advanceOutsideDhaka > 0 ? ((form.querySelector('input[name=payMethod]:checked') || {}).value || '') : '',
         note: el.note.value.trim(),
       };
 

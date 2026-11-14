@@ -199,7 +199,7 @@ window.WL = {
     { id: 'upay',   name: 'উপায়',  name_en: 'Upay' },
     { id: 'rocket', name: 'রকেট',   name_en: 'Rocket', number: '016329322490' },
   ],
-  advanceOutsideDhaka: 200,
+  advanceOutsideDhaka: 0,   // 0 = full cash on delivery everywhere (no bKash advance)
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbzE2BSASzT0BJ11xYvWOZPx04jM9WO4nopnW213HCL7ssIkY_OZy04m56XskJHETrKd/exec',                // Web App URL from Code.gs deployment (…/exec)
   pixelId: '1460286499445516',                      // Meta Pixel ID
   siteUrl: 'https://bakaina.com',
