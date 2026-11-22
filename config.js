@@ -248,6 +248,61 @@ window.WL = {
     { name: 'Mim C.', rating: 5, text: "Travel করার সময় সাথে নিয়ে গিয়েছিলাম। Size ছোট, carry করা easy. Heat আর massage দুটো feature একসাথে থাকাটা বেশ ভালো লেগেছে।" },
     { name: 'Jannatul F.', rating: 5, text: "Period days এ একটু comfort পাওয়ার জন্য কিনেছিলাম। Use করা easy, heat settings গুলোও ভালো। Rechargeable হওয়ায় বারবার plug লাগাতে হয় না।" },
   ],
+
+  /* ------------------------------------------------------------------------
+     Store homepage (index.html) and product listing (products.html)
+     Everything on the homepage comes from here. Products come from the belt
+     settings above + shopProducts; `products` below only adds category & tags.
+     ------------------------------------------------------------------------ */
+  store: {
+    tagline: 'Global products, trusted quality. Trending products delivered across Bangladesh.',
+
+    // Hero slider. type 'image' = a full banner photo; 'navy' / 'peach' = text slides.
+    slides: [
+      { type: 'image', image: 'img/showcase-poster.jpg', alt: 'A woman relaxing on a sofa wearing the WarmLune Heating Belt', url: 'heating-belt.html' },
+      { type: 'navy', label: 'NEW ARRIVALS', title: "This week's trending K-beauty", text: 'Anua and Medicube, delivered across Bangladesh.', button: 'Shop Now', url: 'products.html?cat=skincare' },
+      { type: 'peach', label: 'CASH ON DELIVERY', title: 'Order now, pay when it arrives', text: 'Delivery all over Bangladesh. Check your product before you pay.', button: 'Shop Now', url: 'products.html' },
+    ],
+    // Two banners beside the slider (stacked under it on phones)
+    sideBanners: [
+      { title: 'K-Beauty Skincare', text: 'Anua & Medicube serums, cream and masks.', button: 'Shop skincare', url: 'products.html?cat=skincare', tone: 'pink' },
+      { title: 'WarmLune™ Heating Belt', text: 'Cordless warmth & massage, ৳1,099.', button: 'Shop now', url: 'heating-belt.html', tone: 'blue' },
+    ],
+
+    // Category tiles. icon: skincare | bodycare | haircare | appliance | household
+    categories: [
+      { id: 'skincare',  name: 'Skincare',             icon: 'skincare',  tone: 'peach' },
+      { id: 'bodycare',  name: 'Bodycare',             icon: 'bodycare',  tone: 'blue' },
+      { id: 'haircare',  name: 'Haircare',             icon: 'haircare',  tone: 'pink' },
+      { id: 'appliance', name: 'Home Appliances',      icon: 'appliance', tone: 'mint' },
+      { id: 'household', name: 'Household Essentials', icon: 'household', tone: 'yellow' },
+    ],
+    // One homepage section per category below; a section with no products is hidden
+    collections: [
+      { category: 'haircare', title: 'Viral Hair Care', subtitle: 'Massive demand right now' },
+      { category: 'bodycare', title: 'Body Care & Comfort', subtitle: 'Stay warm and comfortable all winter' },
+      { category: 'skincare', title: 'Trending K-Beauty Skincare', subtitle: 'Korean favourites everyone is searching for' },
+    ],
+
+    // Category and tags for each product (id = shopProducts id, or 'belt').
+    // tags: trending (Trending Products, max 4) · special / new / bestseller (the three tabs).
+    // ⚠ Only tag 'bestseller' once a product has really sold the most — that tab stays hidden until then.
+    products: {
+      'belt':                   { category: 'bodycare', tags: ['trending', 'special'] },
+      'combo-belt-mask':        { category: 'bodycare', tags: ['trending', 'special'] },
+      'anua-serum':             { category: 'skincare', tags: ['trending', 'new'] },
+      'medicube-gel-mask':      { category: 'skincare', tags: ['trending', 'new'] },
+      'medicube-pdrn-serum':    { category: 'skincare', tags: ['new'] },
+      'medicube-capsule-cream': { category: 'skincare', tags: ['new'] },
+    },
+
+    // Promo strip. {max} becomes the biggest real discount on the site (from the crossed-out prices).
+    promo: { label: 'LIMITED TIME OFFER', title: 'Up to {max}% Off Trending Deals', text: 'WarmLune™ Heating Belt and the Belt + Gel Mask combo. While stocks last.', button: 'Shop the Sale', url: 'products.html?sale=1' },
+
+    // Footer. Social links without a URL are hidden; payment pills: list only what you really accept.
+    social: { facebook: '', instagram: '', youtube: '', tiktok: '' },
+    payments: ['Cash on Delivery'],
+  },
 };
 
 /* ==========================================================================

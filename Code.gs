@@ -11,6 +11,7 @@
  *    saveDraft     public       — checkout details typed but not yet ordered (abandoned cart)
  *    getAbandoned  token        — abandoned checkouts of the last 30 days, newest first
  *    updateDraft   token        — sets the follow-up status of one abandoned checkout
+ *    subscribe     public       — newsletter sign-up from the store footer (Subscribers sheet)
  *
  *  Script Properties (Project Settings → Script properties):
  *    ADMIN_PASSWORD      required  admin dashboard password
@@ -94,6 +95,7 @@ function doPost(e) {
       case 'saveDraft':        return json_(saveDraft_(body));
       case 'getAbandoned':     requireToken_(body); return json_(getAbandoned_());
       case 'updateDraft':      requireToken_(body); return json_(updateDraft_(body));
+      case 'subscribe':        return json_(subscribe_(body));
       case 'logout':       CacheService.getScriptCache().remove('tok_' + body.token); return json_({ ok: true });
       default:             return json_({ ok: false, error: 'Unknown action' });
     }
@@ -416,6 +418,45 @@ function getDraftSheet_() {
 }
 
 /* ==========================================================================
+   Newsletter sign-ups (store footer) — one row per email, duplicates ignored
+   ========================================================================== */
+const SUB_SHEET = 'Subscribers';
+const SUB_HEADERS = ['email', 'createdAt'];
+
+function subscribe_(b) {
+  if (b.website) return { ok: true };                                  // bot: pretend success
+  const email = String(b.email || '').trim().toLowerCase().slice(0, 120);
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) throw userError_('Please enter a valid email address.');
+  const cache = CacheService.getScriptCache();
+  const hourKey = 'sub_' + Utilities.formatDate(new Date(), TZ, 'yyMMddHH');
+  const perHour = Number(cache.get(hourKey) || 0);
+  if (perHour >= 200) return { ok: true, throttled: true };            // spam guard
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(10000)) throw userError_('Server busy, please try again.');
+  try {
+    const sheet = getSubscriberSheet_();
+    if (findIn_(sheet, SUB_HEADERS, 'email', email)) return { ok: true, already: true };
+    sheet.appendRow([email, now_()].map(safeCell_));
+    cache.put(hourKey, String(perHour + 1), 3600);
+    return { ok: true };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function getSubscriberSheet_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(SUB_SHEET);
+  if (!sheet) {
+    sheet = ss.insertSheet(SUB_SHEET);
+    sheet.getRange(1, 1, 1, SUB_HEADERS.length).setValues([SUB_HEADERS]).setFontWeight('bold');
+    sheet.setFrozenRows(1);
+    sheet.getRange(1, 1, sheet.getMaxRows(), SUB_HEADERS.length).setNumberFormat('@');
+  }
+  return sheet;
+}
+
+/* ==========================================================================
    Alerts: Telegram + email (Bangla)
    ========================================================================== */
 
@@ -667,6 +708,7 @@ function setup() {
   getSheet_();
   getReviewSheet_();
   getDraftSheet_();
+  getSubscriberSheet_();
   const props = PropertiesService.getScriptProperties();
   if (!props.getProperty('ADMIN_PASSWORD')) console.warn('⚠ Set ADMIN_PASSWORD in Script Properties before using admin.html');
   // Touch the services so the authorization prompt covers them
