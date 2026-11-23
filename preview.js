@@ -95,8 +95,11 @@
       '<div class="pc-body">' + '<span class="pc-brand">' + (p.brand ? esc(p.brand) : '&nbsp;') + '</span>' +
         '<h3 class="pc-name"><a href="' + esc(p.url) + '"' + pid + '>' + esc(p.name) + '</a></h3>' + rate +
         '<div class="pc-price">' + (p.sample ? '<span class="na">Your price</span>' : '<strong>' + money(p.price) + '</strong>' + (p.off ? '<s><span class="sr-only">was </span>' + money(p.oldPrice) + '</s>' : '')) + '</div></div>' +
-      '<div class="pc-foot"><button class="pc-add" type="button"' + (p.sample ? ' disabled aria-label="Sample product, not for sale"' : ' data-add="' + esc(p.id) + '"') + '>' + icon('cart') + (p.sample ? 'Sample' : 'Add to Cart') + '</button>' +
-        (p.sample ? '' : '<button class="pc-heart" type="button" data-heart="' + esc(p.id) + '" aria-pressed="' + saved + '" aria-label="Save ' + esc(p.name) + ' to wishlist">' + icon('heart') + '</button>') + '</div></article>';
+      (p.sample
+        ? '<div class="pc-foot"><button class="pc-add" type="button" disabled aria-label="Sample product, not for sale">' + icon('cart') + 'Sample</button></div>'
+        : '<div class="pc-foot pc-foot-2"><button class="pc-add" type="button" data-add="' + esc(p.id) + '" aria-label="Add ' + esc(p.name) + ' to cart">' + icon('cart') + '<span class="l-long">Add to Cart</span><span class="l-short">Add</span></button>' +
+          '<a class="pc-buy" href="checkout.html?product=' + encodeURIComponent(p.checkoutId) + '&amp;qty=1" data-pid="' + esc(p.id) + '" aria-label="Buy ' + esc(p.name) + ' now">Buy Now</a></div>' +
+          '<button class="pc-heart" type="button" data-heart="' + esc(p.id) + '" aria-pressed="' + saved + '" aria-label="Save ' + esc(p.name) + ' to wishlist">' + icon('heart') + '</button>') + '</article>';
   }
   function carousel(id, items, cls) {
     return '<div class="car"><div class="car-track ' + (cls || '') + '" id="' + id + '" tabindex="0" aria-label="Scrollable list">' + items + '</div>' +
