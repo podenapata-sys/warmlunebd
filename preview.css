@@ -381,3 +381,26 @@ button { background: none; border: 0; padding: 0; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) {
   .pc:hover .pc-img img { transform: none !important; }
 }
+
+/* ---------- Hover animations: header icons + side banners (mouse only) ---------- */
+.hbtn .icon, .cart-sq .icon { transition: transform .3s ease, color .2s ease; }
+.cart-sq { transition: background-color .2s ease, transform .2s ease; }
+.side { position: relative; overflow: hidden; transition: box-shadow .3s ease, transform .3s ease; }
+.side img { transition: transform .6s ease; }
+.side::before { content: ''; position: absolute; top: 0; left: -75%; z-index: 1; width: 50%; height: 100%; pointer-events: none;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 100%); transform: skewX(-25deg); }
+.side .link-u::after { content: ''; position: absolute; inset: 0; z-index: 2; }
+@media (hover: hover) and (pointer: fine) {
+  .hbtn:hover .icon { transform: translateY(-3px); }
+  .cart-sq:hover { transform: translateY(-2px); }
+  .cart-sq:hover .icon { transform: scale(1.12); }
+  .side:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(16, 24, 40, .14); }
+  .side:hover img { transform: scale(1.05); }
+  .side:hover::before { animation: side-shine .85s ease; }
+  .side:hover .link-u { color: var(--brand); }
+}
+@keyframes side-shine { 100% { left: 125%; } }
+@media (prefers-reduced-motion: reduce) {
+  .side:hover, .side:hover img, .hbtn:hover .icon, .cart-sq:hover, .cart-sq:hover .icon { transform: none !important; }
+  .side:hover::before { animation: none; }
+}
