@@ -167,7 +167,7 @@
       '<div class="hdr-main">' +
         '<button class="hbtn m-only" type="button" data-open="nav" aria-label="Menu" aria-controls="d-nav">' + icon('menu') + '</button>' +
         '<a class="logo" href="preview.html" aria-label="Bakaina home"><img src="img/logo-mark.png" alt="" width="34" height="34">' + esc(W.brand || 'Bakaina') + '</a>' +
-        '<div class="d-only" style="flex:1;max-width:640px">' + searchForm('qd') + '</div>' +
+        '<div class="d-only" style="flex:1;max-width:820px">' + searchForm('qd') + '</div>' +
         '<div class="tools">' +
           '<a class="hbtn d-only" href="products.html?view=account">' + icon('user') + 'Account</a>' +
           '<a class="hbtn" href="products.html?view=wishlist" aria-label="Wishlist">' + icon('heart') + '<span class="d-only">Wishlist</span><span class="hbadge" data-wish-n hidden></span></a>' +
