@@ -466,3 +466,31 @@ body.mc-dimmed::after { content: ''; position: fixed; inset: 0; z-index: 35; bac
   .cp-prod { grid-column: auto; }
   .cp-lbl { display: none; }
 }
+
+/* ---------- Premium hover: smooth colour changes on every link, button and tab ---------- */
+a, button, .tab, .navlink, .pc-name a, .mvc h3 a { transition: color .3s ease, background-color .3s ease, border-color .3s ease, box-shadow .3s ease, transform .3s ease, text-decoration-color .3s ease; }
+.ctile, .brand-tile, .pc, .post, .mvc, .fcat-side li a { transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease, color .3s ease; }
+/* underline that grows from the left (navbar, top bar) */
+.navlink, .topbar a { position: relative; }
+.navlink::after, .topbar a::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 9px; height: 2px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .35s ease; }
+.topbar a::after { left: 8px; right: 8px; bottom: 7px; height: 1px; }
+/* soft colour links: underline fades in instead of snapping */
+.pc-name a, .mega li a, .ftr li a, .crumb a, .post h3, .mvc h3 a, .mc-name { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .navlink:hover::after, .topbar a:hover::after { transform: scaleX(1); }
+  .pc-name a:hover, .mega li a:hover, .ftr li a:hover, .crumb a:hover, .mvc h3 a:hover, .mc-name:hover { color: var(--brand); text-decoration-color: currentColor; }
+  .post:hover h3 { color: var(--brand); text-decoration-color: currentColor; }
+  .ftr li a:hover, .mega li a:hover { transform: translateX(4px); }
+  .pc:hover { box-shadow: var(--shadow-up); transform: translateY(-3px); }
+  .ctile:hover, .brand-tile:hover, .post:hover { transform: translateY(-4px); }
+  .ctile:hover .cimg { transform: scale(1.06); }
+  .mvc:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0, 0, 0, .25); }
+  .fcat-side li a:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .btn:hover, .pc-buy:hover, .pc-foot-2 .pc-add:hover, .navbtn:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(16, 24, 40, .16); }
+  .tab:hover { background: rgba(0, 0, 0, .04); }
+}
+.ctile .cimg { transition: transform .35s ease; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+.car-track { padding-top: 8px; margin-top: -6px; }
