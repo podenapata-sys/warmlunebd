@@ -18,7 +18,7 @@
   var P = {
     search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>', user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
     heart: '<path d="M12 20s-7-4.4-9.2-9A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5C19 15.6 12 20 12 20Z"/>', cart: '<path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
-    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>', close: '<path d="M6 6l12 12M18 6 6 18"/>', grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
+    menu: '<path d="M4 7h16M4 12h16M4 17h16"/>', trash: '<path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13M10 11v5M14 11v5"/>', close: '<path d="M6 6l12 12M18 6 6 18"/>', grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
     left: '<path d="m15 5-7 7 7 7"/>', right: '<path d="m9 5 7 7-7 7"/>', up: '<path d="m5 15 7-7 7 7"/>', down: '<path d="m5 9 7 7 7-7"/>', arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
     phone: '<path d="M5 4h3l1.5 4-2 1.3a11 11 0 0 0 5.2 5.2L14 12.5l4 1.5v3a2 2 0 0 1-2 2A14 14 0 0 1 3 6a2 2 0 0 1 2-2Z"/>', mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
     chat: '<path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/>', truck: '<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',
@@ -75,6 +75,47 @@
     $$('[data-cart-n]').forEach(function (b) { b.textContent = n; b.hidden = !n; });
     $$('[data-cart-sum]').forEach(function (b) { b.textContent = n + ' item' + (n === 1 ? '' : 's') + ' – ' + money(total()); });
     $$('[data-wish-n]').forEach(function (b) { b.textContent = wish.length; b.hidden = !wish.length; });
+    if ($('[data-mini]')) renderMini();
+    if ($('[data-cart-page]')) renderCartPage();
+  }
+  var VIEW = new URLSearchParams(location.search).get('view');
+  function checkoutHref() { var only = cart.length === 1 ? byId(cart[0].id) : null; return only ? 'checkout.html?product=' + encodeURIComponent(only.checkoutId) + '&qty=' + cart[0].qty : 'preview.html?view=cart'; }
+  function cartWa() {
+    var lines = cart.map(function (x) { var p = byId(x.id); return '• ' + p.name + ' × ' + x.qty + ' = ' + money(p.price * x.qty); });
+    return wa('আসসালামু আলাইকুম, আমি এগুলো অর্ডার করতে চাই:\n' + lines.join('\n') + '\nমোট: ' + money(total()) + '\nনাম:\nমোবাইল:\nঠিকানা:');
+  }
+  function thumb(p) { return p.image ? '<img src="' + esc(p.image) + '" alt="" width="64" height="64">' : '<span class="ph t-grey">' + icon('box') + '</span>'; }
+  // Header dropdown (desktop): opens on hover, and by itself after Add to Cart
+  function renderMini() {
+    var m = $('[data-mini]');
+    if (!cart.length) { m.innerHTML = '<p class="mc-empty">' + icon('cart') + 'Your cart is empty.</p>'; return; }
+    m.innerHTML = '<ul class="mc-list">' + cart.map(function (x) {
+      var p = byId(x.id);
+      return '<li>' + thumb(p) + '<a class="mc-name" href="' + esc(p.url) + '">' + esc(p.name) + '</a><span class="mc-q">× ' + x.qty + '</span><strong>' + money(p.price * x.qty) + '</strong>' +
+        '<button class="mc-del" type="button" data-remove="' + esc(p.id) + '" aria-label="Remove ' + esc(p.name) + '">' + icon('trash') + '</button></li>';
+    }).join('') + '</ul>' +
+      '<div class="mc-tot"><span>Total</span><strong>' + money(total()) + '</strong></div><p class="mc-note">Cash on delivery. Delivery charge, if any, is shown at checkout.</p>' +
+      '<div class="mc-btns"><a class="btn btn-outline" href="preview.html?view=cart">View Cart</a><a class="btn btn-brand" href="' + esc(checkoutHref()) + '">Checkout</a></div>';
+  }
+  // Full cart page: preview.html?view=cart
+  function renderCartPage() {
+    var el = $('[data-cart-page]');
+    if (!cart.length) { el.innerHTML = '<div class="cp-empty">' + icon('cart') + '<p>Your cart is empty.</p><a class="btn btn-brand" href="preview.html">Continue shopping</a></div>'; return; }
+    var multi = cart.length > 1;
+    el.innerHTML = '<div class="cp-grid"><div class="cp-items"><div class="cp-row cp-head" aria-hidden="true"><span>Product</span><span>Price</span><span>Quantity</span><span>Total</span><span></span></div>' +
+      cart.map(function (x) {
+        var p = byId(x.id);
+        return '<div class="cp-row"><div class="cp-prod">' + thumb(p) + '<div><a href="' + esc(p.url) + '">' + esc(p.name) + '</a>' +
+          (multi ? '<a class="link-u" href="checkout.html?product=' + encodeURIComponent(p.checkoutId) + '&amp;qty=' + x.qty + '">Order this item</a>' : '') + '</div></div>' +
+          '<span class="cp-price"><span class="cp-lbl">Price</span>' + money(p.price) + '</span>' +
+          '<div class="qty" role="group" aria-label="Quantity of ' + esc(p.name) + '"><button type="button" data-qty="' + esc(p.id) + '" data-d="-1" aria-label="One less"' + (x.qty <= 1 ? ' disabled' : '') + '>−</button><span aria-live="polite">' + x.qty + '</span><button type="button" data-qty="' + esc(p.id) + '" data-d="1" aria-label="One more"' + (x.qty >= 10 ? ' disabled' : '') + '>+</button></div>' +
+          '<strong class="cp-sub"><span class="cp-lbl">Total</span>' + money(p.price * x.qty) + '</strong>' +
+          '<button class="round-hit" type="button" data-remove="' + esc(p.id) + '" aria-label="Remove ' + esc(p.name) + '">' + icon('trash') + '</button></div>';
+      }).join('') + '</div>' +
+      '<aside class="cp-sum"><h2>Order summary</h2><div class="mc-tot"><span>Total</span><strong>' + money(total()) + '</strong></div><p class="mc-note">Cash on delivery. Delivery charge, if any, is shown at checkout.</p>' +
+      (multi ? '<p class="mc-note">Checkout takes one product at a time. Order each item with “Order this item”, or send the whole cart on WhatsApp.</p>' : '<a class="btn btn-brand" href="' + esc(checkoutHref()) + '">Checkout</a>') +
+      '<a class="btn ' + (multi ? 'btn-brand' : 'btn-outline') + '" href="' + cartWa() + '" target="_blank" rel="noopener">' + icon('chat') + 'Order on WhatsApp</a>' +
+      '<a class="link-u" href="preview.html">← Continue shopping</a></aside></div>';
   }
 
   /* ---------- Cards ---------- */
@@ -130,8 +171,10 @@
         '<div class="tools">' +
           '<a class="hbtn d-only" href="products.html?view=account">' + icon('user') + 'Account</a>' +
           '<a class="hbtn" href="products.html?view=wishlist" aria-label="Wishlist">' + icon('heart') + '<span class="d-only">Wishlist</span><span class="hbadge" data-wish-n hidden></span></a>' +
-          '<span class="cart-sum" data-cart-sum>0 items – ৳0</span>' +
-          '<button class="cart-sq d-only" type="button" data-open="cart" aria-label="Open cart">' + icon('cart') + '<span class="hbadge" data-cart-n hidden></span></button>' +
+          '<div class="mc-wrap d-only" data-mc>' +
+            '<a class="cart-sum" href="preview.html?view=cart" data-cart-sum>0 items – ৳0</a>' +
+            '<a class="cart-sq" href="preview.html?view=cart" aria-label="View cart" aria-controls="mini-cart">' + icon('cart') + '<span class="hbadge" data-cart-n hidden></span></a>' +
+            '<div class="mini-cart" id="mini-cart" data-mini></div></div>' +
           '<button class="hbtn m-only" type="button" data-open="cart" aria-label="Open cart">' + icon('cart') + '<span class="hbadge" data-cart-n hidden></span></button>' +
         '</div></div>' +
       '<div class="search-m">' + searchForm('qm') + '</div></div>' +
@@ -283,6 +326,7 @@
 
   /* ---------- Render ---------- */
   $('[data-header]').outerHTML = header + drawers;
+  if (VIEW === 'cart') { main = '<section class="sec cp"><div class="wrap"><p class="crumb"><a href="preview.html">Home</a> / Shopping cart</p><h1>Shopping cart</h1><div data-cart-page></div></div></section>'; document.title = 'Shopping cart – ' + (W.brand || 'Bakaina'); }
   $('#main').innerHTML = main;
   $('[data-footer]').outerHTML = footer;
   counts();
@@ -319,13 +363,14 @@
 
   document.addEventListener('click', function (e) {
     var pl = e.target.closest('a[data-pid]'); if (pl) remember(pl.getAttribute('data-pid'));
-    var t = e.target.closest('[data-add],[data-heart],[data-open],[data-close],[data-scrim],[data-remove],[data-car],[data-mega],[data-acc],[data-ctab],[data-ftab],[data-btab],[data-mtab],[data-sl],[data-dot]');
+    var t = e.target.closest('[data-add],[data-heart],[data-open],[data-close],[data-scrim],[data-remove],[data-qty],[data-car],[data-mega],[data-acc],[data-ctab],[data-ftab],[data-btab],[data-mtab],[data-sl],[data-dot]');
     if (!t) { if (!e.target.closest('#mega')) setMega(false); return; }
-    if (t.hasAttribute('data-add')) { var id = t.getAttribute('data-add'), h = cart.filter(function (x) { return x.id === id; })[0]; if (h) h.qty = Math.min(10, h.qty + 1); else cart.push({ id: id, qty: 1 }); ls.set('bk-cart', cart); counts(); toast('Added to cart ✓'); }
+    if (t.hasAttribute('data-add')) { var id = t.getAttribute('data-add'), h = cart.filter(function (x) { return x.id === id; })[0]; if (h) h.qty = Math.min(10, h.qty + 1); else cart.push({ id: id, qty: 1 }); ls.set('bk-cart', cart); counts(); if (desk.matches && $('[data-mc]')) showMini(); else toast('Added to cart ✓'); }
     else if (t.hasAttribute('data-heart')) { var hid = t.getAttribute('data-heart'), i = wish.indexOf(hid); if (i > -1) wish.splice(i, 1); else wish.push(hid); ls.set('bk-wish', wish); counts(); $$('[data-heart="' + hid + '"]').forEach(function (b) { b.setAttribute('aria-pressed', String(i === -1)); }); toast(i === -1 ? 'Saved to wishlist' : 'Removed from wishlist'); }
     else if (t.hasAttribute('data-open')) { e.preventDefault(); open(t.getAttribute('data-open')); }
     else if (t.hasAttribute('data-close') || t.hasAttribute('data-scrim')) closeAll();
-    else if (t.hasAttribute('data-remove')) { cart = cart.filter(function (x) { return x.id !== t.getAttribute('data-remove'); }); ls.set('bk-cart', cart); counts(); renderCart(); $('[data-close]', $('[data-drawer="cart"]')).focus(); }
+    else if (t.hasAttribute('data-remove')) { var inDrawer = !!t.closest('[data-drawer]'); cart = cart.filter(function (x) { return x.id !== t.getAttribute('data-remove'); }); ls.set('bk-cart', cart); counts(); renderCart(); if (inDrawer) $('[data-close]', $('[data-drawer="cart"]')).focus(); }
+    else if (t.hasAttribute('data-qty')) { var q = cart.filter(function (x) { return x.id === t.getAttribute('data-qty'); })[0]; if (q) { q.qty = Math.max(1, Math.min(10, q.qty + Number(t.getAttribute('data-d')))); ls.set('bk-cart', cart); counts(); var nb = $('[data-qty="' + q.id + '"][data-d="' + t.getAttribute('data-d') + '"]'); if (nb && !nb.disabled) nb.focus(); } }
     else if (t.hasAttribute('data-car')) { var tr = document.getElementById(t.getAttribute('data-car')); tr.scrollBy({ left: Number(t.getAttribute('data-dir')) * tr.clientWidth * .8, behavior: reduce ? 'auto' : 'smooth' }); }
     else if (t.hasAttribute('data-mega')) setMega(t.getAttribute('aria-expanded') !== 'true');
     else if (t.hasAttribute('data-acc')) { var on = t.getAttribute('aria-expanded') !== 'true'; t.setAttribute('aria-expanded', String(on)); document.getElementById(t.getAttribute('aria-controls')).hidden = !on; }
@@ -336,6 +381,19 @@
     else if (t.hasAttribute('data-sl')) { go(cur + Number(t.getAttribute('data-sl'))); play(); }
     else if (t.hasAttribute('data-dot')) { go(Number(t.getAttribute('data-dot'))); play(); }
   });
+  var desk = window.matchMedia('(min-width: 1000px)'), mcT = null;
+  function hideMini() { var w = $('[data-mc]'); if (w) w.classList.remove('open'); document.body.classList.remove('mc-dimmed'); }
+  function showMini() {
+    var w = $('[data-mc]'); w.classList.add('open'); document.body.classList.add('mc-dimmed');
+    clearTimeout(mcT); mcT = setTimeout(function () { if (!w.matches(':hover')) hideMini(); }, 3500);
+  }
+  (function () {
+    var w = $('[data-mc]'); if (!w) return;
+    w.addEventListener('mouseleave', function () { if (w.classList.contains('open')) { clearTimeout(mcT); mcT = setTimeout(hideMini, 400); } });
+    w.addEventListener('mouseenter', function () { clearTimeout(mcT); });
+    document.addEventListener('click', function (e) { if (!e.target.closest('[data-mc]') && !e.target.closest('[data-add]')) hideMini(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideMini(); });
+  })();
   function remember(id) { var r = ls.get('bk-recent', []).filter(function (x) { return x !== id; }); r.unshift(id); ls.set('bk-recent', r.slice(0, 12)); }
   function selectTab(btn, sel, panelId, html) {
     $$(sel).forEach(function (b) { var on = b === btn; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
@@ -376,14 +434,14 @@
     });
   });
   // Hero slider
-  var track = $('[data-slides]'), n = track.children.length, cur = 0, timer = null, paused = false;
+  var track = $('[data-slides]') || document.createElement('div'), n = track.children.length, cur = 0, timer = null, paused = !n;
   function go(i) {
     cur = (i + n) % n; track.style.transform = 'translateX(' + (-100 * cur) + '%)';
     $$('[data-dot]').forEach(function (d, j) { if (j === cur) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
     $$('.slide').forEach(function (s, j) { s.setAttribute('aria-hidden', String(j !== cur)); $$('a', s).forEach(function (a) { a.tabIndex = j === cur ? 0 : -1; }); });
   }
   function play() { clearInterval(timer); if (!reduce && !paused) timer = setInterval(function () { go(cur + 1); }, 5000); }
-  var slider = $('[data-slider]');
+  var slider = $('[data-slider]') || document.createElement('div');
   ['mouseenter', 'focusin'].forEach(function (ev) { slider.addEventListener(ev, function () { paused = true; clearInterval(timer); }); });
   ['mouseleave', 'focusout'].forEach(function (ev) { slider.addEventListener(ev, function () { paused = false; play(); }); });
   var x0 = null;
