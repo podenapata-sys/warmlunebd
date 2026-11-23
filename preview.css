@@ -368,3 +368,16 @@ button { background: none; border: 0; padding: 0; cursor: pointer; }
 .pc .pbadge.sale + .pbadge { top: 34px; }
 .l-short { display: none; }
 @media (max-width: 420px) { .pc-foot-2 .l-long { display: none; } .pc-foot-2 .l-short { display: inline; } }
+
+/* ---------- Hover: second photo fades in with a gentle zoom (mouse only) ---------- */
+.pc-img { overflow: hidden; }
+.pc-img img { transition: opacity .45s ease, transform .6s ease; }
+.pc-img .pc-alt { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .pc:hover .pc-img .pc-main { transform: scale(1.06); }
+  .pc:hover .pc-img .pc-alt { opacity: 1; transform: scale(1.06); }
+  .pc:hover .pc-img .pc-main:only-child { transform: scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pc:hover .pc-img img { transform: none !important; }
+}

@@ -34,10 +34,10 @@
   /* ---------- Real products (same model as the live store) ---------- */
   var meta = S.products || {}, reviews = (W.reviews || []).filter(function (r) { return r && r.rating; });
   var real = [];
-  if (W.price > 0) real.push({ id: 'belt', checkoutId: 'pad-pink', name: 'WarmLune™ Heating Belt', brand: 'WarmLune', image: (W.gallery && W.gallery[0] && W.gallery[0].src) || '', price: W.price, oldPrice: W.oldPrice, url: 'heating-belt.html', reviewCount: reviews.length, rating: reviews.length ? reviews.reduce(function (s, r) { return s + r.rating; }, 0) / reviews.length : 0 });
+  if (W.price > 0) real.push({ id: 'belt', checkoutId: 'pad-pink', name: 'WarmLune™ Heating Belt', brand: 'WarmLune', image: (W.gallery && W.gallery[0] && W.gallery[0].src) || '', image2: (W.gallery && W.gallery[1] && W.gallery[1].src) || '', price: W.price, oldPrice: W.oldPrice, url: 'heating-belt.html', reviewCount: reviews.length, rating: reviews.length ? reviews.reduce(function (s, r) { return s + r.rating; }, 0) / reviews.length : 0 });
   (W.shopProducts || []).forEach(function (p) {
     if (!(p.price > 0)) return;
-    real.push({ id: p.id, checkoutId: p.id, name: p.name_en || p.name, brand: p.brand || (p.combo ? 'Bakaina' : ''), image: p.image || '', price: p.price, oldPrice: p.oldPrice, url: p.url || ('product.html?id=' + encodeURIComponent(p.id)), reviewCount: 0, rating: 0 });
+    real.push({ id: p.id, checkoutId: p.id, name: p.name_en || p.name, brand: p.brand || (p.combo ? 'Bakaina' : ''), image: p.image || '', image2: (p.images || [])[1] || '', price: p.price, oldPrice: p.oldPrice, url: p.url || ('product.html?id=' + encodeURIComponent(p.id)), reviewCount: 0, rating: 0 });
   });
   real.forEach(function (p) { var m = meta[p.id] || {}; p.category = m.category || ''; p.tags = m.tags || []; p.off = p.oldPrice > p.price ? Math.round((p.oldPrice - p.price) / p.oldPrice * 100) : 0; });
   var byId = function (id) { return real.filter(function (p) { return p.id === id; })[0]; };
@@ -79,7 +79,8 @@
 
   /* ---------- Cards ---------- */
   function pimg(p) {
-    if (p.image) return '<img src="' + esc(p.image) + '" alt="' + esc(p.name) + '" loading="lazy" decoding="async" width="500" height="500">';
+    if (p.image) return '<img class="pc-main" src="' + esc(p.image) + '" alt="' + esc(p.name) + '" loading="lazy" decoding="async" width="500" height="500">' +
+      (p.image2 ? '<img class="pc-alt" src="' + esc(p.image2) + '" alt="" loading="lazy" decoding="async" width="500" height="500">' : '');
     var d = depts.filter(function (x) { return x.id === p.category; })[0];
     return '<span class="ph ' + (tones[p.category] || 't-grey') + '">' + icon(d ? d.icon : 'box') + (p.sample ? 'Sample' : '') + '</span>';
   }
