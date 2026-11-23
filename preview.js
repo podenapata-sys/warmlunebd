@@ -411,6 +411,14 @@
   window.addEventListener('resize', arrows);
   new MutationObserver(arrows).observe($('#main'), { childList: true, subtree: true });
   arrows();
+  // Scroll reveal: each section below the first screen fades up the first time it comes into view
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+    $$('#main > section, .ftr').forEach(function (el) {
+      if (el.classList.contains('hero') || el.getBoundingClientRect().top < innerHeight) return;
+      el.classList.add('reveal'); io.observe(el);
+    });
+  }
   // Arrow keys move between tabs
   $$('[role=tablist]').forEach(function (list) {
     list.addEventListener('keydown', function (e) {
