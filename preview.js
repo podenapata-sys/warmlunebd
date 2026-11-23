@@ -90,9 +90,10 @@
   function card(p) {
     var saved = wish.indexOf(p.id) > -1;
     var rate = p.reviewCount ? '<div class="pc-rate"><span class="st" aria-hidden="true">' + '★'.repeat(Math.round(p.rating)) + '</span> ' + p.rating.toFixed(1) + ' (' + p.reviewCount + ')<span class="sr-only"> reviews</span></div>' : '';
-    return '<article class="pc"><a class="pc-img" href="' + esc(p.url) + '" tabindex="-1" aria-hidden="true">' + pimg(p) + badge(p) + '</a>' +
+    var pid = p.sample ? '' : ' data-pid="' + esc(p.id) + '"';
+    return '<article class="pc"><a class="pc-img" href="' + esc(p.url) + '"' + pid + ' tabindex="-1" aria-hidden="true">' + pimg(p) + badge(p) + '</a>' +
       '<div class="pc-body">' + '<span class="pc-brand">' + (p.brand ? esc(p.brand) : '&nbsp;') + '</span>' +
-        '<h3 class="pc-name"><a href="' + esc(p.url) + '">' + esc(p.name) + '</a></h3>' + rate +
+        '<h3 class="pc-name"><a href="' + esc(p.url) + '"' + pid + '>' + esc(p.name) + '</a></h3>' + rate +
         '<div class="pc-price">' + (p.sample ? '<span class="na">Your price</span>' : '<strong>' + money(p.price) + '</strong>' + (p.off ? '<s><span class="sr-only">was </span>' + money(p.oldPrice) + '</s>' : '')) + '</div></div>' +
       '<div class="pc-foot"><button class="pc-add" type="button"' + (p.sample ? ' disabled aria-label="Sample product, not for sale"' : ' data-add="' + esc(p.id) + '"') + '>' + icon('cart') + (p.sample ? 'Sample' : 'Add to Cart') + '</button>' +
         (p.sample ? '' : '<button class="pc-heart" type="button" data-heart="' + esc(p.id) + '" aria-pressed="' + saved + '" aria-label="Save ' + esc(p.name) + ' to wishlist">' + icon('heart') + '</button>') + '</div></article>';
@@ -186,6 +187,30 @@
   var avg = reviews.length ? (reviews.reduce(function (s, r) { return s + r.rating; }, 0) / reviews.length).toFixed(1) : '';
   var ticker = ['FREE DELIVERY ALL OVER BANGLADESH', 'CASH ON DELIVERY', 'CHECK BEFORE YOU PAY', 'ORDER ON WHATSAPP ' + (W.phone || '')];
   var picks = fill(real.filter(function (p) { return p.tags.indexOf('trending') > -1; }), 5);
+  function mvCard(p, i) {
+    return '<div class="mvc">' + (p.image ? '<img src="' + esc(p.image) + '" alt="" loading="lazy">' : '<span class="ph ' + (tones[p.category] || 't-grey') + '">' + icon('box') + '</span>') +
+      '<div><h3><a href="' + esc(p.url) + '"' + (p.sample ? '' : ' data-pid="' + esc(p.id) + '"') + '>' + esc(p.name) + '</a></h3><p>' + (p.sample ? '<span style="color:#8E939B;font-weight:500">Sample</span>' : money(p.price)) + '</p></div>' +
+      (i != null ? '<span class="num" aria-hidden="true">' + (i + 1) + '</span>' : '<span></span>') + '</div>';
+  }
+  // Recently viewed: real, from this browser (product pages and product clicks save it)
+  function mvList(which) {
+    if (which === 'picks') return carousel('car-mv', picks.map(function (p, i) { return mvCard(p, i); }).join(''), 'mv-track');
+    var seen = ls.get('bk-recent', []).map(byId).filter(Boolean).slice(0, 10);
+    if (!seen.length) return '<p class="mv-empty">Products you look at will appear here, so you can find them again quickly.</p>';
+    return carousel('car-mv', seen.map(function (p) { return mvCard(p); }).join(''), 'mv-track');
+  }
+  // Blog: sample cards until real articles exist (no made-up dates, authors, comments or views)
+  var posts = [
+    { title: 'How to use a heating belt safely', text: 'Heat levels, how long to wear it and simple safety tips for everyday comfort.', img: 'img/gallery-2.jpg', tag: 'Guides' },
+    { title: 'Adding a niacinamide serum to your routine', text: 'When to apply it, what to pair it with and what results to expect over time.', img: 'img/p-anua-serum-3.jpg', tag: 'Skincare' },
+    { title: 'What is PDRN in skincare?', text: 'The ingredient behind the Medicube pink range, explained in plain words.', img: 'img/p-medicube-pdrn-serum-2.jpg', tag: 'Skincare' },
+    { title: 'Hydrogel masks: how long to leave them on', text: 'Get the most from a sheet mask, from prep to the final pat-in.', img: 'img/p-medicube-gel-mask-3.jpg', tag: 'How-to' },
+  ];
+  function post(a) {
+    return '<article class="post"><div class="post-img"><img src="' + esc(a.img) + '" alt="" loading="lazy" width="500" height="320"><span class="post-tag">' + esc(a.tag) + '</span><span class="pbadge sample">Sample</span></div>' +
+      '<div class="post-body"><p class="post-meta">' + icon('user') + 'Bakaina team</p><h3>' + esc(a.title) + '</h3><p class="post-text">' + esc(a.text) + '</p>' +
+      '<span class="post-more">Article coming soon</span></div></article>';
+  }
 
   var main =
     // Hero
@@ -226,11 +251,16 @@
     // Testimonials (real reviews only)
     (reviews.length ? '<section class="sec sec-white" aria-labelledby="h-rev"><div class="wrap"><div class="shead"><h2 id="h-rev">What our customers say</h2><p>' + avg + ' out of 5 from ' + reviews.length + ' customer reviews of the WarmLune™ Heating Belt.</p></div>' +
       carousel('car-rev', reviews.map(function (r) { return '<figure class="quote" style="margin:0"><span class="qm" aria-hidden="true">“</span><p lang="bn">' + esc(r.text) + '</p><figcaption><span class="st" aria-label="' + r.rating + ' stars">' + '★'.repeat(r.rating) + '</span><br><span class="who">– ' + esc(r.name) + '</span></figcaption></figure>'; }).join(''), 'cols-4') + '</div></section>' : '') +
-    // Our picks (dark strip)
-    '<section class="mv" aria-labelledby="h-mv"><div class="wrap"><h2 id="h-mv">Our Picks</h2>' + carousel('car-mv', picks.map(function (p, i) {
-      return '<div class="mvc">' + (p.image ? '<img src="' + esc(p.image) + '" alt="" loading="lazy">' : '<span class="ph ' + (tones[p.category] || 't-grey') + '">' + icon('box') + '</span>') +
-        '<div><h3><a href="' + esc(p.url) + '">' + esc(p.name) + '</a></h3><p>' + (p.sample ? '<span style="color:#8E939B;font-weight:500">Sample</span>' : money(p.price)) + '</p></div><span class="num" aria-hidden="true">' + (i + 1) + '</span></div>';
-    }).join(''), 'mv-track') + '</div></section>';
+    // From the blog (sample articles until real posts are written)
+    '<section class="sec" aria-labelledby="h-blog"><div class="wrap"><div class="shead"><h2 id="h-blog">From the Blog</h2><p>Guides on using our products, skincare routines and everyday tips.</p></div>' +
+      '<div class="tabs"><div class="tabs-in" role="tablist" aria-label="Articles">' + [['latest', 'Latest Articles'], ['read', 'Most Read']].map(function (t, i) {
+        return '<button class="tab" type="button" role="tab" id="bt-' + t[0] + '" aria-selected="' + (i === 0) + '" tabindex="' + (i ? -1 : 0) + '" aria-controls="blog-panel" data-btab="' + t[0] + '">' + t[1] + '</button>';
+      }).join('') + '</div></div><div id="blog-panel" role="tabpanel" aria-labelledby="bt-latest">' + carousel('car-blog', posts.map(post).join(''), 'cols-4 blog-track') + '</div></div></section>' +
+    // Recently viewed / our picks (dark strip)
+    '<section class="mv" aria-label="Product shortcuts"><div class="wrap"><div class="mv-tabs" role="tablist" aria-label="Product lists">' +
+      '<button type="button" role="tab" id="mt-recent" aria-selected="true" aria-controls="mv-panel" data-mtab="recent">Recently Viewed</button>' +
+      '<button type="button" role="tab" id="mt-picks" aria-selected="false" tabindex="-1" aria-controls="mv-panel" data-mtab="picks">Our Picks</button></div>' +
+      '<div id="mv-panel" role="tabpanel" aria-labelledby="mt-recent">' + mvList('recent') + '</div></div></section>';
 
   var soc = S.social || {}, socials = ['facebook', 'instagram', 'youtube', 'tiktok'].filter(function (k) { return soc[k]; });
   var footer =
@@ -284,7 +314,8 @@
   function setMega(on) { var b = $('[data-mega]'); if (!b) return; b.setAttribute('aria-expanded', String(on)); $('#mega').hidden = !on; }
 
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('[data-add],[data-heart],[data-open],[data-close],[data-scrim],[data-remove],[data-car],[data-mega],[data-acc],[data-ctab],[data-ftab],[data-sl],[data-dot]');
+    var pl = e.target.closest('a[data-pid]'); if (pl) remember(pl.getAttribute('data-pid'));
+    var t = e.target.closest('[data-add],[data-heart],[data-open],[data-close],[data-scrim],[data-remove],[data-car],[data-mega],[data-acc],[data-ctab],[data-ftab],[data-btab],[data-mtab],[data-sl],[data-dot]');
     if (!t) { if (!e.target.closest('#mega')) setMega(false); return; }
     if (t.hasAttribute('data-add')) { var id = t.getAttribute('data-add'), h = cart.filter(function (x) { return x.id === id; })[0]; if (h) h.qty = Math.min(10, h.qty + 1); else cart.push({ id: id, qty: 1 }); ls.set('bk-cart', cart); counts(); toast('Added to cart ✓'); }
     else if (t.hasAttribute('data-heart')) { var hid = t.getAttribute('data-heart'), i = wish.indexOf(hid); if (i > -1) wish.splice(i, 1); else wish.push(hid); ls.set('bk-wish', wish); counts(); $$('[data-heart="' + hid + '"]').forEach(function (b) { b.setAttribute('aria-pressed', String(i === -1)); }); toast(i === -1 ? 'Saved to wishlist' : 'Removed from wishlist'); }
@@ -296,9 +327,12 @@
     else if (t.hasAttribute('data-acc')) { var on = t.getAttribute('aria-expanded') !== 'true'; t.setAttribute('aria-expanded', String(on)); document.getElementById(t.getAttribute('aria-controls')).hidden = !on; }
     else if (t.hasAttribute('data-ctab')) selectTab(t, '[data-ctab]', 'cat-panel', function () { var g = groups.filter(function (x) { return x.id === t.getAttribute('data-ctab'); })[0]; return carousel('car-cat', catTiles(g.cats), 'cols-8'); });
     else if (t.hasAttribute('data-ftab')) selectTab(t, '[data-ftab]', 'feat-panel', function () { var f = ftabs.filter(function (x) { return x.id === t.getAttribute('data-ftab'); })[0]; return carousel('car-feat', fill(f.items, 6).map(card).join('')); });
+    else if (t.hasAttribute('data-btab')) selectTab(t, '[data-btab]', 'blog-panel', function () { var list = t.getAttribute('data-btab') === 'read' ? posts.slice().reverse() : posts; return carousel('car-blog', list.map(post).join(''), 'cols-4 blog-track'); });
+    else if (t.hasAttribute('data-mtab')) selectTab(t, '[data-mtab]', 'mv-panel', function () { return mvList(t.getAttribute('data-mtab')); });
     else if (t.hasAttribute('data-sl')) { go(cur + Number(t.getAttribute('data-sl'))); play(); }
     else if (t.hasAttribute('data-dot')) { go(Number(t.getAttribute('data-dot'))); play(); }
   });
+  function remember(id) { var r = ls.get('bk-recent', []).filter(function (x) { return x !== id; }); r.unshift(id); ls.set('bk-recent', r.slice(0, 12)); }
   function selectTab(btn, sel, panelId, html) {
     $$(sel).forEach(function (b) { var on = b === btn; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
     var panel = document.getElementById(panelId); panel.setAttribute('aria-labelledby', btn.id); panel.innerHTML = html();

@@ -10,6 +10,8 @@
   var toBn = function (s) { return L.num(s); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var money = function (n) { if (!(Number(n) > 0)) return (W.currency || '৳') + T('p.price'); return (W.currency || '$') + toBn(Number(n).toFixed(W.currency === '৳' ? 0 : 2).replace(/\B(?=(\d{3})+(?!\d))/g, ',')); };
+  // Recently viewed (store homepage strip)
+  try { var rv = JSON.parse(localStorage.getItem('bk-recent') || '[]').filter(function (x) { return x !== 'belt'; }); rv.unshift('belt'); localStorage.setItem('bk-recent', JSON.stringify(rv.slice(0, 12))); } catch (e) {}
   var store = { get: function (k) { try { return localStorage.getItem(k); } catch (e) { return null; } }, set: function (k, v) { try { localStorage.setItem(k, v); } catch (e) {} } };
   document.documentElement.classList.add('js');
 

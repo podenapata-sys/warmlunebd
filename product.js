@@ -24,6 +24,8 @@
   $('[data-pp]').hidden = false;
 
   var name = P(p, 'name');
+  // Recently viewed (store homepage strip)
+  try { var rv = JSON.parse(localStorage.getItem('bk-recent') || '[]').filter(function (x) { return x !== p.id; }); rv.unshift(p.id); localStorage.setItem('bk-recent', JSON.stringify(rv.slice(0, 12))); } catch (e) {}
   document.title = name + ' | Bakaina';
 
   /* Meta Pixel: page view + product view */
