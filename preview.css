@@ -915,3 +915,17 @@ body.mc-dimmed::after { display: none; }
 .acc-avatar { flex: none; width: 52px; height: 52px; border-radius: 999px; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-h); font-weight: 700; font-size: 22px; }
 .acc-note-in { margin: 0 0 12px; padding: 10px 14px; border-radius: 12px; background: #FFF4E8; color: #7A3E00; font-size: 13.5px; }
 .acc-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; }
+
+/* ---------- Typography: Inter (as on the Journal reference). Logo wordmark keeps Fredoka. ---------- */
+:root {
+  --font: 'Inter', 'Noto Sans Bengali', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-h: 'Inter', 'Noto Sans Bengali', system-ui, sans-serif;
+}
+body { font-size: 14px; letter-spacing: -.005em; }
+h1, h2, .shead h2, .slide h2, .catpg h1, .cp h1, .acc h1 { font-weight: 700; letter-spacing: -.02em; }
+.slide h2 { font-weight: 700; letter-spacing: -.025em; }
+h3, .dm-head h3, .navpanel h3 { font-weight: 600; }
+.navlink, .tab, .dept, .btn, .pc-buy, .pc-add, .navbtn, .scat-btn, .fab-rail a, .acc-tabs button { font-weight: 600; }
+.pc-name, .pc-name a { font-weight: 500; }
+.logo { font-family: 'Fredoka', 'Inter', sans-serif; font-weight: 700; }
+@media (min-width: 1000px) { .slide h2 { font-size: 38px; line-height: 1.15; } }
