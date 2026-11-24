@@ -56,6 +56,12 @@
   var depts = [{"id": "electronics", "name": "Electronics", "icon": "electronics", "items": ["Smartphones", "Wireless Earbuds", "Bluetooth Speakers", "Power Banks", "USB-C Fast Chargers", "Charging Cables", "Smart TVs", "Wi-Fi Routers", "Laptops", "Computer Monitors", "Wireless Keyboards", "Wireless Mice", "USB Flash Drives", "Memory Cards", "External SSDs", "CCTV Cameras", "Mini UPS for Routers", "Surge Protectors", "Webcams", "Computer Headsets"]}, {"id": "beauty", "name": "Beauty", "icon": "skincare", "items": ["Facial Cleansers", "Sunscreen", "Face Moisturizers", "Niacinamide Serums", "Vitamin C Serums", "Micellar Water", "Lip Balms", "Lipsticks", "Foundation", "Compact Powder", "Mascara", "Eyeliner", "Makeup Brushes", "Makeup Sponges", "Sheet Masks", "Hair Serum", "Shampoo", "Hair Conditioner", "Body Lotion", "Makeup Remover Pads"]}, {"id": "gadgets", "name": "Gadgets", "icon": "gadgets", "items": ["Smartwatches", "Fitness Trackers", "Phone Tripods", "Selfie Sticks", "Wireless Lavalier Microphones", "Phone Gimbals", "Digital Luggage Scales", "Bluetooth Trackers", "Portable Mini Printers", "USB Hubs", "Laptop Cooling Pads", "Phone Screen Magnifiers", "Digital Alarm Clocks", "Electronic Writing Tablets", "Wireless Charging Pads", "Car Phone Mounts", "Digital Tire Pressure Gauges", "Plug-in Power Meters", "Presentation Clickers", "Portable Projectors"]}, {"id": "kitchen", "name": "Kitchen & Household", "icon": "kitchen", "items": ["Manual Vegetable Choppers", "Spice Racks", "Airtight Food Containers", "Lunch Boxes", "Insulated Water Bottles", "Nonstick Frying Pans", "Pressure Cookers", "Kitchen Knife Sets", "Cutting Boards", "Silicone Cooking Utensils", "Oil Dispensers", "Rice Storage Containers", "Dish Drying Racks", "Kitchen Sink Strainers", "Egg Storage Boxes", "Measuring Cup Sets", "Food Thermos Flasks", "Laundry Baskets", "Wardrobe Organizers", "Mosquito Nets"]}, {"id": "lighting", "name": "Lighting", "icon": "lighting", "items": ["LED Bulbs", "Rechargeable Emergency Lights", "LED Tube Lights", "Solar Garden Lights", "LED Strip Lights", "Motion Sensor Night Lights", "Desk Lamps", "Bedside Lamps", "Ring Lights", "Rechargeable Lanterns", "Fairy Lights", "LED Ceiling Panels", "Outdoor Floodlights", "Solar Wall Lights", "Cabinet Lights", "Clip-on Reading Lights", "Pendant Lights", "LED Spotlights", "Smart LED Bulbs", "Decorative Wall Sconces"]}, {"id": "furniture", "name": "Furniture", "icon": "furniture", "items": ["Computer Desks", "Office Chairs", "Study Tables", "Plastic Chairs", "Folding Tables", "Shoe Racks", "Bookshelves", "Storage Cabinets", "Bedside Tables", "Coffee Tables", "TV Stands", "Dining Chairs", "Dining Tables", "Bed Frames", "Mattresses", "Sofa Sets", "Clothes Racks", "Wall Shelves", "Ottomans", "Dressing Tables"]}, {"id": "appliances", "name": "Appliances", "icon": "appliance", "items": ["Rice Cookers", "Electric Kettles", "Blenders", "Electric Irons", "Induction Cookers", "Air Fryers", "Microwave Ovens", "Toaster Ovens", "Sandwich Makers", "Electric Pressure Cookers", "Electric Hand Mixers", "Water Purifiers", "Refrigerators", "Washing Machines", "Vacuum Cleaners", "Hair Dryers", "Hair Straighteners", "Garment Steamers", "Electric Meat Grinders", "Air Conditioners"]}, {"id": "cleaning", "name": "Cleaning", "icon": "cleaning", "items": ["Microfiber Cleaning Cloths", "Spin Mops", "Spray Mops", "Floor Wipers", "Window Squeegees", "Toilet Brushes", "Dishwashing Brushes", "Scrub Sponges", "Drain Cleaning Brushes", "Lint Rollers", "Reusable Pet Hair Removers", "Dustpans and Brooms", "Telescopic Dusters", "Cleaning Gloves", "Garbage Bags", "Laundry Detergent", "Dishwashing Liquid", "Floor Cleaners", "Bathroom Cleaners", "Laundry Stain Removers"]}, {"id": "fashion", "name": "Fashion", "icon": "fashion", "items": ["Women's Three-Piece Sets", "Sarees", "Kurtis", "Abayas", "Hijabs", "Women's Palazzo Pants", "Women's Tops", "Women's Sandals", "Men's Panjabis", "Men's T-Shirts", "Polo Shirts", "Casual Shirts", "Jeans", "Chinos", "Men's Sandals", "Sneakers", "Children's Eid Outfits", "Kids' Casual Wear", "Hoodies", "Sweaters"]}, {"id": "fans", "name": "Fans", "icon": "fan", "items": ["Ceiling Fans", "Rechargeable Table Fans", "Pedestal Fans", "Wall-Mounted Fans", "USB Desk Fans", "Handheld Mini Fans", "Neck Fans", "Clip-on Fans", "BLDC Ceiling Fans", "Exhaust Fans", "Tower Fans", "Box Fans", "Floor Fans", "Oscillating Table Fans", "Solar Rechargeable Fans", "Camping Fans", "Stroller Fans", "Remote-Controlled Ceiling Fans", "Industrial Pedestal Fans", "Ceiling Fan Regulators"]}, {"id": "baby", "name": "Baby", "icon": "baby", "items": ["Baby Diapers", "Baby Wipes", "Baby Cotton Clothing Sets", "Baby Bibs", "Baby Bath Towels", "Baby Blankets", "Baby Bathtubs", "Baby Nail Care Sets", "Baby Feeding Bottles", "Baby Bottle Brushes", "Baby Sippy Cups", "Baby Feeding Spoons", "Baby High Chairs", "Baby Strollers", "Baby Carriers", "Baby Changing Mats", "Baby Mosquito Nets", "Baby Potty Seats", "Baby Play Mats", "Baby Teething Rings"]}, {"id": "stationery", "name": "Stationery", "icon": "pen", "items": ["Ballpoint Pens", "Gel Pens", "Pencils", "Erasers", "Sharpeners", "Notebooks", "Spiral Notebooks", "Daily Planners", "Highlighters", "Permanent Markers", "Whiteboard Markers", "Sticky Notes", "File Folders", "Document Envelopes", "Geometry Sets", "Calculators", "Staplers", "Correction Tapes", "Art Sketchbooks", "Colored Pencil Sets"]}, {"id": "toys", "name": "Toys", "icon": "toy", "items": ["Building Block Sets", "Remote-Controlled Cars", "Toy Train Sets", "Dolls", "Dollhouses", "Stuffed Animals", "Jigsaw Puzzles", "Magnetic Construction Tiles", "Toy Kitchen Sets", "Toy Doctor Sets", "Alphabet Learning Toys", "Shape Sorters", "Stacking Rings", "Board Games", "Rubik's Cubes", "Play Dough Sets", "Toy Musical Keyboards", "Bubble Makers", "Toy Animals", "Kids' Ride-on Cars"]}, {"id": "fitness", "name": "Fitness", "icon": "fitness", "items": ["Yoga Mats", "Resistance Bands", "Adjustable Dumbbells", "Skipping Ropes", "Hand Grippers", "Push-up Bars", "Ab Rollers", "Pull-up Bars", "Kettlebells", "Foam Rollers", "Exercise Balls", "Ankle Weights", "Wrist Wraps", "Weightlifting Belts", "Exercise Bikes", "Treadmills", "Aerobic Step Platforms", "Gym Gloves", "Agility Ladders", "Shaker Bottles"]}, {"id": "tools", "name": "Tools", "icon": "tool", "items": ["Screwdriver Sets", "Precision Screwdriver Kits", "Combination Pliers", "Adjustable Wrenches", "Socket Wrench Sets", "Measuring Tapes", "Claw Hammers", "Allen Key Sets", "Cordless Drills", "Electric Screwdrivers", "Drill Bit Sets", "Digital Multimeters", "Spirit Levels", "Hand Riveters", "Clamps", "Soldering Irons", "Hot Glue Guns", "Toolboxes", "Wire Strippers", "Safety Goggles"]}, {"id": "accessories", "name": "Accessories", "icon": "bag", "items": ["Wristwatches", "Sunglasses", "Wallets", "Belts", "Women's Handbags", "Crossbody Bags", "Backpacks", "Tote Bags", "Card Holders", "Hair Clips", "Scrunchies", "Headbands", "Earrings", "Bracelets", "Necklaces", "Rings", "Brooches", "Phone Cases", "Tempered Glass Screen Protectors", "Keychains"]}, {"id": "outdoor", "name": "Outdoor", "icon": "outdoor", "items": ["Raincoats", "Umbrellas", "Camping Tents", "Sleeping Bags", "Camping Chairs", "Picnic Mats", "Insulated Cooler Bags", "Trekking Backpacks", "Hiking Poles", "Waterproof Dry Bags", "Travel Hammocks", "Camping Cookware Sets", "Binoculars", "Fishing Rod Sets", "Bicycle Helmets", "Bicycle Pumps", "Bicycle Locks", "Gardening Gloves", "Watering Cans", "Garden Hose Sprayers"]}, {"id": "books", "name": "Books", "icon": "book", "items": ["Bangla Fiction Books", "Bangla Short Story Collections", "English Fiction Books", "Children's Storybooks", "Picture Books", "Early Learning Books", "SSC Exam Guides", "HSC Exam Guides", "University Admission Guides", "BCS Preparation Books", "IELTS Preparation Books", "English Grammar Books", "Spoken English Books", "Islamic History Books", "Quran Translations", "Self-Help Books", "Business and Entrepreneurship Books", "Personal Finance Books", "Cookbooks", "Biographies"]}, {"id": "perfume", "name": "Perfume", "icon": "fragrance", "items": ["Men's Eau de Parfum", "Women's Eau de Parfum", "Unisex Eau de Parfum", "Men's Eau de Toilette", "Women's Eau de Toilette", "Oud Attar", "White Musk Attar", "Rose Attar", "Amber Attar", "Jasmine Attar", "Sandalwood Attar", "Citrus Perfume", "Fresh Aquatic Perfume", "Vanilla Perfume", "Woody Perfume", "Floral Perfume", "Body Mist", "Pocket Perfume", "Perfume Discovery Sets", "Perfume Gift Sets"]}, {"id": "others", "name": "Others++", "icon": "gift", "items": ["Premium Dates", "Packaged Honey", "Pure Ghee", "Mixed Nuts", "Black Tea", "Green Tea", "Ground Coffee", "Prayer Mats", "Prayer Beads", "Gift Boxes", "Greeting Cards", "Photo Frames", "Artificial Flowers", "Decorative Cushions", "Pet Food Bowls", "Cat Litter", "Pet Grooming Brushes", "Travel Neck Pillows", "Passport Holders", "Packing Cubes"]}];
   var subs = {}, tones = {}, TONES = ["t-blue", "t-peach", "t-mint", "t-yellow", "t-lav", "t-pink", "t-grey"];
   depts.forEach(function (d, i) { subs[d.id] = d.items; tones[d.id] = TONES[i % TONES.length]; });
+  var groups = [
+    { id: 'tech', label: 'Electronics & Gadgets', cats: ['electronics', 'gadgets', 'appliances', 'lighting', 'fans'] },
+    { id: 'style', label: 'Fashion & Beauty', cats: ['beauty', 'fashion', 'accessories', 'perfume', 'fitness'] },
+    { id: 'home', label: 'Home & Living', cats: ['kitchen', 'furniture', 'cleaning', 'tools', 'outdoor'] },
+    { id: 'family', label: 'Kids, Books & More', cats: ['baby', 'toys', 'stationery', 'books', 'others'] },
+  ];
   // Our real products, placed in the new departments
   var CMAP = { belt: 'gadgets', skincare: 'beauty', bodycare: 'beauty', haircare: 'beauty', appliance: 'appliances', household: 'kitchen' };
   real.forEach(function (p) { p.category = CMAP[p.id] || CMAP[p.category] || p.category || 'others'; });
@@ -166,6 +172,12 @@
   }
 
   /* ---------- Header ---------- */
+  function promo(d, big) {
+    var p = real.filter(function (x) { return x.category === d.id && x.image; })[0];
+    return '<a class="dm-promo' + (big ? ' big' : '') + '" href="' + esc(p ? p.url : catUrl(d.id)) + '"' + (p ? ' data-pid="' + esc(p.id) + '"' : '') + '>' +
+      (p ? '<img src="' + esc(p.image) + '" alt="" loading="lazy">' : '<span class="dm-ph ' + (tones[d.id] || 't-grey') + '">' + icon(d.icon) + '</span>') +
+      '<span class="dm-pt"><small>' + (p ? (p.off ? 'Save ' + p.off + '%' : 'Featured') : esc(d.name)) + '</small><strong>' + esc(p ? p.name : 'Shop all ' + d.name) + '</strong>' + (p ? '<em>' + money(p.price) + '</em>' : '<em>20 products</em>') + '</span></a>';
+  }
   function searchForm(id) {
     return '<form class="search" role="search" data-search><label class="sr-only" for="' + id + '-c">Category</label><select id="' + id + '-c" name="cat"><option value="">All</option>' +
       depts.map(function (d) { return '<option value="' + esc(d.id) + '">' + esc(d.name) + '</option>'; }).join('') + '</select>' +
@@ -195,13 +207,32 @@
         '</div></div>' +
       '<div class="search-m">' + searchForm('qm') + '</div></div>' +
       '<nav class="navbar" aria-label="Main"><div class="wrap">' +
-        '<button class="dept" type="button" data-mega aria-expanded="false" aria-controls="mega">' + icon('grid') + 'All Departments' + icon('down') + '</button>' +
-        ['electronics', 'beauty', 'fashion', 'kitchen'].map(function (id) { return '<a class="navlink" href="' + catUrl(id) + '">' + esc(dname(id)) + '</a>'; }).join('') +
-        '<a class="navlink" href="products.html?sale=1">Offers <span class="tag">SALE</span></a><a class="navlink" href="products.html?tag=new">New arrivals</a>' +
+        // All Departments: list on the left, the hovered department's products on the right
+        '<div class="dd" data-dd><button class="dept" type="button" data-mega aria-expanded="false" aria-controls="mega">' + icon('grid') + 'All Departments' + icon('down') + '</button>' +
+        '<div class="mega" id="mega"><ul class="dm-list">' + depts.map(function (d, i) {
+          return '<li><a class="dm-link' + (i ? '' : ' on') + '" href="' + catUrl(d.id) + '" data-dm="' + d.id + '">' + icon(d.icon) + '<span>' + esc(d.name) + '</span>' + icon('right') + '</a></li>';
+        }).join('') + '</ul><div class="dm-panels">' + depts.map(function (d, i) {
+          return '<div class="dm-panel' + (i ? '' : ' on') + '" data-dmp="' + d.id + '"><div class="dm-head"><h3>' + esc(d.name) + '</h3><a class="dm-all" href="' + catUrl(d.id) + '">See all 20 ' + icon('arrow') + '</a></div>' +
+            '<div class="dm-body"><ul class="dm-cols">' + d.items.map(function (s) { return '<li><a href="' + catUrl(d.id) + '">' + esc(s) + '</a></li>'; }).join('') + '</ul>' + promo(d) + '</div></div>';
+        }).join('') + '</div></div></div>' +
+        // Department links: a mega panel drops down on hover
+        ['electronics', 'beauty', 'fashion', 'kitchen'].map(function (id) {
+          var d = depts.filter(function (x) { return x.id === id; })[0], g = groups.filter(function (x) { return x.cats.indexOf(id) > -1; })[0];
+          return '<div class="navdd"><a class="navlink" href="' + catUrl(id) + '">' + esc(d.name) + icon('down') + '</a><div class="navpanel">' +
+            '<div><h3>Popular in ' + esc(d.name) + '</h3><ul>' + d.items.slice(0, 7).map(function (s) { return '<li><a href="' + catUrl(id) + '">' + esc(s) + '</a></li>'; }).join('') + '</ul></div>' +
+            '<div><h3>More ' + esc(d.name) + '</h3><ul>' + d.items.slice(7, 14).map(function (s) { return '<li><a href="' + catUrl(id) + '">' + esc(s) + '</a></li>'; }).join('') + '<li><a class="dm-all" href="' + catUrl(id) + '">View all 20 ' + icon('right') + '</a></li></ul></div>' +
+            '<div><h3>' + esc(g ? g.label : 'Also browse') + '</h3><ul class="np-depts">' + (g ? g.cats : []).filter(function (c) { return c !== id; }).map(function (c) {
+              var o = depts.filter(function (x) { return x.id === c; })[0]; return '<li><a href="' + catUrl(c) + '">' + icon(o.icon) + esc(o.name) + '</a></li>';
+            }).join('') + '</ul></div>' + promo(d, true) + '</div></div>';
+        }).join('') +
+        // Offers: our real discounted products
+        '<div class="navdd"><a class="navlink" href="products.html?sale=1">Offers <span class="tag">SALE</span>' + icon('down') + '</a><div class="navpanel np-offers"><h3>On sale now</h3><div class="np-deals">' +
+          real.filter(function (p) { return p.off > 0; }).slice(0, 4).map(function (p) {
+            return '<a class="np-deal" href="' + esc(p.url) + '" data-pid="' + esc(p.id) + '"><span class="np-img">' + (p.image ? '<img src="' + esc(p.image) + '" alt="" loading="lazy">' : '') + '<span class="pbadge sale">-' + p.off + '%</span></span><span class="np-name">' + esc(p.name) + '</span><span class="np-price">' + money(p.price) + ' <s>' + money(p.oldPrice) + '</s></span></a>';
+          }).join('') + '</div></div></div>' +
+        '<a class="navlink" href="products.html?tag=new">New arrivals</a>' +
         '<div class="navright"><a class="navlink" href="' + TRACK + '" target="_blank" rel="noopener">Track order</a><a class="navbtn" href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Contact</a></div>' +
-        '<div class="mega" id="mega" hidden>' + depts.map(function (d) {
-          return '<div><h3><a href="' + catUrl(d.id) + '">' + icon(d.icon) + esc(d.name) + '</a></h3><ul>' + (subs[d.id] || []).slice(0, 4).map(function (s) { return '<li><a href="' + catUrl(d.id) + '">' + esc(s) + '</a></li>'; }).join('') + '<li><a class="mega-all" href="' + catUrl(d.id) + '">See all 20 →</a></li></ul></div>';
-        }).join('') + '</div></div></nav></header>';
+        '</div></nav></header>';
 
   var drawers =
     '<div class="scrim" data-scrim hidden></div>' +
@@ -225,12 +256,6 @@
   var sides = [
     { label: 'Combo offer', title: 'Belt + Gel Mask combo', url: (byId('combo-belt-mask') || {}).url || 'products.html', img: 'img/p-combo-belt-mask.jpg' },
     { label: 'Skincare', title: 'Medicube PDRN Capsule Cream', url: (byId('medicube-capsule-cream') || {}).url || catUrl('skincare'), img: 'img/p-medicube-capsule-cream.jpg' },
-  ];
-  var groups = [
-    { id: 'tech', label: 'Electronics & Gadgets', cats: ['electronics', 'gadgets', 'appliances', 'lighting', 'fans'] },
-    { id: 'style', label: 'Fashion & Beauty', cats: ['beauty', 'fashion', 'accessories', 'perfume', 'fitness'] },
-    { id: 'home', label: 'Home & Living', cats: ['kitchen', 'furniture', 'cleaning', 'tools', 'outdoor'] },
-    { id: 'family', label: 'Kids, Books & More', cats: ['baby', 'toys', 'stationery', 'books', 'others'] },
   ];
   function catTiles(ids) {
     return ids.map(function (id) {
@@ -389,12 +414,22 @@
     $$('[data-drawer]').forEach(function (d) { d.hidden = true; }); $('[data-scrim]').hidden = true; document.body.style.overflow = '';
     if (lastFocus) lastFocus.focus();
   }
-  function setMega(on) { var b = $('[data-mega]'); if (!b) return; b.setAttribute('aria-expanded', String(on)); $('#mega').hidden = !on; }
+  function setMega(on) { var b = $('[data-mega]'); if (!b) return; b.setAttribute('aria-expanded', String(on)); $('[data-dd]').classList.toggle('open', on); }
+  // Hovering (or focusing) a department on the left shows its products on the right
+  (function () {
+    var list = $('.dm-list'); if (!list) return;
+    function pick(a) {
+      if (!a) return; $$('.dm-link').forEach(function (x) { x.classList.toggle('on', x === a); });
+      $$('.dm-panel').forEach(function (x) { x.classList.toggle('on', x.getAttribute('data-dmp') === a.getAttribute('data-dm')); });
+    }
+    list.addEventListener('mouseover', function (e) { pick(e.target.closest('.dm-link')); });
+    list.addEventListener('focusin', function (e) { pick(e.target.closest('.dm-link')); });
+  })();
 
   document.addEventListener('click', function (e) {
     var pl = e.target.closest('a[data-pid]'); if (pl) remember(pl.getAttribute('data-pid'));
     var t = e.target.closest('[data-add],[data-heart],[data-open],[data-close],[data-scrim],[data-remove],[data-qty],[data-car],[data-mega],[data-acc],[data-ctab],[data-ftab],[data-btab],[data-mtab],[data-sl],[data-dot]');
-    if (!t) { if (!e.target.closest('#mega')) setMega(false); return; }
+    if (!t) { if (!e.target.closest('[data-dd]')) setMega(false); return; }
     if (t.hasAttribute('data-add')) { var id = t.getAttribute('data-add'), h = cart.filter(function (x) { return x.id === id; })[0]; if (h) h.qty = Math.min(10, h.qty + 1); else cart.push({ id: id, qty: 1 }); ls.set('bk-cart', cart); counts(); if (desk.matches && $('[data-mc]')) showMini(); else toast('Added to cart ✓'); }
     else if (t.hasAttribute('data-heart')) { var hid = t.getAttribute('data-heart'), i = wish.indexOf(hid); if (i > -1) wish.splice(i, 1); else wish.push(hid); ls.set('bk-wish', wish); counts(); $$('[data-heart="' + hid + '"]').forEach(function (b) { b.setAttribute('aria-pressed', String(i === -1)); }); toast(i === -1 ? 'Saved to wishlist' : 'Removed from wishlist'); }
     else if (t.hasAttribute('data-open')) { e.preventDefault(); open(t.getAttribute('data-open')); }
