@@ -935,3 +935,17 @@ h3, .dm-head h3, .navpanel h3 { font-weight: 600; }
 @media (min-width: 1000px) { .logo .logo-full { height: 52px; } }
 .logo-badge-wide { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 14px; background: #fff; }
 .logo-badge-wide .logo-full { height: 44px; }
+
+/* ---------- Navy menu bar again (as before the white version), with the logo colours ---------- */
+@media (min-width: 1000px) {
+  .navbar { background: var(--brand); color: #fff; border: 0; }
+  .navbar .wrap { min-height: 50px; }
+  .dept { border-radius: 0; min-height: 50px; margin: 0 8px 0 0; box-shadow: none; background: var(--accent); color: #fff; }
+  .dept:hover, .dd:hover .dept, .dept[aria-expanded="true"] { background: var(--accent-2); transform: none; }
+  .navlink, .navright .navlink { color: #fff; min-height: 50px; font-size: 14.5px; }
+  .navlink:hover, .navdd:hover > .navlink { color: #FFB877; }
+  .navlink::after { background: var(--accent); }
+  .navlink .icon { opacity: .85; }
+  .navbtn { background: var(--accent); color: #fff; }
+  .navbtn:hover { background: var(--accent-2); }
+}
