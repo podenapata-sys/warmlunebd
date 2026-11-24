@@ -284,3 +284,9 @@ main { display: block; }
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
 .ftr .logo img { background: #fff; border-radius: 10px; padding: 3px; }
+
+/* ---------- Full Bakaina wordmark logo (unchanged artwork, transparent PNG) ---------- */
+.logo .logo-full { display: block; width: auto; height: 40px; }
+@media (min-width: 1000px) { .logo .logo-full { height: 52px; } }
+.logo-badge-wide { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 14px; background: #fff; }
+.logo-badge-wide .logo-full { height: 44px; }

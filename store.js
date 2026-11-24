@@ -154,7 +154,7 @@
     };
     return '<a class="skip" href="#main">Skip to content</a>' +
       '<header class="hdr"><div class="wrap hdr-in">' +
-        '<a class="logo" href="./" data-logo aria-label="' + esc(W.brand || 'Bakaina') + ' home"><img src="img/logo-mark.png" alt="" width="34" height="34">' + esc(W.brand || 'Bakaina') + '</a>' +
+        '<a class="logo" href="./" data-logo aria-label="' + esc(W.brand || 'Bakaina') + ' home">' + '<img class="logo-full" src="img/logo-full.png" alt="' + esc(W.brand || 'Bakaina') + '" width="471" height="180">' + '</a>' +
         searchForm('q-desk') +
         '<div class="hdr-tools">' +
           '<button class="icon-btn only-phone" type="button" data-search-toggle aria-expanded="false" aria-controls="search-row" aria-label="Search">' + icon('search') + '</button>' +
@@ -190,7 +190,7 @@
     var soc = S.social || {}, socials = ['facebook', 'instagram', 'youtube', 'tiktok'].filter(function (k) { return soc[k]; });
     var names = { facebook: 'Facebook', instagram: 'Instagram', youtube: 'YouTube', tiktok: 'TikTok' };
     return '<footer class="ftr"><div class="wrap ftr-grid">' +
-      '<div><a class="logo" href="./"><img src="img/logo-mark.png" alt="" width="34" height="34">' + esc(W.brand || 'Bakaina') + '</a>' +
+      '<div><a class="logo" href="./" aria-label="' + esc(W.brand || 'Bakaina') + ' home"><span class="logo-badge-wide">' + '<img class="logo-full" src="img/logo-full.png" alt="' + esc(W.brand || 'Bakaina') + '" width="471" height="180">' + '</span></a>' +
         '<p>' + esc(S.tagline || '') + '</p>' +
         (socials.length ? '<div class="socials">' + socials.map(function (k) { return '<a href="' + esc(soc[k]) + '" target="_blank" rel="noopener" aria-label="' + names[k] + '">' + icon(k) + '</a>'; }).join('') + '</div>' : '') + '</div>' +
       '<nav aria-label="Quick links"><h3>Quick Links</h3><ul>' +

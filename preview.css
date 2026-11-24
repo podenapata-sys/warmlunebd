@@ -929,3 +929,9 @@ h3, .dm-head h3, .navpanel h3 { font-weight: 600; }
 .pc-name, .pc-name a { font-weight: 500; }
 .logo { font-family: 'Fredoka', 'Inter', sans-serif; font-weight: 700; }
 @media (min-width: 1000px) { .slide h2 { font-size: 38px; line-height: 1.15; } }
+
+/* ---------- Full Bakaina wordmark logo (unchanged artwork, transparent PNG) ---------- */
+.logo .logo-full { display: block; width: auto; height: 40px; }
+@media (min-width: 1000px) { .logo .logo-full { height: 52px; } }
+.logo-badge-wide { display: inline-flex; align-items: center; padding: 8px 14px; border-radius: 14px; background: #fff; }
+.logo-badge-wide .logo-full { height: 44px; }

@@ -200,7 +200,7 @@
     '<header class="hdr"><div class="wrap">' +
       '<div class="hdr-main">' +
         '<button class="hbtn m-only" type="button" data-open="nav" aria-label="Menu" aria-controls="d-nav">' + icon('menu') + '</button>' +
-        '<a class="logo" href="preview.html" aria-label="Bakaina home"><img src="img/logo-mark.png" alt="" width="34" height="34">' + esc(W.brand || 'Bakaina') + '</a>' +
+        '<a class="logo" href="preview.html" aria-label="Bakaina home">' + '<img class="logo-full" src="img/logo-full.png" alt="' + esc(W.brand || 'Bakaina') + '" width="471" height="180">' + '</a>' +
         '<div class="d-only" style="flex:1;max-width:820px">' + searchForm('qd') + '</div>' +
         '<div class="tools">' +
           '<a class="hbtn d-only" href="preview.html?view=account">' + icon('user') + 'Account</a>' +
@@ -360,7 +360,7 @@
 
   var soc = S.social || {}, socials = ['facebook', 'instagram', 'youtube', 'tiktok'].filter(function (k) { return soc[k]; });
   var footer =
-    '<footer class="ftr"><div class="wrap ftr-top"><a class="logo" href="preview.html"><span class="logo-badge"><img src="img/logo-mark.png" alt="" width="34" height="34"></span>' + esc(W.brand || 'Bakaina') + '</a>' +
+    '<footer class="ftr"><div class="wrap ftr-top"><a class="logo" href="preview.html" aria-label="Bakaina home"><span class="logo-badge-wide">' + '<img class="logo-full" src="img/logo-full.png" alt="' + esc(W.brand || 'Bakaina') + '" width="471" height="180">' + '</span></a>' +
       '<p class="ftr-tag">Shop Smarter. <span>Live Better.</span></p>' +
       (W.whatsapp ? '<a class="ftr-wa" href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + '<span><small>Customer support</small>WhatsApp ' + esc(W.phone || '') + '</span></a>' : '') +
       (socials.length ? '<div class="socials">' + socials.map(function (k) { return '<a href="' + esc(soc[k]) + '" target="_blank" rel="noopener" aria-label="' + esc(W.brand || 'Bakaina') + ' on ' + ({ facebook: 'Facebook', instagram: 'Instagram', youtube: 'YouTube', tiktok: 'TikTok' })[k] + '">' + icon(k) + '</a>'; }).join('') + '</div>' : '') + '</div>' +
