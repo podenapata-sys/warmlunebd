@@ -249,9 +249,9 @@
 
   /* ---------- Sections ---------- */
   var slides = [
-    { label: 'WarmLune™ Heating Belt', title: 'Cordless warmth & massage, anywhere', text: '3 heat levels · 4 massage modes · USB rechargeable', url: 'heating-belt.html', img: 'img/gallery-1.jpg', alt: 'WarmLune heating belt' },
-    { label: 'K-Beauty', title: 'Anua & Medicube, delivered across Bangladesh', text: 'Serums, cream and hydrogel masks.', url: catUrl('skincare'), img: 'img/p-anua-serum.jpg', alt: 'Anua niacinamide serum' },
-    { label: 'Cash on delivery', title: 'Order now, pay when it arrives', text: 'Free delivery all over Bangladesh. Check your product before you pay.', url: 'products.html', img: 'img/lifestyle.jpg', alt: 'A woman relaxing at home' },
+    { label: 'WarmLune™ Heating Belt', title: 'Cordless warmth & massage, anywhere', hl: 'warmth', hl: 'warmth', text: '3 heat levels · 4 massage modes · USB rechargeable', url: 'heating-belt.html', img: 'img/gallery-1.jpg', alt: 'WarmLune heating belt' },
+    { label: 'K-Beauty', title: 'Anua & Medicube, delivered across Bangladesh', hl: 'delivered', hl: 'delivered', text: 'Serums, cream and hydrogel masks.', url: catUrl('skincare'), img: 'img/p-anua-serum.jpg', alt: 'Anua niacinamide serum' },
+    { label: 'Cash on delivery', title: 'Order now, pay when it arrives', hl: 'pay when it arrives', hl: 'pay when it arrives', text: 'Free delivery all over Bangladesh. Check your product before you pay.', url: 'products.html', img: 'img/lifestyle.jpg', alt: 'A woman relaxing at home' },
   ];
   var sides = [
     { label: 'Combo offer', title: 'Belt + Gel Mask combo', url: (byId('combo-belt-mask') || {}).url || 'products.html', img: 'img/p-combo-belt-mask.jpg' },
@@ -306,8 +306,8 @@
     // Hero
     '<section class="hero" aria-label="Featured"><div class="wrap hero-grid">' +
       '<div class="slider" data-slider aria-roledescription="carousel" aria-label="Highlights"><div class="slides" data-slides>' + slides.map(function (s, i) {
-        return '<div class="slide" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + ' of ' + slides.length + '"><div class="copy"><p class="label">' + esc(s.label) + '</p><h2>' + esc(s.title) + '</h2><p class="txt">' + esc(s.text) + '</p>' +
-          '<a class="btn btn-outline" href="' + esc(s.url) + '">Shop Now</a></div><div class="pic"><img src="' + esc(s.img) + '" alt="' + esc(s.alt) + '"' + (i ? ' loading="lazy"' : '') + ' width="400" height="400"></div></div>';
+        return '<div class="slide" role="group" aria-roledescription="slide" aria-label="' + (i + 1) + ' of ' + slides.length + '"><div class="copy"><p class="label">' + esc(s.label) + '</p><h2>' + (s.hl ? esc(s.title).replace(esc(s.hl), '<span class="hl">' + esc(s.hl) + '</span>') : esc(s.title)) + '</h2><p class="txt">' + esc(s.text) + '</p>' +
+          '<div class="s-ctas"><a class="btn btn-accent" href="' + esc(s.url) + '">Shop Now</a><a class="btn btn-brand" href="#h-cat">Explore</a></div></div><div class="pic"><img src="' + esc(s.img) + '" alt="' + esc(s.alt) + '"' + (i ? ' loading="lazy"' : '') + ' width="400" height="400"></div></div>';
       }).join('') + '</div>' +
       '<div class="s-arrows"><button class="round" type="button" data-sl="-1" aria-label="Previous slide">' + icon('up') + '</button><button class="round" type="button" data-sl="1" aria-label="Next slide">' + icon('down') + '</button></div>' +
       '<div class="s-dots">' + slides.map(function (s, i) { return '<button class="s-dot" type="button" data-dot="' + i + '" aria-label="Go to slide ' + (i + 1) + '"></button>'; }).join('') + '</div></div>' +
@@ -354,7 +354,9 @@
 
   var soc = S.social || {}, socials = ['facebook', 'instagram', 'youtube', 'tiktok'].filter(function (k) { return soc[k]; });
   var footer =
-    '<footer class="ftr"><div class="wrap ftr-top"><a class="logo" href="preview.html"><img src="img/logo-mark.png" alt="" width="34" height="34">' + esc(W.brand || 'Bakaina') + '</a>' +
+    '<footer class="ftr"><div class="wrap ftr-top"><a class="logo" href="preview.html"><span class="logo-badge"><img src="img/logo-mark.png" alt="" width="34" height="34"></span>' + esc(W.brand || 'Bakaina') + '</a>' +
+      '<p class="ftr-tag">Shop Smarter. <span>Live Better.</span></p>' +
+      (W.whatsapp ? '<a class="ftr-wa" href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + '<span><small>Customer support</small>WhatsApp ' + esc(W.phone || '') + '</span></a>' : '') +
       (socials.length ? '<div class="socials">' + socials.map(function (k) { return '<a href="' + esc(soc[k]) + '" target="_blank" rel="noopener" aria-label="' + k + '">' + icon(k) + '</a>'; }).join('') + '</div>' : '') + '</div>' +
     '<div class="wrap ftr-cols">' +
       '<nav aria-label="About"><h3>About Us</h3><ul><li><a href="delivery.html">Delivery information</a></li><li><a href="refund.html">Returns & refunds</a></li><li><a href="privacy.html">Privacy policy</a></li><li><a href="refund.html">Terms & conditions</a></li></ul></nav>' +
