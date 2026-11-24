@@ -956,3 +956,12 @@ h3, .dm-head h3, .navpanel h3 { font-weight: 600; }
 .cart-sq, .btn-accent, .dept, .navbtn, .pc-foot-2 .pc-add, .pbadge.sale, .ctile .count { font-weight: 700; -webkit-font-smoothing: antialiased; }
 .hero::before, .hero::after { display: none; }
 .slider { background: #fff; }
+/* rail: another 30% smaller, sits low on the right just above the back-to-top button */
+@media (min-width: 1000px) {
+  .fab-rail { top: auto; bottom: 146px; transform: none; border-radius: 10px 0 0 10px; }
+  .fab-rail a { width: 45px; padding: 7px 2px; gap: 3px; font-size: 8.5px; line-height: 1.1; letter-spacing: -.01em; }
+  .fab-rail a:hover { width: 51px; padding-right: 8px; }
+  .fr-ic { width: 21px; height: 21px; }
+  .fr-ic .icon { width: 11px; height: 11px; }
+}
+@media (min-width: 1000px) { .fab-rail a { font-size: 8px; white-space: nowrap; padding-left: 1px; padding-right: 1px; } .fab-rail .fr-t { letter-spacing: -.02em; } }
