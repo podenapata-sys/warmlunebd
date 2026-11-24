@@ -18,6 +18,7 @@
   var P = {
     search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>', user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
     heart: '<path d="M12 20s-7-4.4-9.2-9A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5C19 15.6 12 20 12 20Z"/>', cart: '<path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
+    wa: '<path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.1z"/><path d="M9.2 8.6c.2-.4.5-.5.8-.5h.5c.2 0 .4.1.5.4l.6 1.5c.1.2 0 .4-.1.6l-.5.6c.6 1.2 1.5 2.1 2.7 2.7l.6-.5c.2-.1.4-.2.6-.1l1.5.6c.3.1.4.3.4.5v.5c0 .3-.1.6-.5.8-.6.4-1.5.5-2.3.2a9 9 0 0 1-5-5c-.3-.8-.2-1.7.2-2.3z"/>', star: '<path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>', trash: '<path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13M10 11v5M14 11v5"/>', close: '<path d="M6 6l12 12M18 6 6 18"/>', grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
     left: '<path d="m15 5-7 7 7 7"/>', right: '<path d="m9 5 7 7-7 7"/>', up: '<path d="m5 15 7-7 7 7"/>', down: '<path d="m5 9 7 7 7-7"/>', arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
     phone: '<path d="M5 4h3l1.5 4-2 1.3a11 11 0 0 0 5.2 5.2L14 12.5l4 1.5v3a2 2 0 0 1-2 2A14 14 0 0 1 3 6a2 2 0 0 1 2-2Z"/>', mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
@@ -367,7 +368,13 @@
         '<input id="nl" type="email" name="email" placeholder="Your email address" autocomplete="email" required><input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">' +
         '<button type="submit" aria-label="Subscribe">' + icon('send') + '</button></form><p class="news-msg" data-news-msg role="status"></p></div>' +
     '</div><div class="wrap ftr-bottom"><span>© ' + new Date().getFullYear() + ' ' + esc(W.brand || 'Bakaina') + '. All rights reserved.</span><div class="pills" aria-label="Payment options">' +
-      (S.payments || []).map(function (x) { return '<span class="pill">' + esc(x) + '</span>'; }).join('') + '</div></div></footer>';
+      (S.payments || []).map(function (x) { return '<span class="pill">' + esc(x) + '</span>'; }).join('') + '</div></div></footer>' +
+    '<nav class="fab-rail" aria-label="Quick contact">' +
+      (W.phone ? '<a class="fr-call" href="tel:' + esc(W.phone) + '"><span class="fr-ic">' + icon('phone') + '</span><span class="fr-t">Call Now</span></a>' : '') +
+      '<a class="fr-wa" href="' + HELP + '" target="_blank" rel="noopener"><span class="fr-ic">' + icon('wa') + '</span><span class="fr-t">WhatsApp</span></a>' +
+      '<a class="fr-rev" href="review.html"><span class="fr-ic">' + icon('star') + '</span><span class="fr-t">Review Us</span></a></nav>' +
+    '<button class="fab-top" type="button" data-top aria-label="Back to top" hidden>' + icon('up') + '</button>' +
+    '<a class="fab-wa" href="' + HELP + '" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">' + icon('wa') + '<span class="fab-tip">Chat with us</span></a>';
 
   /* ---------- Render ---------- */
   $('[data-header]').outerHTML = header + drawers;
@@ -486,6 +493,13 @@
       el.classList.add('reveal'); io.observe(el);
     });
   }
+  // Back to top: appears after scrolling down
+  (function () {
+    var tb = $('[data-top]'); if (!tb) return;
+    function upd() { tb.hidden = scrollY < 600; }
+    window.addEventListener('scroll', upd, { passive: true }); upd();
+    tb.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); var m = $('#main'); if (m) m.focus({ preventScroll: true }); });
+  })();
   // Arrow keys move between tabs
   $$('[role=tablist]').forEach(function (list) {
     list.addEventListener('keydown', function (e) {

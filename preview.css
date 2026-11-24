@@ -780,3 +780,34 @@ h1, h2, .shead h2, .slide h2, .catpg h1, .cp h1 { color: var(--brand); font-weig
 .ftr-bottom { padding-top: 16px; padding-bottom: 24px; }
 .mv { background: var(--dark); border-bottom: 1px solid rgba(255, 255, 255, .08); }
 .slide .pic img, .side img { height: auto; }
+
+/* ---------- Floating contact: side rail (laptop/PC), back to top, WhatsApp bubble ---------- */
+.fab-rail { display: none; }
+.fab-wa { position: fixed; right: 16px; bottom: 18px; z-index: 32; width: 58px; height: 58px; border-radius: 999px; background: #25D366; color: #fff; display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 10px 24px rgba(37, 211, 102, .45); transition: transform .25s ease, box-shadow .25s ease; }
+.fab-wa .icon { width: 30px; height: 30px; stroke-width: 1.9; }
+.fab-wa::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: #25D366; z-index: -1; animation: fab-pulse 2.4s ease-out infinite; }
+@keyframes fab-pulse { 0% { transform: scale(1); opacity: .55; } 100% { transform: scale(1.6); opacity: 0; } }
+.fab-wa:hover { transform: scale(1.08); box-shadow: 0 14px 30px rgba(37, 211, 102, .55); }
+.fab-tip { position: absolute; right: 70px; top: 50%; transform: translate(8px, -50%); white-space: nowrap; background: #fff; color: var(--brand); font-weight: 700; font-size: 13px; padding: 8px 12px; border-radius: 999px; box-shadow: var(--shadow-up); opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; }
+.fab-wa:hover .fab-tip, .fab-wa:focus-visible .fab-tip { opacity: 1; transform: translate(0, -50%); }
+.fab-top { position: fixed; right: 23px; bottom: 88px; z-index: 32; width: 44px; height: 44px; border-radius: 999px; color: #fff; background: linear-gradient(160deg, var(--brand-2), var(--brand)); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 8px 18px rgba(9, 47, 112, .3); transition: transform .25s ease; animation: fab-in .3s ease; }
+.fab-top[hidden] { display: none; }
+.fab-top:hover { transform: translateY(-3px); }
+@keyframes fab-in { from { opacity: 0; transform: translateY(10px); } }
+body.mc-dimmed .fab-wa, body.mc-dimmed .fab-top { z-index: 30; }
+@media (max-width: 999px) { .fab-top { display: none; } .fab-wa { width: 54px; height: 54px; right: 14px; bottom: 16px; } .fab-tip { display: none; } }
+@media (min-width: 1000px) {
+  .fab-rail { display: flex; flex-direction: column; position: fixed; right: 0; top: 50%; transform: translateY(-50%); z-index: 32; border-radius: 18px 0 0 18px; overflow: hidden; box-shadow: -6px 10px 30px rgba(9, 47, 112, .18); }
+  .fab-rail a { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; width: 92px; padding: 14px 6px; font-family: var(--font-h); font-weight: 600; font-size: 13px; transition: width .25s ease, filter .25s ease, padding .25s ease; }
+  .fab-rail a:hover { width: 104px; padding-right: 18px; filter: brightness(1.08); }
+  .fr-ic { width: 42px; height: 42px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, .18); transition: transform .3s ease; }
+  .fab-rail a:hover .fr-ic { transform: scale(1.1) rotate(-8deg); }
+  .fr-ic .icon { width: 21px; height: 21px; }
+  .fr-call { background: var(--brand); color: #fff; }
+  .fr-wa { background: #128C4A; color: #fff; }
+  .fr-rev { background: #fff; color: var(--brand); }
+  .fr-rev .fr-ic { background: #FFF1E3; color: var(--accent); }
+  .fr-rev .icon { fill: currentColor; }
+}
+@media (prefers-reduced-motion: reduce) { .fab-wa::before { animation: none; } }
