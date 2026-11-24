@@ -203,7 +203,7 @@
         '<a class="logo" href="preview.html" aria-label="Bakaina home"><img src="img/logo-mark.png" alt="" width="34" height="34">' + esc(W.brand || 'Bakaina') + '</a>' +
         '<div class="d-only" style="flex:1;max-width:820px">' + searchForm('qd') + '</div>' +
         '<div class="tools">' +
-          '<a class="hbtn d-only" href="products.html?view=account">' + icon('user') + 'Account</a>' +
+          '<a class="hbtn d-only" href="preview.html?view=account">' + icon('user') + 'Account</a>' +
           '<a class="hbtn" href="products.html?view=wishlist" aria-label="Wishlist">' + icon('heart') + '<span class="d-only">Wishlist</span><span class="hbadge" data-wish-n hidden></span></a>' +
           '<div class="mc-wrap d-only" data-mc>' +
             '<a class="cart-sum" href="preview.html?view=cart" data-cart-sum>0 items – ৳0</a>' +
@@ -247,7 +247,7 @@
         return '<li><button class="dl" type="button" aria-expanded="false" aria-controls="dsub' + i + '" data-acc>' + icon(d.icon) + esc(d.name) + '<span class="chev">' + icon('right') + '</span></button>' +
           '<ul class="dsub" id="dsub' + i + '" hidden><li><a href="' + catUrl(d.id) + '">All ' + esc(d.name) + '</a></li>' + (subs[d.id] || []).slice(0, 6).map(function (s) { return '<li><a href="' + catUrl(d.id) + '">' + esc(s) + '</a></li>'; }).join('') + '</ul></li>';
       }).join('') + '</ul><p class="dtitle">Shop</p><ul class="dlist"><li><a href="products.html?sale=1">' + icon('cash') + 'Offers</a></li><li><a href="products.html?tag=new">' + icon('box') + 'New arrivals</a></li></ul>' +
-      '<p class="dtitle">Account</p><ul class="dlist"><li><a href="products.html?view=account">' + icon('user') + 'My account</a></li><li><a href="products.html?view=wishlist">' + icon('heart') + 'Wishlist</a></li>' +
+      '<p class="dtitle">Account</p><ul class="dlist"><li><a href="preview.html?view=account">' + icon('user') + 'My account</a></li><li><a href="products.html?view=wishlist">' + icon('heart') + 'Wishlist</a></li>' +
         '<li><a href="' + TRACK + '" target="_blank" rel="noopener">' + icon('truck') + 'Track order</a></li><li><a href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Contact us</a></li></ul></div></aside>' +
     '<aside class="drawer right" data-drawer="cart" role="dialog" aria-modal="true" aria-labelledby="d-cart-t" hidden><div class="drawer-head"><h2 id="d-cart-t">Shopping cart</h2><button class="round-hit" type="button" data-close aria-label="Close cart">' + icon('close') + '</button></div>' +
       '<div class="drawer-body" data-cart-body></div><div class="drawer-foot" data-cart-foot></div></aside>' +
@@ -366,7 +366,7 @@
       (socials.length ? '<div class="socials">' + socials.map(function (k) { return '<a href="' + esc(soc[k]) + '" target="_blank" rel="noopener" aria-label="' + esc(W.brand || 'Bakaina') + ' on ' + ({ facebook: 'Facebook', instagram: 'Instagram', youtube: 'YouTube', tiktok: 'TikTok' })[k] + '">' + icon(k) + '</a>'; }).join('') + '</div>' : '') + '</div>' +
     '<div class="wrap ftr-cols">' +
       '<nav aria-label="About"><h3>About Us</h3><ul><li><a href="delivery.html">Delivery information</a></li><li><a href="refund.html">Returns & refunds</a></li><li><a href="privacy.html">Privacy policy</a></li><li><a href="refund.html">Terms & conditions</a></li></ul></nav>' +
-      '<nav aria-label="My account"><h3>My Account</h3><ul><li><a href="products.html?view=account">Account</a></li><li><a href="products.html?view=wishlist">Wishlist</a></li><li><a href="' + TRACK + '" target="_blank" rel="noopener">Track order</a></li><li><a href="#" data-open="cart">Shopping cart</a></li></ul></nav>' +
+      '<nav aria-label="My account"><h3>My Account</h3><ul><li><a href="preview.html?view=account">Account</a></li><li><a href="products.html?view=wishlist">Wishlist</a></li><li><a href="' + TRACK + '" target="_blank" rel="noopener">Track order</a></li><li><a href="#" data-open="cart">Shopping cart</a></li></ul></nav>' +
       '<nav aria-label="Customer service"><h3>Customer Service</h3><ul><li><a href="' + HELP + '" target="_blank" rel="noopener">Contact us</a></li>' +
         (W.phone ? '<li><a href="tel:' + esc(W.phone) + '">' + icon('phone') + esc(W.phone) + '</a></li>' : '') + (W.email ? '<li><a href="mailto:' + esc(W.email) + '">' + icon('mail') + 'Email us</a></li>' : '') + '<li><a href="products.html">Shop all</a></li></ul></nav>' +
       '<div class="news-col"><h3 id="nl-h">Newsletter</h3><p>Get new arrivals and offers by email.</p><form class="news" data-news novalidate aria-labelledby="nl-h"><label class="sr-only" for="nl">Email address</label>' +
@@ -393,6 +393,10 @@
       '<div class="catpg-chips">' + depts.map(function (d) { return '<a href="' + catUrl(d.id) + '"' + (d.id === cd.id ? ' aria-current="page"' : '') + '>' + esc(d.name) + '</a>'; }).join('') + '</div>' +
       '<div class="catpg-list">' + items.map(card).join('') + '</div></div></div></div></section>';
     document.title = cd.name + ' – ' + (W.brand || 'Bakaina');
+  }
+  if (VIEW === 'account') {
+    main = '<section class="sec acc"><div class="wrap"><p class="crumb"><a href="preview.html">Home</a> / My account</p><h1>My account</h1><div data-acc-root></div></div></section>';
+    document.title = 'My account – ' + (W.brand || 'Bakaina');
   }
   if (VIEW === 'cart') { main = '<section class="sec cp"><div class="wrap"><p class="crumb"><a href="preview.html">Home</a> / Shopping cart</p><h1>Shopping cart</h1><div data-cart-page></div></div></section>'; document.title = 'Shopping cart – ' + (W.brand || 'Bakaina'); }
   $('#main').innerHTML = main;
@@ -497,6 +501,12 @@
       if (el.classList.contains('hero') || el.getBoundingClientRect().top < innerHeight) return;
       el.classList.add('reveal'); io.observe(el);
     });
+  }
+  // Customer accounts (Firebase): loaded only on the account page
+  if (VIEW === 'account') {
+    import('./auth.js').then(function (m) {
+      m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: 'products.html?view=wishlist', cartUrl: 'preview.html?view=cart' });
+    }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }
   // Back to top: appears after scrolling down
   (function () {

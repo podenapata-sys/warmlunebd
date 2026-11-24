@@ -49,6 +49,7 @@
       <button type="button" role="tab" class="on" data-tab="orders" aria-selected="true">অর্ডার</button>
       <button type="button" role="tab" data-tab="abandoned" aria-selected="false">🛒 Abandoned Cart<span class="count" data-ab-count hidden></span></button>
       <button type="button" role="tab" data-tab="reviews" aria-selected="false">রিভিউ<span class="count" data-pending hidden></span></button>
+      <button type="button" role="tab" data-tab="customers" aria-selected="false">👤 গ্রাহক (Accounts)</button>
     </nav>
 
     <section data-panel="abandoned" hidden>
@@ -62,6 +63,11 @@
       </div>
       <div class="review-list" data-ab-list></div>
       <p class="empty-state" data-ab-empty hidden>কোনো অসম্পূর্ণ অর্ডার নেই।</p>
+    </section>
+
+    <section data-panel="customers" hidden>
+      <p class="hint">ওয়েবসাইটে যারা অ্যাকাউন্ট খুলেছেন (Firebase)। এই তথ্য শুধু অর্ডার আর ডেলিভারির জন্য — কাউকে শেয়ার করবেন না।</p>
+      <div data-customers></div>
     </section>
 
     <section data-panel="reviews" hidden>
@@ -110,6 +116,15 @@
 <div class="toast" data-toast role="status" hidden></div>
 
 <script src="config.js"></script>
+<script src="firebase-config.js"></script>
+<script type="module">
+  // Customers tab: loads Firebase only when the tab is first opened
+  let started = false;
+  document.querySelector('[data-tab="customers"]').addEventListener('click', () => {
+    if (started) return; started = true;
+    import('./auth.js').then((m) => m.mountAdmin(document.querySelector('[data-customers]')));
+  });
+</script>
 <script src="admin.js" defer></script>
 </body>
 </html>

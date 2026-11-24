@@ -1,0 +1,43 @@
+rules_version = '2';
+
+// Bakaina customer accounts.
+// Paste this into Firebase console → Firestore Database → Rules → Publish.
+//
+// users/{uid}   one profile per customer, written by the customer themself
+// admins/{uid}  add a document here (any content) for each account that may open the
+//               Customers section of the dashboard. Only the Firebase console can write it.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdmin() { return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+    function validName(v) { return v is string && v.size() >= 2 && v.size() <= 80; }
+    function validPhone(v) { return v is string && v.matches('^01[3-9][0-9]{8}$'); }
+    function validAddress(v) { return v is string && v.size() <= 300; }
+
+    match /users/{uid} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'phone', 'email', 'address', 'createdAt', 'lastLoginAt', 'source'])
+        && validName(request.resource.data.name)
+        && validPhone(request.resource.data.phone)
+        && request.resource.data.email == request.auth.token.email
+        && validAddress(request.resource.data.get('address', ''))
+        && request.resource.data.createdAt == request.time;
+
+      allow update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'phone', 'address', 'lastLoginAt'])
+        && validName(request.resource.data.name)
+        && validPhone(request.resource.data.phone)
+        && validAddress(request.resource.data.get('address', ''));
+
+      allow delete: if false;
+    }
+
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}
