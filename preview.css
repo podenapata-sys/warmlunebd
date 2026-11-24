@@ -823,3 +823,4 @@ body.mc-dimmed .fab-wa, body.mc-dimmed .fab-top { z-index: 30; }
   .fr-ic { width: 29px; height: 29px; }
   .fr-ic .icon { width: 15px; height: 15px; }
 }
+@media (min-width: 1000px) { .fab-rail { top: 60%; } }
