@@ -811,3 +811,6 @@ body.mc-dimmed .fab-wa, body.mc-dimmed .fab-top { z-index: 30; }
   .fr-rev .icon { fill: currentColor; }
 }
 @media (prefers-reduced-motion: reduce) { .fab-wa::before { animation: none; } }
+
+.tb-fb .icon { color: #1877F2; }
+.socials a { width: 46px; height: 46px; }

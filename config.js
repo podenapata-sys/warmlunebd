@@ -300,7 +300,7 @@ window.WL = {
     promo: { label: 'LIMITED TIME OFFER', title: 'Up to {max}% Off Trending Deals', text: 'WarmLune™ Heating Belt and the Belt + Gel Mask combo. While stocks last.', button: 'Shop the Sale', url: 'products.html?sale=1' },
 
     // Footer. Social links without a URL are hidden; payment pills: list only what you really accept.
-    social: { facebook: '', instagram: '', youtube: '', tiktok: '' },
+    social: { facebook: 'https://www.facebook.com/profile.php?id=61579383251043', instagram: '', youtube: '', tiktok: '' },
     payments: ['Cash on Delivery'],
   },
 };

@@ -19,6 +19,7 @@
     search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>', user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',
     heart: '<path d="M12 20s-7-4.4-9.2-9A5 5 0 0 1 12 6a5 5 0 0 1 9.2 5C19 15.6 12 20 12 20Z"/>', cart: '<path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.9a1 1 0 0 0 1-.8L20 8H6.2"/><circle cx="9" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
     wa: '<path d="M4 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.1z"/><path d="M9.2 8.6c.2-.4.5-.5.8-.5h.5c.2 0 .4.1.5.4l.6 1.5c.1.2 0 .4-.1.6l-.5.6c.6 1.2 1.5 2.1 2.7 2.7l.6-.5c.2-.1.4-.2.6-.1l1.5.6c.3.1.4.3.4.5v.5c0 .3-.1.6-.5.8-.6.4-1.5.5-2.3.2a9 9 0 0 1-5-5c-.3-.8-.2-1.7.2-2.3z"/>', star: '<path d="m12 3.5 2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z"/>',
+    facebook: '<path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H7v4h3v6h4v-6h3l1-4h-4V8z"/>',
     menu: '<path d="M4 7h16M4 12h16M4 17h16"/>', trash: '<path d="M4 7h16M9 7V4.5h6V7M6.5 7l1 13h9l1-13M10 11v5M14 11v5"/>', close: '<path d="M6 6l12 12M18 6 6 18"/>', grid: '<rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/>',
     left: '<path d="m15 5-7 7 7 7"/>', right: '<path d="m9 5 7 7-7 7"/>', up: '<path d="m5 15 7-7 7 7"/>', down: '<path d="m5 9 7 7 7-7"/>', arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
     phone: '<path d="M5 4h3l1.5 4-2 1.3a11 11 0 0 0 5.2 5.2L14 12.5l4 1.5v3a2 2 0 0 1-2 2A14 14 0 0 1 3 6a2 2 0 0 1 2-2Z"/>', mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',
@@ -191,7 +192,8 @@
     '<div class="topbar"><div class="wrap"><div>' +
       (W.phone ? '<a href="tel:' + esc(W.phone) + '">' + icon('phone') + esc(W.phone) + '</a>' : '') +
       '<a href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Contact</a><a href="delivery.html">' + icon('truck') + 'Delivery info</a><a href="' + TRACK + '" target="_blank" rel="noopener">' + icon('box') + 'Track order</a>' +
-    '</div><div><a href="refund.html">Returns & refunds</a><a href="privacy.html">Privacy</a></div></div></div>' +
+    '</div><div><a href="refund.html">Returns & refunds</a><a href="privacy.html">Privacy</a>' +
+      ((S.social || {}).facebook ? '<a class="tb-fb" href="' + esc(S.social.facebook) + '" target="_blank" rel="noopener">' + icon('facebook') + 'Facebook</a>' : '') + '</div></div></div>' +
     '<header class="hdr"><div class="wrap">' +
       '<div class="hdr-main">' +
         '<button class="hbtn m-only" type="button" data-open="nav" aria-label="Menu" aria-controls="d-nav">' + icon('menu') + '</button>' +
@@ -358,7 +360,7 @@
     '<footer class="ftr"><div class="wrap ftr-top"><a class="logo" href="preview.html"><span class="logo-badge"><img src="img/logo-mark.png" alt="" width="34" height="34"></span>' + esc(W.brand || 'Bakaina') + '</a>' +
       '<p class="ftr-tag">Shop Smarter. <span>Live Better.</span></p>' +
       (W.whatsapp ? '<a class="ftr-wa" href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + '<span><small>Customer support</small>WhatsApp ' + esc(W.phone || '') + '</span></a>' : '') +
-      (socials.length ? '<div class="socials">' + socials.map(function (k) { return '<a href="' + esc(soc[k]) + '" target="_blank" rel="noopener" aria-label="' + k + '">' + icon(k) + '</a>'; }).join('') + '</div>' : '') + '</div>' +
+      (socials.length ? '<div class="socials">' + socials.map(function (k) { return '<a href="' + esc(soc[k]) + '" target="_blank" rel="noopener" aria-label="' + esc(W.brand || 'Bakaina') + ' on ' + ({ facebook: 'Facebook', instagram: 'Instagram', youtube: 'YouTube', tiktok: 'TikTok' })[k] + '">' + icon(k) + '</a>'; }).join('') + '</div>' : '') + '</div>' +
     '<div class="wrap ftr-cols">' +
       '<nav aria-label="About"><h3>About Us</h3><ul><li><a href="delivery.html">Delivery information</a></li><li><a href="refund.html">Returns & refunds</a></li><li><a href="privacy.html">Privacy policy</a></li><li><a href="refund.html">Terms & conditions</a></li></ul></nav>' +
       '<nav aria-label="My account"><h3>My Account</h3><ul><li><a href="products.html?view=account">Account</a></li><li><a href="products.html?view=wishlist">Wishlist</a></li><li><a href="' + TRACK + '" target="_blank" rel="noopener">Track order</a></li><li><a href="#" data-open="cart">Shopping cart</a></li></ul></nav>' +
