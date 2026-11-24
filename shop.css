@@ -546,16 +546,16 @@ body.admin .stat strong { font-weight: 600; }
 :root {
   --bg: #FFFFFF;
   --surface: #FFFFFF;
-  --green: #012863;          /* primary: buttons, links, focus */
+  --green: #022662;          /* primary: buttons, links, focus */
   --green-dark: #1B2333;     /* ink */
-  --gold: #012863;
+  --gold: #022662;
   --gold-soft: #EEF2F9;
   --ink: #1B2333;
   --body: #444B5A;
   --muted: #6B7385;
   --line: #E4E8EF;
   --radius: 16px;
-  --shadow: 0 18px 40px -24px rgba(1, 40, 99, .35);
+  --shadow: 0 18px 40px -24px rgba(2, 38, 98, .35);
   --bn: 'Noto Serif Bengali', 'Ruposhi Bangla', 'Jost', system-ui, sans-serif;
   --en: 'Jost', 'Noto Serif Bengali', 'Ruposhi Bangla', system-ui, sans-serif;
 }
@@ -564,7 +564,7 @@ body { background: #fff; }
 .logo { letter-spacing: .06em; font-family: var(--en); font-weight: 600; text-transform: uppercase; font-size: 20px; }
 h1, h2, h3 { font-weight: 600; }
 .btn { border-radius: 999px; }
-.btn:hover { background: #011B45; opacity: 1; }
+.btn:hover { background: #011A47; opacity: 1; }
 .btn.outline { border-color: var(--ink); color: var(--ink); }
 .btn.outline:hover { background: var(--ink); color: #fff; }
 .panel, .choice label, .field input, .field select, .field textarea, .qty, .cod-box, .bkash-box, .copy-btn, .form-error, .order-id,
@@ -606,7 +606,7 @@ body.admin .stat, body.admin .filters, body.admin .act, body.admin .orders tr, .
 .ab-tools select { padding: 8px 10px; border: 1px solid var(--line); background: #fff; font: inherit; }
 .ab-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
 .ab-head a { font-weight: 600; }
-.ab-card.ab-New { border-left: 4px solid #012863; }
+.ab-card.ab-New { border-left: 4px solid #022662; }
 .ab-card.ab-Called, .ab-card.ab-NoAnswer { border-left: 4px solid #B8873A; }
 .ab-card.ab-Recovered, .ab-card.ab-Ordered { border-left: 4px solid #2F6B45; opacity: .75; }
 .ab-card.ab-NotInterested { opacity: .55; }
@@ -622,13 +622,13 @@ body.admin .stat, body.admin .filters, body.admin .act, body.admin .orders tr, .
 .policy p, .policy li { font-size: 16px; line-height: 1.75; }
 .policy ul, .policy ol { padding-left: 22px; margin: 6px 0 10px; }
 .policy li + li { margin-top: 4px; }
-.policy a { color: #012863; }
+.policy a { color: #022662; }
 .policy-nav { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); font-size: 15px; }
-.policy-nav a { color: #012863; }
+.policy-nav a { color: #022662; }
 .policy-nav a[aria-current="page"] { color: var(--ink); font-weight: 600; text-decoration: none; }
 
 /* Bakaina wordmark (text next to the B mark) */
-.logo-word { height: auto; font: 700 21px/1 'Jost', system-ui, sans-serif; letter-spacing: .01em; color: #012863; white-space: nowrap; }
+.logo-word { height: auto; font: 700 21px/1 'Jost', system-ui, sans-serif; letter-spacing: .01em; color: #022662; white-space: nowrap; }
 @media (max-width: 360px) { .logo-word { font-size: 18px; } }
 .logo .logo-word { text-transform: none; letter-spacing: .01em; }
 

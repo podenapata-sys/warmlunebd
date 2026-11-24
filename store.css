@@ -3,13 +3,13 @@
    Mobile-first. Poppins for English, Noto Sans Bengali for Bangla.
    ========================================================================== */
 :root {
-  --navy: #0B2A66; --navy-hover: #13398A;
-  --orange: #F5821F; --orange-hover: #E8730F; --on-orange: #141414; --orange-text: #A84F05;
+  --navy: #022662; --navy-hover: #0A3A86;
+  --orange: #FE7902; --orange-hover: #E56A00; --on-orange: #141414; --orange-text: #A84F05;
   --bg: #FFFFFF; --surface: #F7F7F5; --text: #2B2B2B; --muted: #666666; --line: #E7E5E0;
   --sale: #D42A1E; --star: #F2A516;
   --r-card: 16px; --r-btn: 12px;
-  --shadow: 0 2px 10px rgba(11, 42, 102, .06), 0 1px 3px rgba(11, 42, 102, .05);
-  --shadow-up: 0 10px 28px rgba(11, 42, 102, .12);
+  --shadow: 0 2px 10px rgba(2, 38, 98, .06), 0 1px 3px rgba(2, 38, 98, .05);
+  --shadow-up: 0 10px 28px rgba(2, 38, 98, .12);
   --g-peach: linear-gradient(135deg, #FFE3D3 0%, #FFF1E8 100%);
   --g-blue: linear-gradient(135deg, #DCEBFF 0%, #EEF5FF 100%);
   --g-pink: linear-gradient(135deg, #FFDDE8 0%, #FFF0F5 100%);
@@ -150,7 +150,7 @@ main { display: block; }
 .slider-arrow.prev { left: 12px; } .slider-arrow.next { right: 12px; }
 .dots { position: absolute; left: 0; right: 0; bottom: 6px; display: flex; justify-content: center; gap: 2px; z-index: 2; }
 .dot { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; }
-.dot::before { content: ''; width: 8px; height: 8px; border-radius: 999px; background: rgba(255, 255, 255, .75); box-shadow: 0 0 0 1px rgba(11, 42, 102, .25); transition: width .25s, background .25s; }
+.dot::before { content: ''; width: 8px; height: 8px; border-radius: 999px; background: rgba(255, 255, 255, .75); box-shadow: 0 0 0 1px rgba(2, 38, 98, .25); transition: width .25s, background .25s; }
 .dot[aria-current="true"]::before { width: 26px; background: var(--orange); box-shadow: none; }
 .side-banners { display: grid; gap: 14px; }
 .side-banner { border-radius: var(--r-card); padding: 20px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 150px; }
@@ -187,7 +187,7 @@ main { display: block; }
 .card:hover { box-shadow: var(--shadow-up); transform: translateY(-2px); }
 .card-media { position: relative; display: block; aspect-ratio: 1; background: var(--surface); }
 .card-media img { width: 100%; height: 100%; object-fit: cover; }
-.ph { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: rgba(11, 42, 102, .45); }
+.ph { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: rgba(2, 38, 98, .45); }
 .ph .icon { width: 40%; height: 40%; stroke-width: 1.2; }
 .sale-badge { position: absolute; top: 10px; left: 10px; background: var(--sale); color: #fff; font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
 .heart { position: absolute; top: 6px; right: 6px; width: 44px; height: 44px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; z-index: 1; }
