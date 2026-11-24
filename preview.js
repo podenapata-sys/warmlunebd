@@ -343,7 +343,7 @@
     // Ticker
     '<div class="ticker" aria-label="' + esc(ticker.join(' · ')) + '"><div class="ticker-track" aria-hidden="true">' + ticker.concat(ticker, ticker, ticker).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div></div>' +
     // Brands
-    '<section class="sec" aria-labelledby="h-brand"><div class="wrap"><div class="shead"><h2 id="h-brand">Shop by Brand</h2><p>Shop from the brands we carry.</p></div>' + carousel('car-brand', brands, 'cols-8') + '</div></section>' +
+    '<section class="sec" aria-labelledby="h-brand"><div class="wrap"><div class="shead"><h2 id="h-brand">Shop by Brand</h2><p>Shop from the brands we carry.</p></div>' + carousel('car-brand', brands, 'brand-track') + '</div></section>' +
     // Testimonials (real reviews only)
     (reviews.length ? '<section class="sec sec-white" aria-labelledby="h-rev"><div class="wrap"><div class="shead"><h2 id="h-rev">What our customers say</h2><p>' + avg + ' out of 5 from ' + reviews.length + ' customer reviews of the WarmLune™ Heating Belt.</p></div>' +
       carousel('car-rev', reviews.map(function (r) { return '<figure class="quote" style="margin:0"><span class="qm" aria-hidden="true">“</span><p lang="bn">' + esc(r.text) + '</p><figcaption><span class="st" aria-label="' + r.rating + ' stars">' + '★'.repeat(r.rating) + '</span><br><span class="who">– ' + esc(r.name) + '</span></figcaption></figure>'; }).join(''), 'cols-4') + '</div></section>' : '') +
@@ -504,7 +504,7 @@
   }
   // Customer accounts (Firebase): loaded only on the account page
   if (VIEW === 'account') {
-    import('./auth.js?v=20261124d').then(function (m) {
+    import('./auth.js?v=20261124e').then(function (m) {
       m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: 'products.html?view=wishlist', cartUrl: 'preview.html?view=cart' });
     }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }

@@ -965,3 +965,18 @@ h3, .dm-head h3, .navpanel h3 { font-weight: 600; }
   .fr-ic .icon { width: 11px; height: 11px; }
 }
 @media (min-width: 1000px) { .fab-rail a { font-size: 8px; white-space: nowrap; padding-left: 1px; padding-right: 1px; } .fab-rail .fr-t { letter-spacing: -.02em; } }
+
+/* ---------- Shop by Brand: tall tiles + arrows sized like the Journal reference ---------- */
+.car-track.brand-track { grid-auto-columns: 46%; gap: 12px; }
+@media (min-width: 700px) { .car-track.brand-track { grid-auto-columns: calc((100% - 3 * 16px) / 4); gap: 16px; } }
+@media (min-width: 1000px) { .car-track.brand-track { grid-auto-columns: calc((100% - 5 * 20px) / 6); gap: 20px; } }
+.brand-track .brand-tile { aspect-ratio: 4 / 5; min-height: 0; justify-content: space-between; align-items: stretch; padding: 18px 16px 16px; border-radius: 8px; box-shadow: none; }
+.brand-track .brand-tile .mark { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; font-size: clamp(22px, 6vw, 34px); color: var(--brand); }
+.brand-track .brand-tile .bn { text-align: left; font-size: 14px; color: var(--text); font-weight: 500; }
+.brand-track .brand-tile.sample { background: linear-gradient(90deg, #fff, #F1F5FB); }
+.brand-track .brand-tile.sample .mark, .brand-track .brand-tile.sample .bn { color: #C4CAD3; }
+/* carousel arrows: plain white circle with a thin dark ring, centred on the row */
+.car-next, .car-prev { top: 50%; transform: translateY(-50%); }
+.car .round { width: 40px; height: 40px; background: #fff; border: 1px solid #2B2F36; box-shadow: none; color: #2B2F36; }
+.car .round:hover { background: var(--brand); border-color: var(--brand); color: #fff; }
+.car .round .icon { width: 18px; height: 18px; }
