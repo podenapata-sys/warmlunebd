@@ -504,7 +504,7 @@
   }
   // Customer accounts (Firebase): loaded only on the account page
   if (VIEW === 'account') {
-    import('./auth.js?v=20261124b').then(function (m) {
+    import('./auth.js?v=20261124c').then(function (m) {
       m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: 'products.html?view=wishlist', cartUrl: 'preview.html?view=cart' });
     }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }
