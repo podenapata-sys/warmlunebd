@@ -181,8 +181,11 @@
       '<span class="dm-pt"><small>' + (p ? (p.off ? 'Save ' + p.off + '%' : 'Featured') : esc(d.name)) + '</small><strong>' + esc(p ? p.name : 'Shop all ' + d.name) + '</strong>' + (p ? '<em>' + money(p.price) + '</em>' : '<em>20 products</em>') + '</span></a>';
   }
   function searchForm(id) {
-    return '<form class="search" role="search" data-search><label class="sr-only" for="' + id + '-c">Category</label><select id="' + id + '-c" name="cat"><option value="">All</option>' +
-      depts.map(function (d) { return '<option value="' + esc(d.id) + '">' + esc(d.name) + '</option>'; }).join('') + '</select>' +
+    return '<form class="search" role="search" data-search><div class="scat" data-scat>' +
+      '<button class="scat-btn" type="button" id="' + id + '-c" aria-haspopup="true" aria-expanded="false" aria-controls="' + id + '-cl"><span class="sr-only">Search in: </span><span data-scat-label>All</span>' + icon('down') + '</button>' +
+      '<input type="hidden" name="cat" value="">' +
+      '<div class="scat-pop" id="' + id + '-cl" role="group" aria-label="Search in a category"><button type="button" class="scat-all" data-scat-v="" aria-pressed="true">' + icon('grid') + 'All categories</button>' +
+      depts.map(function (d) { return '<button type="button" data-scat-v="' + esc(d.id) + '" aria-pressed="false">' + icon(d.icon) + esc(d.name) + '</button>'; }).join('') + '</div></div>' +
       '<label class="sr-only" for="' + id + '">Search products</label><input id="' + id + '" name="q" type="search" placeholder="Search here…" autocomplete="off">' +
       '<button type="submit" aria-label="Search">' + icon('search') + '</button></form>';
   }
@@ -517,6 +520,23 @@
     if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
     else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
   });
+  // Search category picker: hover (desktop) or click opens it; picking a department fills the box
+  (function () {
+    function close(w) { w.classList.remove('open'); $('.scat-btn', w).setAttribute('aria-expanded', 'false'); }
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.scat-btn'), opt = e.target.closest('[data-scat-v]');
+      $$('[data-scat]').forEach(function (w) { if (!w.contains(e.target)) close(w); });
+      if (btn) { var w = btn.closest('[data-scat]'), on = !w.classList.contains('open'); w.classList.toggle('open', on); btn.setAttribute('aria-expanded', String(on)); w.classList.remove('picked'); }
+      if (opt) {
+        var wr = opt.closest('[data-scat]'), v = opt.getAttribute('data-scat-v');
+        $('input[name=cat]', wr).value = v; $('[data-scat-label]', wr).textContent = v ? dname(v) : 'All';
+        $$('[data-scat-v]', wr).forEach(function (o) { o.setAttribute('aria-pressed', String(o === opt)); });
+        close(wr); wr.classList.add('picked'); $('.scat-btn', wr).focus(); var qi = $('input[name=q]', wr.closest('form')); if (qi) qi.focus();
+      }
+    });
+    $$('[data-scat]').forEach(function (w) { w.addEventListener('mouseleave', function () { w.classList.remove('picked'); }); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') $$('[data-scat].open').forEach(function (w) { close(w); $('.scat-btn', w).focus(); }); });
+  })();
   // Search → listing page
   $$('[data-search]').forEach(function (f) {
     f.addEventListener('submit', function (e) {
