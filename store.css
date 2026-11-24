@@ -116,7 +116,7 @@ input { font: inherit; color: inherit; }
 
 /* ---------- Sections ---------- */
 main { display: block; }
-.sec { padding: 36px 0; }
+.sec { padding-top: 36px; padding-bottom: 36px; }
 .sec-head { text-align: center; margin: 0 0 22px; }
 .sec-head h2 { display: inline-block; margin: 0; color: var(--navy); font-size: 22px; font-weight: 700; line-height: 1.3; }
 .sec-head h2::after { content: ''; display: block; width: 44px; height: 4px; border-radius: 4px; background: var(--orange); margin: 10px auto 0; }
@@ -125,7 +125,7 @@ main { display: block; }
 .sec-head-left p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
 .see-all { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; color: var(--orange-text); font-weight: 600; font-size: 14px; white-space: nowrap; }
 .see-all:hover { text-decoration: underline; }
-@media (min-width: 900px) { .sec { padding: 52px 0; } .sec-head h2 { font-size: 28px; } .sec-head-left h2 { font-size: 24px; } }
+@media (min-width: 900px) { .sec { padding-top: 52px; padding-bottom: 52px; } .sec-head h2 { font-size: 28px; } .sec-head-left h2 { font-size: 24px; } }
 
 /* ---------- Hero ---------- */
 .hero { padding-top: 16px; }
@@ -259,7 +259,7 @@ main { display: block; }
 }
 
 /* ---------- Listing page ---------- */
-.page-head { padding: 22px 0 6px; }
+.page-head { padding-top: 22px; padding-bottom: 6px; }
 .crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
 .crumbs a { display: inline-flex; align-items: center; min-height: 44px; color: var(--navy); }
 .page-head h1 { margin: 0; color: var(--navy); font-size: 24px; line-height: 1.25; }

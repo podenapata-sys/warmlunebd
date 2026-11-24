@@ -265,35 +265,50 @@ window.WL = {
     ],
     // Two banners beside the slider (stacked under it on phones)
     sideBanners: [
-      { title: 'K-Beauty Skincare', text: 'Anua & Medicube serums, cream and masks.', button: 'Shop skincare', url: 'products.html?cat=skincare', tone: 'pink' },
+      { title: 'K-Beauty Skincare', text: 'Anua & Medicube serums, cream and masks.', button: 'Shop beauty', url: 'products.html?cat=beauty', tone: 'pink' },
       { title: 'WarmLune™ Heating Belt', text: 'Cordless warmth & massage, ৳1,099.', button: 'Shop now', url: 'heating-belt.html', tone: 'blue' },
     ],
 
-    // Category tiles. icon: skincare | bodycare | haircare | appliance | household
+    // Departments (the 20 categories from the sourcing list). Every product below sits in one of them.
+    // A department with no products yet shows a "New products are on the way" page.
     categories: [
-      { id: 'skincare',  name: 'Skincare',             icon: 'skincare',  tone: 'peach' },
-      { id: 'bodycare',  name: 'Bodycare',             icon: 'bodycare',  tone: 'blue' },
-      { id: 'haircare',  name: 'Haircare',             icon: 'haircare',  tone: 'pink' },
-      { id: 'appliance', name: 'Home Appliances',      icon: 'appliance', tone: 'mint' },
-      { id: 'household', name: 'Household Essentials', icon: 'household', tone: 'yellow' },
+      { id: 'electronics', name: "Electronics",           icon: 'electronics', tone: 'peach' },
+      { id: 'beauty',      name: "Beauty",                icon: 'skincare',    tone: 'blue' },
+      { id: 'gadgets',     name: "Gadgets",               icon: 'gadgets',     tone: 'pink' },
+      { id: 'kitchen',     name: "Kitchen & Household",   icon: 'kitchen',     tone: 'mint' },
+      { id: 'lighting',    name: "Lighting",              icon: 'lighting',    tone: 'yellow' },
+      { id: 'furniture',   name: "Furniture",             icon: 'furniture',   tone: 'lavender' },
+      { id: 'appliances',  name: "Appliances",            icon: 'appliance',   tone: 'peach' },
+      { id: 'cleaning',    name: "Cleaning",              icon: 'cleaning',    tone: 'blue' },
+      { id: 'fashion',     name: "Fashion",               icon: 'fashion',     tone: 'pink' },
+      { id: 'fans',        name: "Fans",                  icon: 'fan',         tone: 'mint' },
+      { id: 'baby',        name: "Baby",                  icon: 'baby',        tone: 'yellow' },
+      { id: 'stationery',  name: "Stationery",            icon: 'pen',         tone: 'lavender' },
+      { id: 'toys',        name: "Toys",                  icon: 'toy',         tone: 'peach' },
+      { id: 'fitness',     name: "Fitness",               icon: 'fitness',     tone: 'blue' },
+      { id: 'tools',       name: "Tools",                 icon: 'tool',        tone: 'pink' },
+      { id: 'accessories', name: "Accessories",           icon: 'bag',         tone: 'mint' },
+      { id: 'outdoor',     name: "Outdoor",               icon: 'outdoor',     tone: 'yellow' },
+      { id: 'books',       name: "Books",                 icon: 'book',        tone: 'lavender' },
+      { id: 'perfume',     name: "Perfume",               icon: 'fragrance',   tone: 'peach' },
+      { id: 'others',      name: "Others++",              icon: 'gift',        tone: 'blue' },
     ],
     // One homepage section per category below; a section with no products is hidden
     collections: [
-      { category: 'haircare', title: 'Viral Hair Care', subtitle: 'Massive demand right now' },
-      { category: 'bodycare', title: 'Body Care & Comfort', subtitle: 'Stay warm and comfortable all winter' },
-      { category: 'skincare', title: 'Trending K-Beauty Skincare', subtitle: 'Korean favourites everyone is searching for' },
+      { category: 'gadgets', title: 'Gadgets & Comfort', subtitle: 'Stay warm and comfortable all winter' },
+      { category: 'beauty', title: 'Trending K-Beauty', subtitle: 'Korean favourites everyone is searching for' },
     ],
 
     // Category and tags for each product (id = shopProducts id, or 'belt').
     // tags: trending (Trending Products, max 4) · special / new / bestseller (the three tabs).
     // ⚠ Only tag 'bestseller' once a product has really sold the most — that tab stays hidden until then.
     products: {
-      'belt':                   { category: 'bodycare', tags: ['trending', 'special'] },
-      'combo-belt-mask':        { category: 'bodycare', tags: ['trending', 'special'] },
-      'anua-serum':             { category: 'skincare', tags: ['trending', 'new'] },
-      'medicube-gel-mask':      { category: 'skincare', tags: ['trending', 'new'] },
-      'medicube-pdrn-serum':    { category: 'skincare', tags: ['new'] },
-      'medicube-capsule-cream': { category: 'skincare', tags: ['new'] },
+      'belt':                   { category: 'gadgets', tags: ['trending', 'special'] },
+      'combo-belt-mask':        { category: 'beauty', tags: ['trending', 'special'] },
+      'anua-serum':             { category: 'beauty', tags: ['trending', 'new'] },
+      'medicube-gel-mask':      { category: 'beauty', tags: ['trending', 'new'] },
+      'medicube-pdrn-serum':    { category: 'beauty', tags: ['new'] },
+      'medicube-capsule-cream': { category: 'beauty', tags: ['new'] },
     },
 
     // Promo strip. {max} becomes the biggest real discount on the site (from the crossed-out prices).

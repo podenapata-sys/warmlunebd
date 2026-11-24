@@ -43,6 +43,23 @@
     haircare: '<path d="M5 4v16"/><path d="M5 6h6M5 9h6M5 12h6M5 15h6M5 18h6"/><path d="M15 4c2 3 4 4.5 4 8a4 4 0 0 1-8 0c0-3.5 2-5 4-8z"/>',
     appliance: '<rect x="5" y="3" width="14" height="18" rx="2.5"/><circle cx="12" cy="13" r="4"/><path d="M9 6.5h.01M12 6.5h3"/>',
     household: '<path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/>',
+    baby: '<path d="M10 3h4M9 6h6M10 6V3M14 6V3"/><path d="M8 9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2z"/><path d="M8 12h3M8 15h3"/>',
+    book: '<path d="M4 5a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 0 2 1h13v-3"/>',
+    cleaning: '<path d="M9 9h6l1 3v8a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-8z"/><path d="M10 9V6h3l3-2M16 7h3"/>',
+    electronics: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>',
+    fan: '<circle cx="12" cy="12" r="1.8"/><path d="M12 10.2C11 6 13 3 15.5 4.5S15 10 13.6 11M13.8 12.6c4 1.3 5.7 4.4 3.3 5.6s-4.8-3.2-4.6-4.9M10.3 12.9C7.4 16 4 16.2 4 13.5s5.5-2.4 6.3-1.4"/>',
+    fashion: '<path d="M8 3 4 6l2 4 2-1v12h8V9l2 1 2-4-4-3c-.5 1.5-2 2.5-4 2.5S8.5 4.5 8 3Z"/>',
+    fitness: '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
+    fragrance: '<rect x="6" y="9" width="12" height="12" rx="3"/><path d="M10 9V6h4v3M12 6V3h3"/>',
+    furniture: '<path d="M6 11V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/><path d="M4 11h16v5H4zM6 16v4M18 16v4"/>',
+    gadgets: '<rect x="7" y="7" width="10" height="10" rx="3"/><path d="M9 7V3h6v4M9 17v4h6v-4M12 10v2.5l1.5 1"/>',
+    gift: '<rect x="3" y="8" width="18" height="5" rx="1"/><path d="M5 13v8h14v-8M12 8v13"/><path d="M12 8c-1.5-4-6-4-5-1.5S12 8 12 8Zm0 0c1.5-4 6-4 5-1.5S12 8 12 8Z"/>',
+    kitchen: '<path d="M6 3v8a3 3 0 0 0 6 0V3M9 3v18"/><path d="M17 21V3c-2 1.5-3 4-3 7h3"/>',
+    lighting: '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.3 1 2.1h5c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3Z"/>',
+    outdoor: '<path d="M3 20 12 4l9 16z"/><path d="M12 4v16M9 20l3-5 3 5"/>',
+    pen: '<path d="m15 4 5 5L9 20H4v-5z"/><path d="m13 6 5 5"/>',
+    tool: '<path d="M14.5 6.5a4 4 0 0 0 5 5l-9 9a2.1 2.1 0 0 1-3-3l9-9a4 4 0 0 0-2-2z"/><path d="m14.5 6.5 2-3 4 4-3 2"/>',
+    toy: '<rect x="4" y="12" width="7" height="8" rx="1"/><rect x="13" y="12" width="7" height="8" rx="1"/><rect x="8.5" y="4" width="7" height="8" rx="1"/>',
   };
   function icon(n, cls) { return '<svg class="icon' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (P[n] || '') + '</svg>'; }
 
