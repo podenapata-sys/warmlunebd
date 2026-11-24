@@ -506,3 +506,34 @@ a, button, .tab, .navlink, .pc-name a, .mvc h3 a { transition: color .3s ease, b
 .reveal.in .car-track > *:nth-child(5) { transition-delay: .32s, .32s, 0s; }
 .reveal.in .car-track > *:nth-child(n+6) { transition-delay: .4s, .4s, 0s; }
 @media (min-width: 1000px) { .wrap { padding: 0 20px; } }
+
+/* ---------- 20 departments: wider mega menu ---------- */
+.mega { width: calc(100% - 32px); grid-template-columns: repeat(5, 1fr); gap: 2px 22px; max-height: calc(100vh - 160px); overflow: auto; }
+.mega h3 a { min-height: 34px; font-size: 13.5px; }
+.mega ul { margin: 0 0 6px; }
+.mega li a { min-height: 26px; font-size: 12.5px; }
+.mega .mega-all { color: var(--accent-2); font-weight: 600; }
+
+/* ---------- Category page ---------- */
+.catpg h1 { margin: 0; font-size: 24px; }
+.catpg-grid { display: grid; gap: 18px; margin-top: 8px; }
+.catpg-grid > * { min-width: 0; }
+.catpg-side { display: none; }
+.catpg-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 0 0 12px; }
+.catpg-head p { margin: 0; color: var(--muted); font-size: 13px; }
+.catpg-chips { display: flex; gap: 8px; overflow-x: auto; padding: 2px 0 12px; scrollbar-width: none; }
+.catpg-chips a { flex: none; display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: #fff; font-size: 13px; white-space: nowrap; }
+.catpg-chips a[aria-current], .catpg-side a[aria-current] { background: var(--brand); border-color: var(--brand); color: #fff; }
+.catpg-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (min-width: 700px) { .catpg-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1000px) {
+  .catpg-grid { grid-template-columns: 250px 1fr; align-items: start; }
+  .catpg-side { display: block; background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: 12px 10px; position: sticky; top: 150px; }
+  .catpg-side h2 { margin: 4px 8px 8px; font-size: 15px; }
+  .catpg-side ul { list-style: none; margin: 0; padding: 0; }
+  .catpg-side a { display: flex; align-items: center; gap: 10px; min-height: 38px; padding: 0 10px; border-radius: var(--r-sm); font-size: 13.5px; }
+  .catpg-side a:hover { background: #F2F4F7; color: var(--brand); }
+  .catpg-side a[aria-current] .icon { color: #fff; }
+  .catpg-chips { display: none; }
+  .catpg-list { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+}

@@ -27,7 +27,16 @@
     skincare: '<path d="M10 3h4v3h-4z"/><path d="M9 6h6l1 3v10a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V9z"/><path d="M8 12h8"/>', bodycare: '<path d="M8 8h8l1 2v9a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-9z"/><path d="M10 8V5h4v3"/><path d="M14 5h3"/><path d="M10 14h4"/>',
     haircare: '<path d="M5 4v16"/><path d="M5 6h6M5 9h6M5 12h6M5 15h6M5 18h6"/><path d="M15 4c2 3 4 4.5 4 8a4 4 0 0 1-8 0c0-3.5 2-5 4-8z"/>', appliance: '<rect x="5" y="3" width="14" height="18" rx="2.5"/><circle cx="12" cy="13" r="4"/><path d="M9 6.5h.01M12 6.5h3"/>',
     household: '<path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/><path d="M10 20v-5h4v5"/>', makeup: '<path d="M9 21V11h6v10z"/><path d="M10 11V7l4-4v8"/>',
-    fragrance: '<rect x="6" y="9" width="12" height="12" rx="3"/><path d="M10 9V6h4v3M12 6V3h3"/>', kitchen: '<path d="M6 3v8a3 3 0 0 0 6 0V3M9 3v18"/><path d="M17 21V3c-2 1.5-3 4-3 7h3"/>',
+    fragrance: '<rect x="6" y="9" width="12" height="12" rx="3"/><path d="M10 9V6h4v3M12 6V3h3"/>',
+    electronics: '<rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/>', gadgets: '<rect x="7" y="7" width="10" height="10" rx="3"/><path d="M9 7V3h6v4M9 17v4h6v-4M12 10v2.5l1.5 1"/>',
+    lighting: '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.3 1 2.1h5c0-.8.4-1.6 1-2.1A6 6 0 0 0 12 3Z"/>', furniture: '<path d="M6 11V6a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/><path d="M4 11h16v5H4zM6 16v4M18 16v4"/>',
+    cleaning: '<path d="M9 9h6l1 3v8a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-8z"/><path d="M10 9V6h3l3-2M16 7h3"/>', fashion: '<path d="M8 3 4 6l2 4 2-1v12h8V9l2 1 2-4-4-3c-.5 1.5-2 2.5-4 2.5S8.5 4.5 8 3Z"/>',
+    fan: '<circle cx="12" cy="12" r="1.8"/><path d="M12 10.2C11 6 13 3 15.5 4.5S15 10 13.6 11M13.8 12.6c4 1.3 5.7 4.4 3.3 5.6s-4.8-3.2-4.6-4.9M10.3 12.9C7.4 16 4 16.2 4 13.5s5.5-2.4 6.3-1.4"/>',
+    baby: '<path d="M10 3h4M9 6h6M10 6V3M14 6V3"/><path d="M8 9a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2z"/><path d="M8 12h3M8 15h3"/>', pen: '<path d="m15 4 5 5L9 20H4v-5z"/><path d="m13 6 5 5"/>',
+    toy: '<rect x="4" y="12" width="7" height="8" rx="1"/><rect x="13" y="12" width="7" height="8" rx="1"/><rect x="8.5" y="4" width="7" height="8" rx="1"/>', fitness: '<path d="M6 8v8M18 8v8M3 10v4M21 10v4M6 12h12"/>',
+    tool: '<path d="M14.5 6.5a4 4 0 0 0 5 5l-9 9a2.1 2.1 0 0 1-3-3l9-9a4 4 0 0 0-2-2z"/><path d="m14.5 6.5 2-3 4 4-3 2"/>', bag: '<path d="M5 8h14l-1 13H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+    outdoor: '<path d="M3 20 12 4l9 16z"/><path d="M12 4v16M9 20l3-5 3 5"/>', book: '<path d="M4 5a2 2 0 0 1 2-2h13v15H6a2 2 0 0 0-2 2z"/><path d="M4 20a2 2 0 0 0 2 1h13v-3"/>',
+    gift: '<rect x="3" y="8" width="18" height="5" rx="1"/><path d="M5 13v8h14v-8M12 8v13"/><path d="M12 8c-1.5-4-6-4-5-1.5S12 8 12 8Zm0 0c1.5-4 6-4 5-1.5S12 8 12 8Z"/>', kitchen: '<path d="M6 3v8a3 3 0 0 0 6 0V3M9 3v18"/><path d="M17 21V3c-2 1.5-3 4-3 7h3"/>',
   };
   function icon(n) { return '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' + (P[n] || P.box) + '</svg>'; }
 
@@ -43,23 +52,30 @@
   var byId = function (id) { return real.filter(function (p) { return p.id === id; })[0]; };
 
   /* ---------- Departments: the store's categories + example ones for the review ---------- */
-  var depts = (S.categories || []).map(function (c) { return { id: c.id, name: c.name, icon: c.icon }; }).concat([
-    { id: 'makeup', name: 'Makeup', icon: 'makeup', example: true },
-    { id: 'fragrance', name: 'Fragrance', icon: 'fragrance', example: true },
-    { id: 'kitchen', name: 'Kitchen', icon: 'kitchen', example: true },
-  ]);
-  var subs = {
-    skincare: ['Serums', 'Creams', 'Sheet masks', 'Cleansers', 'Sunscreen'], bodycare: ['Lotions', 'Heating & massage', 'Body wash'], haircare: ['Hair oil', 'Shampoo', 'Hair masks'],
-    appliance: ['Personal care', 'Kitchen appliances', 'Cleaning'], household: ['Storage', 'Cleaning supplies', 'Laundry'], makeup: ['Face', 'Lips', 'Eyes'], fragrance: ['Perfume', 'Body mist'], kitchen: ['Cookware', 'Utensils'],
-  };
-  var tones = { skincare: 't-peach', bodycare: 't-blue', haircare: 't-pink', appliance: 't-mint', household: 't-yellow', makeup: 't-lav', fragrance: 't-pink', kitchen: 't-grey' };
+  // 20 departments x 20 product ideas (client's sourcing list). Names only: they show as grey "Sample" cards, no price, until real stock is added.
+  var depts = [{"id": "electronics", "name": "Electronics", "icon": "electronics", "items": ["Smartphones", "Wireless Earbuds", "Bluetooth Speakers", "Power Banks", "USB-C Fast Chargers", "Charging Cables", "Smart TVs", "Wi-Fi Routers", "Laptops", "Computer Monitors", "Wireless Keyboards", "Wireless Mice", "USB Flash Drives", "Memory Cards", "External SSDs", "CCTV Cameras", "Mini UPS for Routers", "Surge Protectors", "Webcams", "Computer Headsets"]}, {"id": "beauty", "name": "Beauty", "icon": "skincare", "items": ["Facial Cleansers", "Sunscreen", "Face Moisturizers", "Niacinamide Serums", "Vitamin C Serums", "Micellar Water", "Lip Balms", "Lipsticks", "Foundation", "Compact Powder", "Mascara", "Eyeliner", "Makeup Brushes", "Makeup Sponges", "Sheet Masks", "Hair Serum", "Shampoo", "Hair Conditioner", "Body Lotion", "Makeup Remover Pads"]}, {"id": "gadgets", "name": "Gadgets", "icon": "gadgets", "items": ["Smartwatches", "Fitness Trackers", "Phone Tripods", "Selfie Sticks", "Wireless Lavalier Microphones", "Phone Gimbals", "Digital Luggage Scales", "Bluetooth Trackers", "Portable Mini Printers", "USB Hubs", "Laptop Cooling Pads", "Phone Screen Magnifiers", "Digital Alarm Clocks", "Electronic Writing Tablets", "Wireless Charging Pads", "Car Phone Mounts", "Digital Tire Pressure Gauges", "Plug-in Power Meters", "Presentation Clickers", "Portable Projectors"]}, {"id": "kitchen", "name": "Kitchen & Household", "icon": "kitchen", "items": ["Manual Vegetable Choppers", "Spice Racks", "Airtight Food Containers", "Lunch Boxes", "Insulated Water Bottles", "Nonstick Frying Pans", "Pressure Cookers", "Kitchen Knife Sets", "Cutting Boards", "Silicone Cooking Utensils", "Oil Dispensers", "Rice Storage Containers", "Dish Drying Racks", "Kitchen Sink Strainers", "Egg Storage Boxes", "Measuring Cup Sets", "Food Thermos Flasks", "Laundry Baskets", "Wardrobe Organizers", "Mosquito Nets"]}, {"id": "lighting", "name": "Lighting", "icon": "lighting", "items": ["LED Bulbs", "Rechargeable Emergency Lights", "LED Tube Lights", "Solar Garden Lights", "LED Strip Lights", "Motion Sensor Night Lights", "Desk Lamps", "Bedside Lamps", "Ring Lights", "Rechargeable Lanterns", "Fairy Lights", "LED Ceiling Panels", "Outdoor Floodlights", "Solar Wall Lights", "Cabinet Lights", "Clip-on Reading Lights", "Pendant Lights", "LED Spotlights", "Smart LED Bulbs", "Decorative Wall Sconces"]}, {"id": "furniture", "name": "Furniture", "icon": "furniture", "items": ["Computer Desks", "Office Chairs", "Study Tables", "Plastic Chairs", "Folding Tables", "Shoe Racks", "Bookshelves", "Storage Cabinets", "Bedside Tables", "Coffee Tables", "TV Stands", "Dining Chairs", "Dining Tables", "Bed Frames", "Mattresses", "Sofa Sets", "Clothes Racks", "Wall Shelves", "Ottomans", "Dressing Tables"]}, {"id": "appliances", "name": "Appliances", "icon": "appliance", "items": ["Rice Cookers", "Electric Kettles", "Blenders", "Electric Irons", "Induction Cookers", "Air Fryers", "Microwave Ovens", "Toaster Ovens", "Sandwich Makers", "Electric Pressure Cookers", "Electric Hand Mixers", "Water Purifiers", "Refrigerators", "Washing Machines", "Vacuum Cleaners", "Hair Dryers", "Hair Straighteners", "Garment Steamers", "Electric Meat Grinders", "Air Conditioners"]}, {"id": "cleaning", "name": "Cleaning", "icon": "cleaning", "items": ["Microfiber Cleaning Cloths", "Spin Mops", "Spray Mops", "Floor Wipers", "Window Squeegees", "Toilet Brushes", "Dishwashing Brushes", "Scrub Sponges", "Drain Cleaning Brushes", "Lint Rollers", "Reusable Pet Hair Removers", "Dustpans and Brooms", "Telescopic Dusters", "Cleaning Gloves", "Garbage Bags", "Laundry Detergent", "Dishwashing Liquid", "Floor Cleaners", "Bathroom Cleaners", "Laundry Stain Removers"]}, {"id": "fashion", "name": "Fashion", "icon": "fashion", "items": ["Women's Three-Piece Sets", "Sarees", "Kurtis", "Abayas", "Hijabs", "Women's Palazzo Pants", "Women's Tops", "Women's Sandals", "Men's Panjabis", "Men's T-Shirts", "Polo Shirts", "Casual Shirts", "Jeans", "Chinos", "Men's Sandals", "Sneakers", "Children's Eid Outfits", "Kids' Casual Wear", "Hoodies", "Sweaters"]}, {"id": "fans", "name": "Fans", "icon": "fan", "items": ["Ceiling Fans", "Rechargeable Table Fans", "Pedestal Fans", "Wall-Mounted Fans", "USB Desk Fans", "Handheld Mini Fans", "Neck Fans", "Clip-on Fans", "BLDC Ceiling Fans", "Exhaust Fans", "Tower Fans", "Box Fans", "Floor Fans", "Oscillating Table Fans", "Solar Rechargeable Fans", "Camping Fans", "Stroller Fans", "Remote-Controlled Ceiling Fans", "Industrial Pedestal Fans", "Ceiling Fan Regulators"]}, {"id": "baby", "name": "Baby", "icon": "baby", "items": ["Baby Diapers", "Baby Wipes", "Baby Cotton Clothing Sets", "Baby Bibs", "Baby Bath Towels", "Baby Blankets", "Baby Bathtubs", "Baby Nail Care Sets", "Baby Feeding Bottles", "Baby Bottle Brushes", "Baby Sippy Cups", "Baby Feeding Spoons", "Baby High Chairs", "Baby Strollers", "Baby Carriers", "Baby Changing Mats", "Baby Mosquito Nets", "Baby Potty Seats", "Baby Play Mats", "Baby Teething Rings"]}, {"id": "stationery", "name": "Stationery", "icon": "pen", "items": ["Ballpoint Pens", "Gel Pens", "Pencils", "Erasers", "Sharpeners", "Notebooks", "Spiral Notebooks", "Daily Planners", "Highlighters", "Permanent Markers", "Whiteboard Markers", "Sticky Notes", "File Folders", "Document Envelopes", "Geometry Sets", "Calculators", "Staplers", "Correction Tapes", "Art Sketchbooks", "Colored Pencil Sets"]}, {"id": "toys", "name": "Toys", "icon": "toy", "items": ["Building Block Sets", "Remote-Controlled Cars", "Toy Train Sets", "Dolls", "Dollhouses", "Stuffed Animals", "Jigsaw Puzzles", "Magnetic Construction Tiles", "Toy Kitchen Sets", "Toy Doctor Sets", "Alphabet Learning Toys", "Shape Sorters", "Stacking Rings", "Board Games", "Rubik's Cubes", "Play Dough Sets", "Toy Musical Keyboards", "Bubble Makers", "Toy Animals", "Kids' Ride-on Cars"]}, {"id": "fitness", "name": "Fitness", "icon": "fitness", "items": ["Yoga Mats", "Resistance Bands", "Adjustable Dumbbells", "Skipping Ropes", "Hand Grippers", "Push-up Bars", "Ab Rollers", "Pull-up Bars", "Kettlebells", "Foam Rollers", "Exercise Balls", "Ankle Weights", "Wrist Wraps", "Weightlifting Belts", "Exercise Bikes", "Treadmills", "Aerobic Step Platforms", "Gym Gloves", "Agility Ladders", "Shaker Bottles"]}, {"id": "tools", "name": "Tools", "icon": "tool", "items": ["Screwdriver Sets", "Precision Screwdriver Kits", "Combination Pliers", "Adjustable Wrenches", "Socket Wrench Sets", "Measuring Tapes", "Claw Hammers", "Allen Key Sets", "Cordless Drills", "Electric Screwdrivers", "Drill Bit Sets", "Digital Multimeters", "Spirit Levels", "Hand Riveters", "Clamps", "Soldering Irons", "Hot Glue Guns", "Toolboxes", "Wire Strippers", "Safety Goggles"]}, {"id": "accessories", "name": "Accessories", "icon": "bag", "items": ["Wristwatches", "Sunglasses", "Wallets", "Belts", "Women's Handbags", "Crossbody Bags", "Backpacks", "Tote Bags", "Card Holders", "Hair Clips", "Scrunchies", "Headbands", "Earrings", "Bracelets", "Necklaces", "Rings", "Brooches", "Phone Cases", "Tempered Glass Screen Protectors", "Keychains"]}, {"id": "outdoor", "name": "Outdoor", "icon": "outdoor", "items": ["Raincoats", "Umbrellas", "Camping Tents", "Sleeping Bags", "Camping Chairs", "Picnic Mats", "Insulated Cooler Bags", "Trekking Backpacks", "Hiking Poles", "Waterproof Dry Bags", "Travel Hammocks", "Camping Cookware Sets", "Binoculars", "Fishing Rod Sets", "Bicycle Helmets", "Bicycle Pumps", "Bicycle Locks", "Gardening Gloves", "Watering Cans", "Garden Hose Sprayers"]}, {"id": "books", "name": "Books", "icon": "book", "items": ["Bangla Fiction Books", "Bangla Short Story Collections", "English Fiction Books", "Children's Storybooks", "Picture Books", "Early Learning Books", "SSC Exam Guides", "HSC Exam Guides", "University Admission Guides", "BCS Preparation Books", "IELTS Preparation Books", "English Grammar Books", "Spoken English Books", "Islamic History Books", "Quran Translations", "Self-Help Books", "Business and Entrepreneurship Books", "Personal Finance Books", "Cookbooks", "Biographies"]}, {"id": "perfume", "name": "Perfume", "icon": "fragrance", "items": ["Men's Eau de Parfum", "Women's Eau de Parfum", "Unisex Eau de Parfum", "Men's Eau de Toilette", "Women's Eau de Toilette", "Oud Attar", "White Musk Attar", "Rose Attar", "Amber Attar", "Jasmine Attar", "Sandalwood Attar", "Citrus Perfume", "Fresh Aquatic Perfume", "Vanilla Perfume", "Woody Perfume", "Floral Perfume", "Body Mist", "Pocket Perfume", "Perfume Discovery Sets", "Perfume Gift Sets"]}, {"id": "others", "name": "Others++", "icon": "gift", "items": ["Premium Dates", "Packaged Honey", "Pure Ghee", "Mixed Nuts", "Black Tea", "Green Tea", "Ground Coffee", "Prayer Mats", "Prayer Beads", "Gift Boxes", "Greeting Cards", "Photo Frames", "Artificial Flowers", "Decorative Cushions", "Pet Food Bowls", "Cat Litter", "Pet Grooming Brushes", "Travel Neck Pillows", "Passport Holders", "Packing Cubes"]}];
+  var subs = {}, tones = {}, TONES = ["t-blue", "t-peach", "t-mint", "t-yellow", "t-lav", "t-pink", "t-grey"];
+  depts.forEach(function (d, i) { subs[d.id] = d.items; tones[d.id] = TONES[i % TONES.length]; });
+  // Our real products, placed in the new departments
+  var CMAP = { belt: 'gadgets', skincare: 'beauty', bodycare: 'beauty', haircare: 'beauty', appliance: 'appliances', household: 'kitchen' };
+  real.forEach(function (p) { p.category = CMAP[p.id] || CMAP[p.category] || p.category || 'others'; });
   var dname = function (id) { var d = depts.filter(function (x) { return x.id === id; })[0]; return d ? d.name : 'Products'; };
-  var catUrl = function (id) { return 'products.html?cat=' + encodeURIComponent(id); };
-  function count(id) { return real.filter(function (p) { return p.category === id; }).length; }
+  var catUrl = function (id) { return 'preview.html?view=cat&c=' + encodeURIComponent(id); };
+  function count(id) { return catList(id).length; }
 
-  // Grey placeholder cards so every row can be judged full
-  var sn = 0;
-  function sample(cat) { sn++; return { id: 's' + sn, sample: true, name: 'Your product name — ' + dname(cat), brand: 'Brand', category: cat, url: catUrl(cat), price: 0 }; }
+  // Grey placeholder cards, named after the department's product ideas
+  var sn = 0, used = {};
+  function sample(cat) {
+    sn++; var d = depts.filter(function (x) { return x.id === cat; })[0], k = used[cat] || 0; used[cat] = k + 1;
+    return { id: 's' + sn, sample: true, name: d ? d.items[k % d.items.length] : 'Sample product', brand: 'Sample', category: cat, url: catUrl(cat), price: 0 };
+  }
+  // Everything in one department: real products first, then the remaining ideas (20 in all)
+  function catList(id) {
+    var d = depts.filter(function (x) { return x.id === id; })[0]; if (!d) return [];
+    var r = real.filter(function (p) { return p.category === id; }), out = r.slice(), sid = 0;
+    d.items.forEach(function (name, i) { if (out.length < Math.max(20, r.length)) out.push({ id: 'c-' + id + '-' + i, sample: true, name: name, brand: 'Sample', category: id, url: catUrl(id), price: 0 }); });
+    return out;
+  }
   function fill(list, n, cat) { list = list.slice(0, n); var cs = depts.map(function (d) { return d.id; }); var i = 0; while (list.length < n) list.push(sample(cat || cs[i++ % cs.length])); return list; }
 
   var wa = function (t) { return 'https://wa.me/' + (W.whatsapp || '') + (t ? '?text=' + encodeURIComponent(t) : ''); };
@@ -158,7 +174,7 @@
   }
   var header =
     '<a class="skip" href="#main">Skip to content</a>' +
-    '<p class="review-bar">Design preview for review — grey <strong>“Sample”</strong> cards and the Makeup, Fragrance and Kitchen departments are placeholders until your catalogue is added.</p>' +
+    '<p class="review-bar">Design preview for review — the 20 departments and grey <strong>“Sample”</strong> products come from the sourcing list; they are placeholders until real stock, photos and prices are added.</p>' +
     '<div class="topbar"><div class="wrap"><div>' +
       (W.phone ? '<a href="tel:' + esc(W.phone) + '">' + icon('phone') + esc(W.phone) + '</a>' : '') +
       '<a href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Contact</a><a href="delivery.html">' + icon('truck') + 'Delivery info</a><a href="' + TRACK + '" target="_blank" rel="noopener">' + icon('box') + 'Track order</a>' +
@@ -180,11 +196,11 @@
       '<div class="search-m">' + searchForm('qm') + '</div></div>' +
       '<nav class="navbar" aria-label="Main"><div class="wrap">' +
         '<button class="dept" type="button" data-mega aria-expanded="false" aria-controls="mega">' + icon('grid') + 'All Departments' + icon('down') + '</button>' +
-        '<a class="navlink" href="' + catUrl('skincare') + '">Skincare</a><a class="navlink" href="' + catUrl('bodycare') + '">Body care</a><a class="navlink" href="' + catUrl('haircare') + '">Hair care</a>' +
+        ['electronics', 'beauty', 'fashion', 'kitchen'].map(function (id) { return '<a class="navlink" href="' + catUrl(id) + '">' + esc(dname(id)) + '</a>'; }).join('') +
         '<a class="navlink" href="products.html?sale=1">Offers <span class="tag">SALE</span></a><a class="navlink" href="products.html?tag=new">New arrivals</a>' +
         '<div class="navright"><a class="navlink" href="' + TRACK + '" target="_blank" rel="noopener">Track order</a><a class="navbtn" href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Contact</a></div>' +
         '<div class="mega" id="mega" hidden>' + depts.map(function (d) {
-          return '<div><h3><a href="' + catUrl(d.id) + '">' + icon(d.icon) + esc(d.name) + '</a></h3><ul>' + (subs[d.id] || []).map(function (s) { return '<li><a href="' + catUrl(d.id) + '">' + esc(s) + '</a></li>'; }).join('') + '</ul></div>';
+          return '<div><h3><a href="' + catUrl(d.id) + '">' + icon(d.icon) + esc(d.name) + '</a></h3><ul>' + (subs[d.id] || []).slice(0, 4).map(function (s) { return '<li><a href="' + catUrl(d.id) + '">' + esc(s) + '</a></li>'; }).join('') + '<li><a class="mega-all" href="' + catUrl(d.id) + '">See all 20 →</a></li></ul></div>';
         }).join('') + '</div></div></nav></header>';
 
   var drawers =
@@ -192,7 +208,7 @@
     '<aside class="drawer left" id="d-nav" data-drawer="nav" role="dialog" aria-modal="true" aria-labelledby="d-nav-t" hidden><div class="drawer-head"><h2 id="d-nav-t">Menu</h2><button class="round-hit" type="button" data-close aria-label="Close menu">' + icon('close') + '</button></div>' +
       '<div class="drawer-body"><p class="dtitle">All Departments</p><ul class="dlist">' + depts.map(function (d, i) {
         return '<li><button class="dl" type="button" aria-expanded="false" aria-controls="dsub' + i + '" data-acc>' + icon(d.icon) + esc(d.name) + '<span class="chev">' + icon('right') + '</span></button>' +
-          '<ul class="dsub" id="dsub' + i + '" hidden><li><a href="' + catUrl(d.id) + '">All ' + esc(d.name) + '</a></li>' + (subs[d.id] || []).map(function (s) { return '<li><a href="' + catUrl(d.id) + '">' + esc(s) + '</a></li>'; }).join('') + '</ul></li>';
+          '<ul class="dsub" id="dsub' + i + '" hidden><li><a href="' + catUrl(d.id) + '">All ' + esc(d.name) + '</a></li>' + (subs[d.id] || []).slice(0, 6).map(function (s) { return '<li><a href="' + catUrl(d.id) + '">' + esc(s) + '</a></li>'; }).join('') + '</ul></li>';
       }).join('') + '</ul><p class="dtitle">Shop</p><ul class="dlist"><li><a href="products.html?sale=1">' + icon('cash') + 'Offers</a></li><li><a href="products.html?tag=new">' + icon('box') + 'New arrivals</a></li></ul>' +
       '<p class="dtitle">Account</p><ul class="dlist"><li><a href="products.html?view=account">' + icon('user') + 'My account</a></li><li><a href="products.html?view=wishlist">' + icon('heart') + 'Wishlist</a></li>' +
         '<li><a href="' + TRACK + '" target="_blank" rel="noopener">' + icon('truck') + 'Track order</a></li><li><a href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Contact us</a></li></ul></div></aside>' +
@@ -211,8 +227,10 @@
     { label: 'Skincare', title: 'Medicube PDRN Capsule Cream', url: (byId('medicube-capsule-cream') || {}).url || catUrl('skincare'), img: 'img/p-medicube-capsule-cream.jpg' },
   ];
   var groups = [
-    { id: 'beauty', label: 'Beauty & Care', cats: ['skincare', 'bodycare', 'haircare', 'makeup', 'fragrance'] },
-    { id: 'home', label: 'Home & Living', cats: ['appliance', 'household', 'kitchen'] },
+    { id: 'tech', label: 'Electronics & Gadgets', cats: ['electronics', 'gadgets', 'appliances', 'lighting', 'fans'] },
+    { id: 'style', label: 'Fashion & Beauty', cats: ['beauty', 'fashion', 'accessories', 'perfume', 'fitness'] },
+    { id: 'home', label: 'Home & Living', cats: ['kitchen', 'furniture', 'cleaning', 'tools', 'outdoor'] },
+    { id: 'family', label: 'Kids, Books & More', cats: ['baby', 'toys', 'stationery', 'books', 'others'] },
   ];
   function catTiles(ids) {
     return ids.map(function (id) {
@@ -227,7 +245,7 @@
     { id: 'new', label: 'New Arrivals', items: real.filter(function (p) { return p.tags.indexOf('new') > -1; }) },
     { id: 'sale', label: 'Sale', items: real.filter(function (p) { return p.off > 0; }) },
   ];
-  var feat = 'skincare', featItems = fill(real.filter(function (p) { return p.category === feat; }), 6, feat);
+  var feat = 'beauty', featItems = fill(real.filter(function (p) { return p.category === feat; }), 6, feat);
   var brands = [['WarmLune', 'WarmLune', ''], ['Anua', 'Anua', 'light'], ['Medicube', 'medicube', '']]
     .map(function (b) { return '<a class="brand-tile" href="products.html?q=' + encodeURIComponent(b[0]) + '"><span class="mark ' + b[2] + '">' + esc(b[1]) + '</span><span class="bn">' + esc(b[0]) + '</span></a>'; })
     .concat([1, 2, 3, 4, 5].map(function (i) { return '<span class="brand-tile sample" aria-label="Sample brand slot"><span class="mark">BRAND</span><span class="bn">Your brand ' + i + '</span></span>'; })).join('');
@@ -289,7 +307,7 @@
     // Featured category (dark)
     '<section class="sec fcat" aria-labelledby="h-fcat"><div class="wrap"><div class="shead"><h2 id="h-fcat">Featured Category</h2><p>The latest from one department, with quick links to everything inside it.</p></div>' +
       '<div class="fcat-box"><div class="fcat-side"><h3>' + esc(dname(feat)) + '</h3><div class="pic"><img src="img/p-medicube-pdrn-serum.jpg" alt="" loading="lazy"></div><ul>' +
-        (subs[feat] || []).map(function (s) { return '<li><a href="' + catUrl(feat) + '">' + esc(s) + '</a></li>'; }).join('') + '<li><a class="more" href="' + catUrl(feat) + '">View more ›</a></li></ul></div>' +
+        (subs[feat] || []).slice(0, 8).map(function (s) { return '<li><a href="' + catUrl(feat) + '">' + esc(s) + '</a></li>'; }).join('') + '<li><a class="more" href="' + catUrl(feat) + '">View more ›</a></li></ul></div>' +
       '<div><div class="fcat-head"><h3>Latest in ' + esc(dname(feat)) + '</h3><a class="link-u" href="' + catUrl(feat) + '">See all</a></div>' + carousel('car-fcat', featItems.map(card).join(''), 'cols-4') + '</div></div></div></section>' +
     // Ticker
     '<div class="ticker" aria-label="' + esc(ticker.join(' · ')) + '"><div class="ticker-track" aria-hidden="true">' + ticker.concat(ticker, ticker, ticker).map(function (t) { return '<span>' + esc(t) + '</span>'; }).join('') + '</div></div>' +
@@ -326,8 +344,20 @@
 
   /* ---------- Render ---------- */
   $('[data-header]').outerHTML = header + drawers;
+  if (VIEW === 'cat') {
+    var cid = new URLSearchParams(location.search).get('c'), cd = depts.filter(function (x) { return x.id === cid; })[0] || depts[0], items = catList(cd.id);
+    main = '<section class="sec catpg"><div class="wrap"><p class="crumb"><a href="preview.html">Home</a> / ' + esc(cd.name) + '</p>' +
+      '<div class="catpg-grid"><aside class="catpg-side" aria-label="Departments"><h2>All Departments</h2><ul>' + depts.map(function (d) {
+        return '<li><a href="' + catUrl(d.id) + '"' + (d.id === cd.id ? ' aria-current="page"' : '') + '>' + icon(d.icon) + esc(d.name) + '</a></li>';
+      }).join('') + '</ul></aside>' +
+      '<div><div class="catpg-head"><h1>' + esc(cd.name) + '</h1><p>' + items.length + ' products · grey “Sample” cards are product ideas, not yet in stock</p></div>' +
+      '<div class="catpg-chips">' + depts.map(function (d) { return '<a href="' + catUrl(d.id) + '"' + (d.id === cd.id ? ' aria-current="page"' : '') + '>' + esc(d.name) + '</a>'; }).join('') + '</div>' +
+      '<div class="catpg-list">' + items.map(card).join('') + '</div></div></div></div></section>';
+    document.title = cd.name + ' – ' + (W.brand || 'Bakaina');
+  }
   if (VIEW === 'cart') { main = '<section class="sec cp"><div class="wrap"><p class="crumb"><a href="preview.html">Home</a> / Shopping cart</p><h1>Shopping cart</h1><div data-cart-page></div></div></section>'; document.title = 'Shopping cart – ' + (W.brand || 'Bakaina'); }
   $('#main').innerHTML = main;
+  (function () { var cc = document.querySelector('.catpg-chips [aria-current]'); if (cc) cc.parentNode.scrollLeft = cc.offsetLeft - 16; })();
   $('[data-footer]').outerHTML = footer;
   counts();
 
