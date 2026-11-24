@@ -11,15 +11,15 @@
 @font-face { font-family: 'Ruposhi Bangla'; src: url('fonts/RuposhiBanglaUI-Bold.ttf') format('truetype'); font-weight: 700 900; font-style: normal; font-display: swap; unicode-range: U+09E6-09EF; }
 /* Bakaina product page — values measured from the design mockup */
 :root {
-  --primary: #022662;
-  --primary-dark: #011A47;
-  --blush: #EEF2F9;
-  --tint: #F3F6FB;
+  --primary: #02326C;
+  --primary-dark: #01224B;
+  --blush: #F1F5FB;
+  --tint: #F1F5FB;
   --ink: #231A1D;
   --body: #4A3F43;
   --muted: #7A6C71;
   --line: #EDE3E7;
-  --stat: #FE7902;
+  --stat: #FE7401;
   --star: #E9A23B;
   --chip-bg: #E3F4EA;
   --chip-ink: #2F7A4D;
@@ -71,7 +71,7 @@ p { margin: 0; }
 
 /* Placeholders (design's pink boxes) */
 .ph { background: var(--blush); border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #2E4A7A; font-size: 14px; text-align: center; padding: 20px; overflow: hidden; }
-.ph strong { font-size: 17px; font-weight: 600; color: #022662; }
+.ph strong { font-size: 17px; font-weight: 600; color: #02326C; }
 .ph-icon { width: 30px; height: 26px; border: 2px solid currentColor; border-radius: 4px; position: relative; }
 .ph-icon::before { content: ''; position: absolute; left: 4px; top: 4px; width: 6px; height: 6px; border-radius: 50%; border: 2px solid currentColor; }
 .ph-icon::after { content: ''; position: absolute; left: 4px; right: 3px; bottom: 4px; height: 8px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: skewX(-25deg); border-left: 0; background: linear-gradient(135deg, transparent 50%, currentColor 50%, currentColor 60%, transparent 60%); }
@@ -231,10 +231,10 @@ p { margin: 0; }
    ========================================================================== */
 .expand { position: relative; height: 230vh; }
 .expand-sticky { position: sticky; top: 0; height: 100vh; height: 100dvh; overflow: hidden; display: grid; place-items: center; }
-.expand-bg { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 40%, #EEF2F9 0%, #C9D6EE 55%, #9FB4DC 100%); }
+.expand-bg { position: absolute; inset: 0; background: radial-gradient(120% 90% at 50% 40%, #F1F5FB 0%, #C9D6EE 55%, #9FB4DC 100%); }
 .expand-media { position: relative; z-index: 1; width: 300px; height: 400px; overflow: hidden; border-radius: 24px; background: #DCE4F3; box-shadow: 0 30px 60px rgba(35, 26, 29, .25); will-change: width, height; }
 .expand-media img, .expand-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
-.expand-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 28px !important; gap: 6px; color: #2E4A7A; text-align: center; padding: 20px; background: linear-gradient(160deg, #EEF2F9, #C5D2EA); }
+.expand-ph { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 28px !important; gap: 6px; color: #2E4A7A; text-align: center; padding: 20px; background: linear-gradient(160deg, #F1F5FB, #C5D2EA); }
 .expand-ph strong { font-size: 16px; }
 .expand-ph small { font-size: 12px; opacity: .7; }
 .expand-title { position: absolute; z-index: 2; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; pointer-events: none; }
@@ -261,7 +261,7 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 @media (min-width: 900px) { .product { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 
 /* Quantity-discount offer + live total (product page) */
-.offer { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 12px 14px; border: 1.5px dashed #FFB97A; background: #F3F6FB; color: var(--primary); border-radius: 12px; font-size: 14px; font-weight: 600; }
+.offer { display: flex; align-items: center; gap: 10px; margin-top: 18px; padding: 12px 14px; border: 1.5px dashed #FFB97A; background: #F1F5FB; color: var(--primary); border-radius: 12px; font-size: 14px; font-weight: 600; }
 .offer svg { flex: none; }
 .qty-total { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
 .qt-row { display: flex; justify-content: space-between; align-items: baseline; font-size: 15px; color: var(--body); }
@@ -288,7 +288,7 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 
 /* Product title: English name + Bangla line under it */
 .info h1 .title-main { display: block; font-family: var(--en); font-weight: 600; letter-spacing: -.01em; }
-.info h1 .title-sub { display: block; margin-top: 6px; font-size: .62em; line-height: 1.45; font-weight: 600; color: var(--primary, #022662); font-family: var(--bn); }
+.info h1 .title-sub { display: block; margin-top: 6px; font-size: .62em; line-height: 1.45; font-weight: 600; color: var(--primary, #02326C); font-family: var(--bn); }
 
 /* Old price: bold red strike-through so the 15% saving stands out */
 .price-row .old { color: #D11A2A; font-size: 22px; font-weight: 700; font-family: var(--en); text-decoration: line-through; text-decoration-color: #D11A2A; text-decoration-thickness: 2.5px; }
@@ -307,7 +307,7 @@ h1, h2 { font-weight: 700; letter-spacing: 0; }
 .bundle-head::before, .bundle-head::after { content: ''; flex: 1; height: 1px; background: var(--line); }
 .bopt { display: flex; align-items: center; gap: 12px; margin-top: 10px; padding: 14px 16px; border-radius: 14px; background: #FFF5EC; border: 1.5px solid transparent; cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s; }
 .bopt:hover { border-color: #FFD3AD; }
-.bopt.on { background: #fff; border-color: var(--primary); box-shadow: 0 8px 20px -12px rgba(2, 38, 98, .55); }
+.bopt.on { background: #fff; border-color: var(--primary); box-shadow: 0 8px 20px -12px rgba(2, 50, 108, .55); }
 .bopt input { width: 20px; height: 20px; margin: 0; flex: none; accent-color: var(--primary); cursor: pointer; }
 .bopt-q { display: flex; flex-direction: column; min-width: 0; }
 .bopt-q strong { font-size: 17px; font-weight: 700; line-height: 1.3; }
@@ -335,12 +335,12 @@ body.has-sticky .toast { bottom: 92px; }
    Bakaina brand: navy (primary) + orange (accent), cool neutrals
    ========================================================================== */
 :root {
-  --accent: #FE7902;
+  --accent: #FE7401;
   --accent-text: #C95A00;   /* orange that stays readable as text on white */
   --ink: #1B2333;
   --body: #444B5A;
   --muted: #6B7385;
-  --line: #E4E8EF;
+  --line: #E3EAF4;
 }
 .logo-word { height: auto; font: 700 23px/1 var(--en); letter-spacing: .01em; color: var(--primary); white-space: nowrap; }
 @media (min-width: 900px) { .logo-word { height: auto; font-size: 26px; } }
@@ -351,7 +351,7 @@ body.has-sticky .toast { bottom: 92px; }
 .info h1 .title-sub, .kicker, .bundle-head, .bopt-q small { color: var(--accent-text); }
 .bundle-head::before, .bundle-head::after { background: #FFD3AD; }
 .offer { color: var(--accent-text); background: #FFF5EC; }
-.bopt { background: #F3F6FB; }
+.bopt { background: #F1F5FB; }
 .bopt:hover { border-color: #C5D2EA; }
 .stats .val { color: var(--accent); }
 
@@ -359,7 +359,7 @@ body.has-sticky .toast { bottom: 92px; }
    Home page (home.html)
    ========================================================================== */
 .home h2 { font-size: clamp(24px, 5.6vw, 32px); color: var(--primary); }
-.hm-hero { background: radial-gradient(120% 120% at 0% 0%, #0A3A85 0%, #022662 55%, #011A47 100%); color: #fff; overflow: hidden; }
+.hm-hero { background: radial-gradient(120% 120% at 0% 0%, #0A3A85 0%, #02326C 55%, #01224B 100%); color: #fff; overflow: hidden; }
 .hm-hero-in { display: grid; gap: 28px; align-items: center; padding-top: 36px; padding-bottom: 40px; }
 .hm-kicker { display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(255, 119, 1, .18); color: #FFB066; font: 600 13px var(--en); letter-spacing: .02em; }
 .hm-hero h1 { margin: 14px 0 12px; color: #fff; font-size: clamp(34px, 9vw, 54px); line-height: 1.15; }
@@ -390,7 +390,7 @@ body.has-sticky .toast { bottom: 92px; }
 .hm-section-sub { margin-top: 6px; color: var(--muted); font-size: 15px; }
 .hm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 20px; }
 .hm-card { display: flex; flex-direction: column; text-decoration: none; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 18px; overflow: hidden; transition: box-shadow .2s, transform .2s; }
-a.hm-card:hover { box-shadow: 0 16px 34px -20px rgba(2, 38, 98, .45); transform: translateY(-2px); }
+a.hm-card:hover { box-shadow: 0 16px 34px -20px rgba(2, 50, 108, .45); transform: translateY(-2px); }
 .hm-card-img { position: relative; display: block; background: var(--blush); }
 .hm-card-img img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
 .hm-tag { position: absolute; top: 10px; left: 10px; background: var(--accent); color: var(--primary); font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
@@ -418,7 +418,7 @@ a.hm-card:hover { box-shadow: 0 16px 34px -20px rgba(2, 38, 98, .45); transform:
 .hm-review figcaption { font-size: 13px; color: var(--muted); }
 .hm-review figcaption strong { color: var(--ink); }
 
-.hm-help { margin-top: 36px; margin-bottom: 44px; padding: 24px; border-radius: 22px; background: #F3F6FB; display: grid; gap: 4px; align-items: center; }
+.hm-help { margin-top: 36px; margin-bottom: 44px; padding: 24px; border-radius: 22px; background: #F1F5FB; display: grid; gap: 4px; align-items: center; }
 .hm-help p { color: var(--body); }
 .hm-help .hm-ctas { margin-top: 12px; }
 
