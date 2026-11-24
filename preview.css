@@ -814,3 +814,12 @@ body.mc-dimmed .fab-wa, body.mc-dimmed .fab-top { z-index: 30; }
 
 .tb-fb .icon { color: #1877F2; }
 .socials a { width: 46px; height: 46px; }
+/* rail: 30% smaller, 50% see-through (fully solid on hover/focus) */
+@media (min-width: 1000px) {
+  .fab-rail { opacity: .5; border-radius: 13px 0 0 13px; transition: opacity .25s ease; }
+  .fab-rail:hover, .fab-rail:focus-within { opacity: 1; }
+  .fab-rail a { width: 64px; padding: 10px 4px; gap: 4px; font-size: 11px; }
+  .fab-rail a:hover { width: 73px; padding-right: 13px; }
+  .fr-ic { width: 29px; height: 29px; }
+  .fr-ic .icon { width: 15px; height: 15px; }
+}
