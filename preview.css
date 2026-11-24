@@ -622,3 +622,14 @@ a, button, .tab, .navlink, .pc-name a, .mvc h3 a { transition: color .3s ease, b
   .np-img .pbadge { left: 8px; right: auto; width: auto; }
 }
 @media (min-width: 1000px) { .np-offers { right: auto; left: 20px; max-width: calc(100% - 40px); } .np-deals { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 190px; } }
+
+/* ---------- Smaller "All" box in search; highlighted cart numbers ---------- */
+.search select { width: 72px; max-width: 72px; padding: 0 4px 0 10px; font-size: 12px; text-overflow: ellipsis; }
+@media (min-width: 1000px) { .search select { width: 80px; max-width: 80px; } }
+.hbadge { top: -6px; right: -6px; min-width: 20px; height: 20px; line-height: 16px; font-size: 11.5px; font-weight: 800; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0, 0, 0, .25); }
+.hbadge.pop { animation: badge-pop .5s cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes badge-pop { 0% { transform: scale(.4); } 60% { transform: scale(1.35); } 100% { transform: scale(1); } }
+.cart-sum .cs-n { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px; margin-right: 4px; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 12px; }
+.cart-sum .cs-t { color: var(--brand); font-weight: 800; font-size: 14px; }
+@media (prefers-reduced-motion: reduce) { .hbadge.pop { animation: none; } }
+.cart-sum { gap: 0; } .cart-sum .cs-t { margin-left: 4px; } .hbtn .hbadge { top: 0; right: -2px; }

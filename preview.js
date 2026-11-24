@@ -94,8 +94,8 @@
   function total() { return cart.reduce(function (s, x) { return s + byId(x.id).price * x.qty; }, 0); }
   function counts() {
     var n = cart.reduce(function (s, x) { return s + x.qty; }, 0);
-    $$('[data-cart-n]').forEach(function (b) { b.textContent = n; b.hidden = !n; });
-    $$('[data-cart-sum]').forEach(function (b) { b.textContent = n + ' item' + (n === 1 ? '' : 's') + ' – ' + money(total()); });
+    $$('[data-cart-n]').forEach(function (b) { var was = b.textContent; b.textContent = n; b.hidden = !n; if (n && was !== String(n) && was !== '') { b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); } });
+    $$('[data-cart-sum]').forEach(function (b) { b.innerHTML = '<b class="cs-n">' + n + '</b> item' + (n === 1 ? '' : 's') + ' – <b class="cs-t">' + money(total()) + '</b>'; });
     $$('[data-wish-n]').forEach(function (b) { b.textContent = wish.length; b.hidden = !wish.length; });
     if ($('[data-mini]')) renderMini();
     if ($('[data-cart-page]')) renderCartPage();
