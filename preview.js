@@ -691,7 +691,14 @@
   }
   // Checkout behaviour: area → district, payment → wallet steps, abandoned-cart draft, place order
   if (VIEW === 'checkout' && $('[data-co]')) (function () {
-    var f = $('[data-co]'), started = Date.now(), PNs = W.payNumbers || {};
+    var f = $('[data-co]'), started = Date.now(), PNs = W.payNumbers || {}, acct = null, AUTH = null;
+    // Logged-in customer: fill empty fields from the account and link the order to it
+    if (window.FIREBASE_CONFIG) import('./auth.js?v=20261125g').then(function (m) { AUTH = m; return m.getCustomer(); }).then(function (c) {
+      if (!c) return; acct = c; var pr = c.profile || {};
+      if (!f.name.value && pr.name) f.name.value = pr.name;
+      if (!f.phone.value && pr.phone) f.phone.value = pr.phone;
+      if (!f.address.value && pr.address) f.address.value = pr.address;
+    }).catch(function () {});
     var rid = null; try { rid = sessionStorage.getItem('checkoutRequestId'); } catch (e) {}
     if (!rid) { rid = 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem('checkoutRequestId', rid); } catch (e) {} }
     var phoneOf = function (v) { return String(v || '').replace(/[০-৯]/g, function (d) { return '০১২৩৪৫৬৭৮৯'.indexOf(d); }).replace(/[\s-]/g, '').replace(/^\+?88/, ''); };
@@ -732,7 +739,7 @@
       var payload = { action: 'createOrder', requestId: rid, website: f.website.value, elapsedMs: Date.now() - started,
         items: CO.map(function (it) { return { productId: it.p.checkoutId, qty: it.qty }; }),
         name: f.name.value.trim(), phone: ph, area: area, district: area === 'outside' ? f.district.value : '', address: f.address.value.trim(), note: f.note.value.trim(),
-        payment: pay, trxId: pay === 'cod' ? '' : trx };
+        payment: pay, trxId: pay === 'cod' ? '' : trx, uid: acct ? acct.uid : '' };
       // One product + COD also works with an older Code.gs that only knows productId/qty
       if (CO.length === 1 && pay === 'cod') { payload.productId = CO[0].p.checkoutId; payload.qty = CO[0].qty; }
       var ctrl = 'AbortController' in window ? new AbortController() : null, tm = setTimeout(function () { if (ctrl) ctrl.abort(); }, 25000);
@@ -747,7 +754,11 @@
             sessionStorage.removeItem('checkoutRequestId');
           } catch (x) {}
           if (!QS.get('product')) { cart = []; ls.set('bk-cart', cart); }
-          location.href = 'thank-you.html?id=' + encodeURIComponent(res.orderId) + '&value=' + encodeURIComponent(res.total);
+          var next = function () { location.href = 'thank-you.html?id=' + encodeURIComponent(res.orderId) + '&value=' + encodeURIComponent(res.total); };
+          if (acct && AUTH) {
+            var copy = AUTH.saveOrderCopy({ orderId: res.orderId, total: res.total, payment: pay, items: CO.map(function (it) { return { name: it.p.name, qty: it.qty, price: it.p.price }; }) });
+            Promise.race([copy, new Promise(function (r) { setTimeout(r, 2500); })]).then(next, next);
+          } else next();
         })
         .catch(function (x) {
           clearTimeout(tm); btn.disabled = false; btn.textContent = 'Place order';
@@ -763,7 +774,7 @@
   })();
   // Customer accounts (Firebase): loaded only on the account page
   if (VIEW === 'account') {
-    import('./auth.js?v=20261125f').then(function (m) {
+    import('./auth.js?v=20261125g').then(function (m) {
       m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: './?view=wishlist', cartUrl: './?view=cart' });
     }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }

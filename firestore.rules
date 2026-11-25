@@ -35,6 +35,19 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // A copy of each order the customer placed while logged in (shown under "My orders")
+    match /users/{uid}/orders/{orderId} {
+      allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['orderId', 'items', 'total', 'payment', 'createdAt'])
+        && request.resource.data.orderId == orderId && orderId.size() <= 40
+        && request.resource.data.items is list && request.resource.data.items.size() <= 20
+        && request.resource.data.total is number
+        && request.resource.data.payment in ['cod', 'bkash', 'nagad']
+        && request.resource.data.createdAt == request.time;
+      allow update, delete: if false;
+    }
+
     match /admins/{uid} {
       allow read: if signedIn() && request.auth.uid == uid;
       allow write: if false;

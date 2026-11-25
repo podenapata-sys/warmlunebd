@@ -36,6 +36,28 @@ function friendly(err) {
   })[c] || 'Something went wrong. Please try again.';
 }
 
+/* ======================= Checkout helpers ======================= */
+// The signed-in customer (and their saved profile), or null. Never throws.
+export async function getCustomer() {
+  try {
+    const f = await load(); if (!f) return null;
+    const user = await new Promise((res) => { let done = false; const un = f.A.onAuthStateChanged(f.auth, (u) => { if (done) return; done = true; res(u); if (typeof un === 'function') setTimeout(un, 0); }); });
+    if (!user) return null;
+    let profile = null;
+    try { const s = await f.F.getDoc(f.F.doc(f.db, 'users', user.uid)); profile = s.exists() ? s.data() : null; } catch (e) {}
+    return { uid: user.uid, email: user.email, profile };
+  } catch (e) { return null; }
+}
+// Keep a copy of a placed order in the customer's account (users/{uid}/orders/{orderId})
+export async function saveOrderCopy(o) {
+  try {
+    const f = await load(); const u = f && f.auth.currentUser; if (!u || !o || !o.orderId) return false;
+    const items = (o.items || []).slice(0, 20).map((x) => ({ name: String(x.name || '').slice(0, 120), qty: Number(x.qty) || 1, price: Number(x.price) || 0 }));
+    await f.F.setDoc(f.F.doc(f.db, 'users', u.uid, 'orders', String(o.orderId)), { orderId: String(o.orderId), items, total: Number(o.total) || 0, payment: String(o.payment || 'cod'), createdAt: f.F.serverTimestamp() });
+    return true;
+  } catch (e) { return false; }
+}
+
 /* ======================= Customer portal ======================= */
 export async function mountPortal(el, opts = {}) {
   const icon = opts.icon || (() => '');
@@ -88,7 +110,8 @@ export async function mountPortal(el, opts = {}) {
         '<div class="acc-field"><label for="a-address">Delivery address <span class="acc-opt">(optional)</span></label><textarea id="a-address" name="address" rows="3" maxlength="300" autocomplete="street-address">' + esc(p.address || '') + '</textarea></div>' +
         '<p class="acc-err" role="alert" data-err hidden></p><p class="acc-ok" role="status" data-ok hidden></p>' +
         '<div class="acc-row"><button class="btn btn-accent acc-submit" type="submit">' + (prof ? 'Save changes' : 'Save profile') + '</button><button class="btn btn-outline" type="button" data-logout>Log out</button></div>' +
-      '</form>' + (p.createdAt ? '<p class="acc-fine">Member since ' + esc(fmtDate(p.createdAt).split(' ').slice(0, 3).join(' ')) + '</p>' : '') + '</div>' +
+      '</form>' + (p.createdAt ? '<p class="acc-fine">Member since ' + esc(fmtDate(p.createdAt).split(' ').slice(0, 3).join(' ')) + '</p>' : '') +
+      '<section class="acc-orders" aria-labelledby="acc-oh"><h3 id="acc-oh">My orders</h3><div data-my-orders><p class="acc-sub">Loading…</p></div></section></div>' +
       '<aside class="acc-perks"><h3>Quick links</h3><ul class="acc-links">' +
         (opts.wishlistUrl ? '<li><a href="' + esc(opts.wishlistUrl) + '">' + icon('heart') + 'My wishlist</a></li>' : '') +
         (opts.cartUrl ? '<li><a href="' + esc(opts.cartUrl) + '">' + icon('cart') + 'My cart</a></li>' : '') +
@@ -150,9 +173,22 @@ export async function mountPortal(el, opts = {}) {
     }
   });
 
+  async function myOrders(uid) {
+    const box = el.querySelector('[data-my-orders]'); if (!box) return;
+    const PAY = { cod: 'Cash on Delivery', bkash: 'bKash', nagad: 'Nagad' };
+    try {
+      const snap = await F.getDocs(F.query(F.collection(db, 'users', uid, 'orders'), F.orderBy('createdAt', 'desc'), F.limit(20)));
+      const list = snap.docs.map((d) => d.data());
+      box.innerHTML = list.length ? '<ul class="acc-olist">' + list.map((o) => '<li><div><strong>' + esc(o.orderId) + '</strong><span>' + esc(fmtDate(o.createdAt)) + ' · ' + esc(PAY[o.payment] || o.payment) + '</span><small>' +
+          esc((o.items || []).map((i) => i.name + ' × ' + i.qty).join(', ')) + '</small></div><b>৳' + Number(o.total || 0).toLocaleString('en-IN') + '</b></li>').join('') + '</ul>' +
+          '<p class="acc-fine">For delivery updates, message us your order number on WhatsApp.</p>'
+        : '<p class="acc-sub">No orders yet. Orders you place while logged in will appear here.</p>';
+    } catch (e) { box.innerHTML = '<p class="acc-sub">Could not load your orders right now.</p>'; }
+  }
   async function render(user, okMsg) {
     if (!user) { signedOut(); return; }
     signedIn(user, await profileOf(user.uid));
+    myOrders(user.uid);
     if (okMsg) { const ok = el.querySelector('[data-ok]'); if (ok) { ok.textContent = okMsg; ok.hidden = false; } }
     if (opts.onUser) opts.onUser(user);
   }

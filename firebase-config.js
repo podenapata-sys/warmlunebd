@@ -7,9 +7,16 @@
  * What protects the data is firestore.rules (customers can only read their own profile;
  * only accounts listed in the "admins" collection can see the customer list).
  *
- * While this is null, the account page shows "Accounts are being set up" and nothing breaks.
+ * Set to null to switch accounts off (the account page then shows "Accounts are being set up").
  */
-window.FIREBASE_CONFIG = null;
+window.FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyBcjJY5BqU7u8rmkJ3_SvCq2G-ABap9dw4',
+  authDomain: 'bakaina-com.firebaseapp.com',
+  projectId: 'bakaina-com',
+  storageBucket: 'bakaina-com.firebasestorage.app',
+  messagingSenderId: '521138376705',
+  appId: '1:521138376705:web:b284e876ba904a2e2b3000',
+};
 /* Example (replace with your own):
 window.FIREBASE_CONFIG = {
   apiKey: 'AIza...',
