@@ -45,10 +45,10 @@
   /* ---------- Real products (same model as the live store) ---------- */
   var meta = S.products || {}, reviews = (W.reviews || []).filter(function (r) { return r && r.rating; });
   var real = [];
-  if (W.price > 0) real.push({ id: 'belt', checkoutId: 'pad-pink', name: 'WarmLune™ Heating Belt', brand: 'WarmLune', image: (W.gallery && W.gallery[0] && W.gallery[0].src) || '', image2: (W.gallery && W.gallery[1] && W.gallery[1].src) || '', price: W.price, oldPrice: W.oldPrice, url: 'heating-belt.html', reviewCount: reviews.length, rating: reviews.length ? reviews.reduce(function (s, r) { return s + r.rating; }, 0) / reviews.length : 0 });
+  if (W.price > 0) real.push({ id: 'belt', checkoutId: 'pad-pink', name: 'WarmLune™ Heating Belt', brand: 'WarmLune', image: (W.gallery && W.gallery[0] && W.gallery[0].src) || '', image2: (W.gallery && W.gallery[1] && W.gallery[1].src) || '', price: W.price, oldPrice: W.oldPrice, url: './?view=product&id=belt', reviewCount: reviews.length, rating: reviews.length ? reviews.reduce(function (s, r) { return s + r.rating; }, 0) / reviews.length : 0 });
   (W.shopProducts || []).forEach(function (p) {
     if (!(p.price > 0)) return;
-    real.push({ id: p.id, checkoutId: p.id, name: p.name_en || p.name, brand: p.brand || (p.combo ? 'Bakaina' : ''), image: p.image || '', image2: (p.images || [])[1] || '', price: p.price, oldPrice: p.oldPrice, url: p.url || ('product.html?id=' + encodeURIComponent(p.id)), reviewCount: 0, rating: 0 });
+    real.push({ id: p.id, checkoutId: p.id, name: p.name_en || p.name, brand: p.brand || (p.combo ? 'Bakaina' : ''), image: p.image || '', image2: (p.images || [])[1] || '', price: p.price, oldPrice: p.oldPrice, url: './?view=product&id=' + encodeURIComponent(p.id), reviewCount: 0, rating: 0 });
   });
   real.forEach(function (p) { var m = meta[p.id] || {}; p.category = m.category || ''; p.tags = m.tags || []; p.off = p.oldPrice > p.price ? Math.round((p.oldPrice - p.price) / p.oldPrice * 100) : 0; });
   var byId = function (id) { return real.filter(function (p) { return p.id === id; })[0]; };
@@ -68,7 +68,7 @@
   var CMAP = { belt: 'gadgets', skincare: 'beauty', bodycare: 'beauty', haircare: 'beauty', appliance: 'appliances', household: 'kitchen' };
   real.forEach(function (p) { p.category = CMAP[p.id] || CMAP[p.category] || p.category || 'others'; });
   var dname = function (id) { var d = depts.filter(function (x) { return x.id === id; })[0]; return d ? d.name : 'Products'; };
-  var catUrl = function (id) { return 'preview.html?view=cat&c=' + encodeURIComponent(id); };
+  var catUrl = function (id) { return './?view=cat&c=' + encodeURIComponent(id); };
   function count(id) { return catList(id).length; }
 
   // Grey placeholder cards, named after the department's product ideas
@@ -103,7 +103,7 @@
     if ($('[data-cart-page]')) renderCartPage();
   }
   var VIEW = new URLSearchParams(location.search).get('view');
-  function checkoutHref() { var only = cart.length === 1 ? byId(cart[0].id) : null; return only ? 'checkout.html?product=' + encodeURIComponent(only.checkoutId) + '&qty=' + cart[0].qty : 'preview.html?view=cart'; }
+  function checkoutHref() { var only = cart.length === 1 ? byId(cart[0].id) : null; return only ? 'checkout.html?product=' + encodeURIComponent(only.checkoutId) + '&qty=' + cart[0].qty : './?view=cart'; }
   function cartWa() {
     var lines = cart.map(function (x) { var p = byId(x.id); return '• ' + p.name + ' × ' + x.qty + ' = ' + money(p.price * x.qty); });
     return wa('আসসালামু আলাইকুম, আমি এগুলো অর্ডার করতে চাই:\n' + lines.join('\n') + '\nমোট: ' + money(total()) + '\nনাম:\nমোবাইল:\nঠিকানা:');
@@ -119,12 +119,12 @@
         '<button class="mc-del" type="button" data-remove="' + esc(p.id) + '" aria-label="Remove ' + esc(p.name) + '">' + icon('trash') + '</button></li>';
     }).join('') + '</ul>' +
       '<div class="mc-tot"><span>Total</span><strong>' + money(total()) + '</strong></div><p class="mc-note">Cash on delivery. Delivery charge, if any, is shown at checkout.</p>' +
-      '<div class="mc-btns"><a class="btn btn-outline" href="preview.html?view=cart">View Cart</a><a class="btn btn-brand" href="' + esc(checkoutHref()) + '">Checkout</a></div>';
+      '<div class="mc-btns"><a class="btn btn-outline" href="./?view=cart">View Cart</a><a class="btn btn-brand" href="' + esc(checkoutHref()) + '">Checkout</a></div>';
   }
   // Full cart page: preview.html?view=cart
   function renderCartPage() {
     var el = $('[data-cart-page]');
-    if (!cart.length) { el.innerHTML = '<div class="cp-empty">' + icon('cart') + '<p>Your cart is empty.</p><a class="btn btn-brand" href="preview.html">Continue shopping</a></div>'; return; }
+    if (!cart.length) { el.innerHTML = '<div class="cp-empty">' + icon('cart') + '<p>Your cart is empty.</p><a class="btn btn-brand" href="./">Continue shopping</a></div>'; return; }
     var multi = cart.length > 1;
     el.innerHTML = '<div class="cp-grid"><div class="cp-items"><div class="cp-row cp-head" aria-hidden="true"><span>Product</span><span>Price</span><span>Quantity</span><span>Total</span><span></span></div>' +
       cart.map(function (x) {
@@ -139,7 +139,7 @@
       '<aside class="cp-sum"><h2>Order summary</h2><div class="mc-tot"><span>Total</span><strong>' + money(total()) + '</strong></div><p class="mc-note">Cash on delivery. Delivery charge, if any, is shown at checkout.</p>' +
       (multi ? '<p class="mc-note">Checkout takes one product at a time. Order each item with “Order this item”, or send the whole cart on WhatsApp.</p>' : '<a class="btn btn-brand" href="' + esc(checkoutHref()) + '">Checkout</a>') +
       '<a class="btn ' + (multi ? 'btn-brand' : 'btn-outline') + '" href="' + cartWa() + '" target="_blank" rel="noopener">' + icon('chat') + 'Order on WhatsApp</a>' +
-      '<a class="link-u" href="preview.html">← Continue shopping</a></aside></div>';
+      '<a class="link-u" href="./">← Continue shopping</a></aside></div>';
   }
 
   /* ---------- Cards ---------- */
@@ -191,7 +191,7 @@
   }
   var header =
     '<a class="skip" href="#main">Skip to content</a>' +
-    '<p class="review-bar">Design preview for review — the 20 departments and grey <strong>“Sample”</strong> products come from the sourcing list; they are placeholders until real stock, photos and prices are added.</p>' +
+    (W.announcement_en ? '<p class="review-bar">' + esc(W.announcement_en) + '</p>' : '') +
     '<div class="topbar"><div class="wrap"><div>' +
       (W.phone ? '<a href="tel:' + esc(W.phone) + '">' + icon('phone') + esc(W.phone) + '</a>' : '') +
       '<a href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Contact</a><a href="delivery.html">' + icon('truck') + 'Delivery info</a><a href="' + TRACK + '" target="_blank" rel="noopener">' + icon('box') + 'Track order</a>' +
@@ -200,14 +200,14 @@
     '<header class="hdr"><div class="wrap">' +
       '<div class="hdr-main">' +
         '<button class="hbtn m-only" type="button" data-open="nav" aria-label="Menu" aria-controls="d-nav">' + icon('menu') + '</button>' +
-        '<a class="logo" href="preview.html" aria-label="Bakaina home">' + '<img class="logo-full" src="img/logo-full.png" alt="' + esc(W.brand || 'Bakaina') + '" width="471" height="180">' + '</a>' +
+        '<a class="logo" href="./" aria-label="Bakaina home">' + '<img class="logo-full" src="img/logo-full.png" alt="' + esc(W.brand || 'Bakaina') + '" width="471" height="180">' + '</a>' +
         '<div class="d-only" style="flex:1;max-width:820px">' + searchForm('qd') + '</div>' +
         '<div class="tools">' +
-          '<a class="hbtn d-only" href="preview.html?view=account">' + icon('user') + 'Account</a>' +
-          '<a class="hbtn" href="products.html?view=wishlist" aria-label="Wishlist">' + icon('heart') + '<span class="d-only">Wishlist</span><span class="hbadge" data-wish-n hidden></span></a>' +
+          '<a class="hbtn d-only" href="./?view=account">' + icon('user') + 'Account</a>' +
+          '<a class="hbtn" href="./?view=wishlist" aria-label="Wishlist">' + icon('heart') + '<span class="d-only">Wishlist</span><span class="hbadge" data-wish-n hidden></span></a>' +
           '<div class="mc-wrap d-only" data-mc>' +
-            '<a class="cart-sum" href="preview.html?view=cart" data-cart-sum>0 items – ৳0</a>' +
-            '<a class="cart-sq" href="preview.html?view=cart" aria-label="View cart" aria-controls="mini-cart">' + icon('cart') + '<span class="hbadge" data-cart-n hidden></span></a>' +
+            '<a class="cart-sum" href="./?view=cart" data-cart-sum>0 items – ৳0</a>' +
+            '<a class="cart-sq" href="./?view=cart" aria-label="View cart" aria-controls="mini-cart">' + icon('cart') + '<span class="hbadge" data-cart-n hidden></span></a>' +
             '<div class="mini-cart" id="mini-cart" data-mini></div></div>' +
           '<button class="hbtn m-only" type="button" data-open="cart" aria-label="Open cart">' + icon('cart') + '<span class="hbadge" data-cart-n hidden></span></button>' +
         '</div></div>' +
@@ -232,11 +232,11 @@
             }).join('') + '</ul></div>' + promo(d, true) + '</div></div>';
         }).join('') +
         // Offers: our real discounted products
-        '<div class="navdd"><a class="navlink" href="products.html?sale=1">Offers <span class="tag">SALE</span>' + icon('down') + '</a><div class="navpanel np-offers"><h3>On sale now</h3><div class="np-deals">' +
+        '<div class="navdd"><a class="navlink" href="./?view=list&amp;sale=1">Offers <span class="tag">SALE</span>' + icon('down') + '</a><div class="navpanel np-offers"><h3>On sale now</h3><div class="np-deals">' +
           real.filter(function (p) { return p.off > 0; }).slice(0, 4).map(function (p) {
             return '<a class="np-deal" href="' + esc(p.url) + '" data-pid="' + esc(p.id) + '"><span class="np-img">' + (p.image ? '<img src="' + esc(p.image) + '" alt="" loading="lazy">' : '') + '<span class="pbadge sale">-' + p.off + '%</span></span><span class="np-name">' + esc(p.name) + '</span><span class="np-price">' + money(p.price) + ' <s>' + money(p.oldPrice) + '</s></span></a>';
           }).join('') + '</div></div></div>' +
-        '<a class="navlink" href="products.html?tag=new">New arrivals</a>' +
+        '<a class="navlink" href="./?view=list&amp;tag=new">New arrivals</a>' +
         '<div class="navright"><a class="navlink" href="' + TRACK + '" target="_blank" rel="noopener">Track order</a><a class="navbtn" href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Contact</a></div>' +
         '</div></nav></header>';
 
@@ -246,8 +246,8 @@
       '<div class="drawer-body"><p class="dtitle">All Departments</p><ul class="dlist">' + depts.map(function (d, i) {
         return '<li><button class="dl" type="button" aria-expanded="false" aria-controls="dsub' + i + '" data-acc>' + icon(d.icon) + esc(d.name) + '<span class="chev">' + icon('right') + '</span></button>' +
           '<ul class="dsub" id="dsub' + i + '" hidden><li><a href="' + catUrl(d.id) + '">All ' + esc(d.name) + '</a></li>' + (subs[d.id] || []).slice(0, 6).map(function (s) { return '<li><a href="' + catUrl(d.id) + '">' + esc(s) + '</a></li>'; }).join('') + '</ul></li>';
-      }).join('') + '</ul><p class="dtitle">Shop</p><ul class="dlist"><li><a href="products.html?sale=1">' + icon('cash') + 'Offers</a></li><li><a href="products.html?tag=new">' + icon('box') + 'New arrivals</a></li></ul>' +
-      '<p class="dtitle">Account</p><ul class="dlist"><li><a href="preview.html?view=account">' + icon('user') + 'My account</a></li><li><a href="products.html?view=wishlist">' + icon('heart') + 'Wishlist</a></li>' +
+      }).join('') + '</ul><p class="dtitle">Shop</p><ul class="dlist"><li><a href="./?view=list&amp;sale=1">' + icon('cash') + 'Offers</a></li><li><a href="./?view=list&amp;tag=new">' + icon('box') + 'New arrivals</a></li></ul>' +
+      '<p class="dtitle">Account</p><ul class="dlist"><li><a href="./?view=account">' + icon('user') + 'My account</a></li><li><a href="./?view=wishlist">' + icon('heart') + 'Wishlist</a></li>' +
         '<li><a href="' + TRACK + '" target="_blank" rel="noopener">' + icon('truck') + 'Track order</a></li><li><a href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Contact us</a></li></ul></div></aside>' +
     '<aside class="drawer right" data-drawer="cart" role="dialog" aria-modal="true" aria-labelledby="d-cart-t" hidden><div class="drawer-head"><h2 id="d-cart-t">Shopping cart</h2><button class="round-hit" type="button" data-close aria-label="Close cart">' + icon('close') + '</button></div>' +
       '<div class="drawer-body" data-cart-body></div><div class="drawer-foot" data-cart-foot></div></aside>' +
@@ -255,12 +255,12 @@
 
   /* ---------- Sections ---------- */
   var slides = [
-    { label: 'WarmLune™ Heating Belt', title: 'Cordless warmth & massage, anywhere', hl: 'warmth', hl: 'warmth', text: '3 heat levels · 4 massage modes · USB rechargeable', url: 'heating-belt.html', img: 'img/gallery-1.jpg', alt: 'WarmLune heating belt' },
+    { label: 'WarmLune™ Heating Belt', title: 'Cordless warmth & massage, anywhere', hl: 'warmth', hl: 'warmth', text: '3 heat levels · 4 massage modes · USB rechargeable', url: './?view=product&id=belt', img: 'img/gallery-1.jpg', alt: 'WarmLune heating belt' },
     { label: 'K-Beauty', title: 'Anua & Medicube, delivered across Bangladesh', hl: 'delivered', hl: 'delivered', text: 'Serums, cream and hydrogel masks.', url: catUrl('skincare'), img: 'img/p-anua-serum.jpg', alt: 'Anua niacinamide serum' },
-    { label: 'Cash on delivery', title: 'Order now, pay when it arrives', hl: 'pay when it arrives', hl: 'pay when it arrives', text: 'Free delivery all over Bangladesh. Check your product before you pay.', url: 'products.html', img: 'img/lifestyle.jpg', alt: 'A woman relaxing at home' },
+    { label: 'Cash on delivery', title: 'Order now, pay when it arrives', hl: 'pay when it arrives', hl: 'pay when it arrives', text: 'Free delivery all over Bangladesh. Check your product before you pay.', url: './?view=list', img: 'img/lifestyle.jpg', alt: 'A woman relaxing at home' },
   ];
   var sides = [
-    { label: 'Combo offer', title: 'Belt + Gel Mask combo', url: (byId('combo-belt-mask') || {}).url || 'products.html', img: 'img/p-combo-belt-mask.jpg' },
+    { label: 'Combo offer', title: 'Belt + Gel Mask combo', url: (byId('combo-belt-mask') || {}).url || './?view=list', img: 'img/p-combo-belt-mask.jpg' },
     { label: 'Skincare', title: 'Medicube PDRN Capsule Cream', url: (byId('medicube-capsule-cream') || {}).url || catUrl('skincare'), img: 'img/p-medicube-capsule-cream.jpg' },
   ];
   function catTiles(ids) {
@@ -278,7 +278,7 @@
   ];
   var feat = 'beauty', featItems = fill(real.filter(function (p) { return p.category === feat; }), 6, feat);
   var brands = [['WarmLune', 'WarmLune', ''], ['Anua', 'Anua', 'light'], ['Medicube', 'medicube', '']]
-    .map(function (b) { return '<a class="brand-tile" href="products.html?q=' + encodeURIComponent(b[0]) + '"><span class="mark ' + b[2] + '">' + esc(b[1]) + '</span><span class="bn">' + esc(b[0]) + '</span></a>'; })
+    .map(function (b) { return '<a class="brand-tile" href="./?view=list&amp;q=' + encodeURIComponent(b[0]) + '"><span class="mark ' + b[2] + '">' + esc(b[1]) + '</span><span class="bn">' + esc(b[0]) + '</span></a>'; })
     .concat([1, 2, 3, 4, 5].map(function (i) { return '<span class="brand-tile sample" aria-label="Sample brand slot"><span class="mark">BRAND</span><span class="bn">Your brand ' + i + '</span></span>'; })).join('');
   var avg = reviews.length ? (reviews.reduce(function (s, r) { return s + r.rating; }, 0) / reviews.length).toFixed(1) : '';
   var ticker = ['FREE DELIVERY ALL OVER BANGLADESH', 'CASH ON DELIVERY', 'CHECK BEFORE YOU PAY', 'ORDER ON WHATSAPP ' + (W.phone || '')];
@@ -334,7 +334,7 @@
       '<div class="tabs"><div class="tabs-in" role="tablist" aria-label="Product groups">' + ftabs.map(function (t, i) {
         return '<button class="tab" type="button" role="tab" id="ft-' + t.id + '" aria-selected="' + (i === 0) + '" tabindex="' + (i ? -1 : 0) + '" aria-controls="feat-panel" data-ftab="' + t.id + '">' + esc(t.label) + '</button>';
       }).join('') + '</div></div><div id="feat-panel" role="tabpanel" aria-labelledby="ft-featured">' + carousel('car-feat', fill(ftabs[0].items, 6).map(card).join('')) + '</div>' +
-      '<div class="center"><a class="btn btn-outline" href="products.html">See all products ' + icon('arrow') + '</a></div></div></section>' +
+      '<div class="center"><a class="btn btn-outline" href="./?view=list">See all products ' + icon('arrow') + '</a></div></div></section>' +
     // Featured category (dark)
     '<section class="sec fcat" aria-labelledby="h-fcat"><div class="wrap"><div class="shead"><h2 id="h-fcat">Featured Category</h2><p>The latest from one department, with quick links to everything inside it.</p></div>' +
       '<div class="fcat-box"><div class="fcat-side"><h3>' + esc(dname(feat)) + '</h3><div class="pic"><img src="img/p-medicube-pdrn-serum.jpg" alt="" loading="lazy"></div><ul>' +
@@ -360,15 +360,15 @@
 
   var soc = S.social || {}, socials = ['facebook', 'instagram', 'youtube', 'tiktok'].filter(function (k) { return soc[k]; });
   var footer =
-    '<footer class="ftr"><div class="wrap ftr-top"><a class="logo" href="preview.html" aria-label="Bakaina home"><span class="logo-badge-wide">' + '<img class="logo-full" src="img/logo-full.png" alt="' + esc(W.brand || 'Bakaina') + '" width="471" height="180">' + '</span></a>' +
+    '<footer class="ftr"><div class="wrap ftr-top"><a class="logo" href="./" aria-label="Bakaina home"><span class="logo-badge-wide">' + '<img class="logo-full" src="img/logo-full.png" alt="' + esc(W.brand || 'Bakaina') + '" width="471" height="180">' + '</span></a>' +
       '<p class="ftr-tag">Shop Smarter. <span>Live Better.</span></p>' +
       (W.whatsapp ? '<a class="ftr-wa" href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + '<span><small>Customer support</small>WhatsApp ' + esc(W.phone || '') + '</span></a>' : '') +
       (socials.length ? '<div class="socials">' + socials.map(function (k) { return '<a href="' + esc(soc[k]) + '" target="_blank" rel="noopener" aria-label="' + esc(W.brand || 'Bakaina') + ' on ' + ({ facebook: 'Facebook', instagram: 'Instagram', youtube: 'YouTube', tiktok: 'TikTok' })[k] + '">' + icon(k) + '</a>'; }).join('') + '</div>' : '') + '</div>' +
     '<div class="wrap ftr-cols">' +
       '<nav aria-label="About"><h3>About Us</h3><ul><li><a href="delivery.html">Delivery information</a></li><li><a href="refund.html">Returns & refunds</a></li><li><a href="privacy.html">Privacy policy</a></li><li><a href="refund.html">Terms & conditions</a></li></ul></nav>' +
-      '<nav aria-label="My account"><h3>My Account</h3><ul><li><a href="preview.html?view=account">Account</a></li><li><a href="products.html?view=wishlist">Wishlist</a></li><li><a href="' + TRACK + '" target="_blank" rel="noopener">Track order</a></li><li><a href="#" data-open="cart">Shopping cart</a></li></ul></nav>' +
+      '<nav aria-label="My account"><h3>My Account</h3><ul><li><a href="./?view=account">Account</a></li><li><a href="./?view=wishlist">Wishlist</a></li><li><a href="' + TRACK + '" target="_blank" rel="noopener">Track order</a></li><li><a href="#" data-open="cart">Shopping cart</a></li></ul></nav>' +
       '<nav aria-label="Customer service"><h3>Customer Service</h3><ul><li><a href="' + HELP + '" target="_blank" rel="noopener">Contact us</a></li>' +
-        (W.phone ? '<li><a href="tel:' + esc(W.phone) + '">' + icon('phone') + esc(W.phone) + '</a></li>' : '') + (W.email ? '<li><a href="mailto:' + esc(W.email) + '">' + icon('mail') + 'Email us</a></li>' : '') + '<li><a href="products.html">Shop all</a></li></ul></nav>' +
+        (W.phone ? '<li><a href="tel:' + esc(W.phone) + '">' + icon('phone') + esc(W.phone) + '</a></li>' : '') + (W.email ? '<li><a href="mailto:' + esc(W.email) + '">' + icon('mail') + 'Email us</a></li>' : '') + '<li><a href="./?view=list">Shop all</a></li></ul></nav>' +
       '<div class="news-col"><h3 id="nl-h">Newsletter</h3><p>Get new arrivals and offers by email.</p><form class="news" data-news novalidate aria-labelledby="nl-h"><label class="sr-only" for="nl">Email address</label>' +
         '<input id="nl" type="email" name="email" placeholder="Your email address" autocomplete="email" required><input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">' +
         '<button type="submit" aria-label="Subscribe">' + icon('send') + '</button></form><p class="news-msg" data-news-msg role="status"></p></div>' +
@@ -385,7 +385,7 @@
   $('[data-header]').outerHTML = header + drawers;
   if (VIEW === 'cat') {
     var cid = new URLSearchParams(location.search).get('c'), cd = depts.filter(function (x) { return x.id === cid; })[0] || depts[0], items = catList(cd.id);
-    main = '<section class="sec catpg"><div class="wrap"><p class="crumb"><a href="preview.html">Home</a> / ' + esc(cd.name) + '</p>' +
+    main = '<section class="sec catpg"><div class="wrap"><p class="crumb"><a href="./">Home</a> / ' + esc(cd.name) + '</p>' +
       '<div class="catpg-grid"><aside class="catpg-side" aria-label="Departments"><h2>All Departments</h2><ul>' + depts.map(function (d) {
         return '<li><a href="' + catUrl(d.id) + '"' + (d.id === cd.id ? ' aria-current="page"' : '') + '>' + icon(d.icon) + esc(d.name) + '</a></li>';
       }).join('') + '</ul></aside>' +
@@ -394,11 +394,78 @@
       '<div class="catpg-list">' + items.map(card).join('') + '</div></div></div></div></section>';
     document.title = cd.name + ' – ' + (W.brand || 'Bakaina');
   }
+  // ---- Listing pages: all products, search, offers, new arrivals, wishlist ----
+  var QS = new URLSearchParams(location.search);
+  function sideDepts(cur) {
+    return '<aside class="catpg-side" aria-label="Departments"><h2>All Departments</h2><ul>' + depts.map(function (d) {
+      return '<li><a href="' + catUrl(d.id) + '"' + (d.id === cur ? ' aria-current="page"' : '') + '>' + icon(d.icon) + esc(d.name) + '</a></li>';
+    }).join('') + '</ul></aside>';
+  }
+  function chipsRow(cur) { return '<div class="catpg-chips"><a href="./?view=list"' + (!cur ? ' aria-current="page"' : '') + '>All</a>' + depts.map(function (d) { return '<a href="' + catUrl(d.id) + '"' + (d.id === cur ? ' aria-current="page"' : '') + '>' + esc(d.name) + '</a>'; }).join('') + '</div>'; }
+  if (VIEW === 'list' || VIEW === 'wishlist') {
+    var lq = (QS.get('q') || '').trim(), lc = QS.get('cat') || '', list = real.slice(), ltitle = 'All products', lempty = 'No products here yet.';
+    if (VIEW === 'wishlist') { list = real.filter(function (p) { return wish.indexOf(p.id) > -1; }); ltitle = 'My wishlist'; lempty = 'Tap the heart on any product to save it here.'; }
+    else if (lq) {
+      var words = lq.toLowerCase().split(/\s+/);
+      list = list.filter(function (p) { var hay = (p.name + ' ' + p.brand + ' ' + dname(p.category)).toLowerCase(); return words.every(function (w) { return hay.indexOf(w) > -1; }); });
+      if (lc) list = list.filter(function (p) { return p.category === lc; });
+      ltitle = 'Results for “' + lq + '”'; lempty = 'Nothing matched. Try another word, or ask us on WhatsApp.';
+    }
+    else if (QS.get('sale')) { list = list.filter(function (p) { return p.off > 0; }); ltitle = 'Offers'; }
+    else if (QS.get('tag') === 'new') { list = list.filter(function (p) { return p.tags.indexOf('new') > -1; }); ltitle = 'New arrivals'; }
+    main = '<section class="sec catpg"><div class="wrap"><p class="crumb"><a href="./">Home</a> / ' + esc(ltitle) + '</p><div class="catpg-grid">' + sideDepts('') +
+      '<div><div class="catpg-head"><h1>' + esc(ltitle) + '</h1><p>' + list.length + ' product' + (list.length === 1 ? '' : 's') + '</p></div>' + chipsRow('') +
+      (list.length ? '<div class="catpg-list">' + list.map(card).join('') + '</div>'
+        : '<div class="cp-empty">' + icon(VIEW === 'wishlist' ? 'heart' : 'search') + '<p>' + esc(lempty) + '</p><a class="btn btn-brand" href="./?view=list">Browse all products</a> <a class="btn btn-outline" href="' + HELP + '" target="_blank" rel="noopener">' + icon('chat') + 'Ask on WhatsApp</a></div>') +
+      '</div></div></div></section>';
+    document.title = ltitle + ' – ' + (W.brand || 'Bakaina');
+  }
+  // ---- Product page: same layout for every product ----
+  if (VIEW === 'product') {
+    var pid = QS.get('id'), pp = byId(pid);
+    if (!pp) { main = '<section class="sec"><div class="wrap cp-empty">' + icon('box') + '<p>This product is not available.</p><a class="btn btn-brand" href="./?view=list">Browse all products</a></div></section>'; }
+    else {
+      var src = pid === 'belt' ? null : (W.shopProducts || []).filter(function (x) { return x.id === pid; })[0] || {};
+      var en = function (arr) { return (arr || []).map(function (x) { return Array.isArray(x) ? (x[1] || x[0]) : x; }); };
+      var imgs = pid === 'belt' ? (W.gallery || []).map(function (g) { return g.src; }).filter(Boolean) : ((src.images && src.images.length) ? src.images : [pp.image]).filter(Boolean);
+      var blurb = pid === 'belt' ? ((W.catalog || [])[0] || {}).blurb_en : (src.blurb_en || src.blurb || '');
+      var intro = pid === 'belt' ? 'A cordless heating belt with heat and massage for period pain, back and tummy aches. Wear it at home, at the office or while travelling.' : (src.intro_en || '');
+      var benefits = pid === 'belt' ? (W.stats || []).map(function (s) { return '<strong>' + esc(s.value_en || s.value) + '</strong> ' + esc(s.label_en || s.label); }) : en(src.benefits);
+      var ingr = pid === 'belt' ? [] : en(src.ingredients), how = pid === 'belt' ? [] : en(src.howTo);
+      var details = pid === 'belt' ? [] : (src.details ? [src.details[1] || src.details[0]] : []);
+      if (src && src.combo) { intro = 'Get the WarmLune™ Heating Belt and a Medicube PDRN Pink Collagen Gel Mask together for less than buying them separately.'; }
+      var rel = real.filter(function (p) { return p.id !== pid && p.category === pp.category; }).concat(real.filter(function (p) { return p.id !== pid && p.category !== pp.category; })).slice(0, 8);
+      var sec = function (t, body) { return body ? '<section class="pdp-sec"><h2>' + t + '</h2>' + body + '</section>' : ''; };
+      var lis = function (a, tag) { return a.length ? '<' + tag + ' class="pdp-list">' + a.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</' + tag + '>' : ''; };
+      main = '<section class="sec pdp"><div class="wrap"><p class="crumb"><a href="./">Home</a> / <a href="' + catUrl(pp.category) + '">' + esc(dname(pp.category)) + '</a> / ' + esc(pp.name) + '</p>' +
+        '<div class="pdp-grid"><div class="pdp-gal"><div class="pdp-main">' + (pp.off ? '<span class="pbadge sale">-' + pp.off + '%</span>' : '') +
+          '<img data-pdp-img src="' + esc(imgs[0] || '') + '" alt="' + esc(pp.name) + '" width="700" height="700"></div>' +
+          (imgs.length > 1 ? '<div class="pdp-thumbs" role="group" aria-label="Product photos">' + imgs.map(function (s, i) { return '<button type="button" data-pthumb="' + esc(s) + '" aria-label="Photo ' + (i + 1) + '" aria-pressed="' + (i === 0) + '"><img src="' + esc(s) + '" alt="" loading="lazy" width="90" height="90"></button>'; }).join('') + '</div>' : '') +
+        '</div><div class="pdp-info">' +
+          (pp.brand ? '<a class="pdp-brand" href="./?view=list&amp;q=' + encodeURIComponent(pp.brand) + '">' + esc(pp.brand) + '</a>' : '') +
+          '<h1>' + esc(pp.name) + '</h1>' +
+          (pp.reviewCount ? '<p class="pdp-rate"><span class="stars" aria-hidden="true">★★★★★</span> ' + pp.rating.toFixed(1) + ' · ' + pp.reviewCount + ' reviews</p>' : '') +
+          '<p class="pdp-price"><strong>' + money(pp.price) + '</strong>' + (pp.oldPrice > pp.price ? ' <s>' + money(pp.oldPrice) + '</s> <span class="pdp-save">Save ' + money(pp.oldPrice - pp.price) + '</span>' : '') + '</p>' +
+          (blurb ? '<p class="pdp-blurb">' + esc(blurb) + '</p>' : '') +
+          '<div class="pdp-buy"><div class="qty" role="group" aria-label="Quantity"><button type="button" data-pq="-1" aria-label="One less" disabled>−</button><span data-pq-n aria-live="polite">1</span><button type="button" data-pq="1" aria-label="One more">+</button></div>' +
+            '<button class="btn btn-accent" type="button" data-addq="' + esc(pp.id) + '">' + icon('cart') + 'Add to Cart</button>' +
+            '<a class="btn btn-brand" data-buyq href="checkout.html?product=' + encodeURIComponent(pp.checkoutId) + '&amp;qty=1">Buy Now</a></div>' +
+          '<a class="pdp-wa" data-wa-order href="' + wa('আসসালামু আলাইকুম, আমি এটা অর্ডার করতে চাই: ' + pp.name + ' × 1 = ' + money(pp.price)) + '" target="_blank" rel="noopener">' + icon('chat') + 'Order on WhatsApp</a>' +
+          '<ul class="pdp-trust"><li>' + icon('truck') + 'Free delivery all over Bangladesh</li><li>' + icon('cash') + 'Cash on delivery — pay when it arrives</li><li>' + icon('box') + 'Check the product before you pay</li></ul>' +
+          (pid === 'belt' ? '<a class="link-u" href="heating-belt.html">See the full WarmLune™ page, videos and reviews →</a>' : '') +
+        '</div></div>' +
+        '<div class="pdp-more">' + sec('Description', intro ? '<p>' + esc(intro) + '</p>' : '') + sec(pid === 'belt' ? 'Highlights' : 'Benefits', lis(benefits, 'ul')) + sec('Key ingredients', lis(ingr, 'ul')) + sec('How to use', lis(how, 'ol')) + sec('Details', details.length ? '<p>' + details.map(esc).join('<br>') + '</p>' : '') +
+          (pid === 'belt' && reviews.length ? sec('Customer reviews', '<div class="pdp-revs">' + reviews.slice(0, 4).map(function (r) { return '<blockquote><p class="stars" aria-label="' + r.rating + ' out of 5">' + '★★★★★'.slice(0, r.rating) + '</p><p>' + esc(r.text_en || r.text) + '</p><footer>— ' + esc(r.name) + '</footer></blockquote>'; }).join('') + '</div>') : '') + '</div>' +
+        (rel.length ? '<section class="pdp-rel" aria-labelledby="h-rel"><h2 id="h-rel">You may also like</h2>' + carousel('car-rel', rel.map(card).join('')) + '</section>' : '') +
+        '</div></section>';
+      document.title = pp.name + ' – ' + (W.brand || 'Bakaina');
+    }
+  }
   if (VIEW === 'account') {
-    main = '<section class="sec acc"><div class="wrap"><p class="crumb"><a href="preview.html">Home</a> / My account</p><h1>My account</h1><div data-acc-root></div></div></section>';
+    main = '<section class="sec acc"><div class="wrap"><p class="crumb"><a href="./">Home</a> / My account</p><h1>My account</h1><div data-acc-root></div></div></section>';
     document.title = 'My account – ' + (W.brand || 'Bakaina');
   }
-  if (VIEW === 'cart') { main = '<section class="sec cp"><div class="wrap"><p class="crumb"><a href="preview.html">Home</a> / Shopping cart</p><h1>Shopping cart</h1><div data-cart-page></div></div></section>'; document.title = 'Shopping cart – ' + (W.brand || 'Bakaina'); }
+  if (VIEW === 'cart') { main = '<section class="sec cp"><div class="wrap"><p class="crumb"><a href="./">Home</a> / Shopping cart</p><h1>Shopping cart</h1><div data-cart-page></div></div></section>'; document.title = 'Shopping cart – ' + (W.brand || 'Bakaina'); }
   $('#main').innerHTML = main;
   (function () { var cc = document.querySelector('.catpg-chips [aria-current]'); if (cc) cc.parentNode.scrollLeft = cc.offsetLeft - 16; })();
   $('[data-footer]').outerHTML = footer;
@@ -408,7 +475,7 @@
   var tt; function toast(m) { var t = $('[data-toast]'); t.textContent = m; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(function () { t.classList.remove('show'); }, 2000); }
   function renderCart() {
     var body = $('[data-cart-body]'), foot = $('[data-cart-foot]');
-    if (!cart.length) { body.innerHTML = '<div class="empty-cart"><p>Your cart is empty.</p><a class="btn btn-accent" href="products.html">Start shopping</a></div>'; foot.innerHTML = ''; return; }
+    if (!cart.length) { body.innerHTML = '<div class="empty-cart"><p>Your cart is empty.</p><a class="btn btn-accent" href="./?view=list">Start shopping</a></div>'; foot.innerHTML = ''; return; }
     body.innerHTML = cart.map(function (x) {
       var p = byId(x.id);
       return '<div class="mini-item">' + (p.image ? '<img src="' + esc(p.image) + '" alt="">' : '<span class="ph t-grey">' + icon('box') + '</span>') + '<div><h3>' + esc(p.name) + '</h3><p>' + x.qty + ' × ' + money(p.price) + '</p>' +
@@ -502,10 +569,37 @@
       el.classList.add('reveal'); io.observe(el);
     });
   }
+  // Meta Pixel (same ID as the landing page)
+  if (W.pixelId && !window.fbq) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', W.pixelId); fbq('track', 'PageView');
+  }
+  // Product page: photos, quantity, add to cart with quantity
+  if (VIEW === 'product' && byId(QS.get('id'))) {
+    var PP = byId(QS.get('id')), pq = 1;
+    remember(PP.id);
+    if (window.fbq) fbq('track', 'ViewContent', { content_ids: [PP.checkoutId], content_name: PP.name, content_type: 'product', value: PP.price, currency: 'BDT' });
+    var setQ = function (n) {
+      pq = Math.max(1, Math.min(10, n)); $('[data-pq-n]').textContent = pq;
+      $('[data-pq="-1"]').disabled = pq <= 1; $('[data-pq="1"]').disabled = pq >= 10;
+      $('[data-buyq]').href = 'checkout.html?product=' + encodeURIComponent(PP.checkoutId) + '&qty=' + pq;
+      $('[data-wa-order]').href = wa('আসসালামু আলাইকুম, আমি এটা অর্ডার করতে চাই: ' + PP.name + ' × ' + pq + ' = ' + money(PP.price * pq));
+    };
+    $('#main').addEventListener('click', function (e) {
+      var th = e.target.closest('[data-pthumb]'), q = e.target.closest('[data-pq]'), ad = e.target.closest('[data-addq]');
+      if (th) { $('[data-pdp-img]').src = th.getAttribute('data-pthumb'); $$('[data-pthumb]').forEach(function (b) { b.setAttribute('aria-pressed', String(b === th)); }); }
+      if (q) setQ(pq + Number(q.getAttribute('data-pq')));
+      if (ad) {
+        var h = cart.filter(function (x) { return x.id === PP.id; })[0]; if (h) h.qty = Math.min(10, h.qty + pq); else cart.push({ id: PP.id, qty: pq });
+        ls.set('bk-cart', cart); counts(); if (window.fbq) fbq('track', 'AddToCart', { content_ids: [PP.checkoutId], value: PP.price * pq, currency: 'BDT' });
+        if (desk.matches && $('[data-mc]')) showMini(); else toast('Added to cart ✓');
+      }
+    });
+  }
   // Customer accounts (Firebase): loaded only on the account page
   if (VIEW === 'account') {
-    import('./auth.js?v=20261124e').then(function (m) {
-      m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: 'products.html?view=wishlist', cartUrl: 'preview.html?view=cart' });
+    import('./auth.js?v=20261125a').then(function (m) {
+      m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: './?view=wishlist', cartUrl: './?view=cart' });
     }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }
   // Back to top: appears after scrolling down
@@ -551,7 +645,7 @@
   $$('[data-search]').forEach(function (f) {
     f.addEventListener('submit', function (e) {
       e.preventDefault(); var q = f.q.value.trim(), c = f.cat.value;
-      location.href = q ? 'products.html?q=' + encodeURIComponent(q) : c ? catUrl(c) : 'products.html';
+      location.href = q ? './?view=list&q=' + encodeURIComponent(q) : c ? catUrl(c) : './?view=list';
     });
   });
   // Hero slider

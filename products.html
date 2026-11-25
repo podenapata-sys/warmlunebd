@@ -2,24 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Products | Bakaina</title>
-<meta name="description" content="Shop Bakaina: trending skincare, body care and home essentials. Free delivery and cash on delivery all over Bangladesh.">
-<meta name="theme-color" content="#02326C">
-<link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="store.css?v=20261124e">
+<meta name="robots" content="noindex">
+<title>Bakaina</title>
+<script>
+(function () { var q = new URLSearchParams(location.search), o = new URLSearchParams(), map = { skincare: 'beauty', bodycare: 'beauty', haircare: 'beauty', appliance: 'appliances', household: 'kitchen' };
+  var v = q.get('view'), cat = q.get('cat');
+  if (v === 'wishlist' || v === 'account') o.set('view', v);
+  else if (cat) { o.set('view', 'cat'); o.set('c', map[cat] || cat); }
+  else { o.set('view', 'list'); ['q', 'sale', 'tag'].forEach(function (k) { if (q.get(k)) o.set(k, q.get(k)); }); }
+  location.replace('./?' + o.toString()); })();
+</script>
+<meta http-equiv="refresh" content="0; url=./">
 </head>
-<body data-page="products">
-<div data-chrome-header></div>
-<main id="main" tabindex="-1">
-  <noscript><div class="wrap sec"><p>Please turn on JavaScript to shop, or order on WhatsApp: <a href="https://wa.me/8801632932249">+880 1632-932249</a>.</p></div></noscript>
-</main>
-<div data-chrome-footer></div>
-<script src="config.js?v=20261124e"></script>
-<script src="store.js?v=20261124e"></script>
-</body>
+<body><p><a href="./">Go to Bakaina</a></p></body>
 </html>
