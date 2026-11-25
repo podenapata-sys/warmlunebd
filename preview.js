@@ -693,6 +693,8 @@
         items: CO.map(function (it) { return { productId: it.p.checkoutId, qty: it.qty }; }),
         name: f.name.value.trim(), phone: ph, area: area, district: area === 'outside' ? f.district.value : '', address: f.address.value.trim(), note: f.note.value.trim(),
         payment: pay, trxId: pay === 'cod' ? '' : trx };
+      // One product + COD also works with an older Code.gs that only knows productId/qty
+      if (CO.length === 1 && pay === 'cod') { payload.productId = CO[0].p.checkoutId; payload.qty = CO[0].qty; }
       var ctrl = 'AbortController' in window ? new AbortController() : null, tm = setTimeout(function () { if (ctrl) ctrl.abort(); }, 25000);
       fetch(W.appsScriptUrl, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload), signal: ctrl && ctrl.signal })
         .then(function (r) { return r.json(); })
@@ -711,13 +713,17 @@
           clearTimeout(tm); btn.disabled = false; btn.textContent = 'Place order';
           var real = x && x.name !== 'AbortError' && x.message && !/fetch|network|JSON/i.test(x.message);
           say(real ? x.message : 'Could not reach the server. Check your internet and try again, or order on WhatsApp.');
+          // Never lose the sale: offer the same order on WhatsApp
+          var waT = 'আসসালামু আলাইকুম, আমি অর্ডার করতে চাই:\n' + CO.map(function (it) { return '• ' + it.p.name + ' × ' + it.qty; }).join('\n') + '\nমোট: ' + money(coTotals(CO).total) + '\nনাম: ' + payload.name + '\nমোবাইল: ' + payload.phone + '\nঠিকানা: ' + payload.address + (payload.district ? ', ' + payload.district : '') + (pay !== 'cod' ? '\n' + (pay === 'bkash' ? 'bKash' : 'Nagad') + ' TrxID: ' + trx : '');
+          if (!$('[data-co-wa]')) err.insertAdjacentHTML('afterend', '<a class="btn btn-outline" data-co-wa target="_blank" rel="noopener">' + icon('chat') + 'Send this order on WhatsApp</a>');
+          $('[data-co-wa]').href = wa(waT);
         });
     });
     window.addEventListener('pagehide', draft);
   })();
   // Customer accounts (Firebase): loaded only on the account page
   if (VIEW === 'account') {
-    import('./auth.js?v=20261125c').then(function (m) {
+    import('./auth.js?v=20261125d').then(function (m) {
       m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: './?view=wishlist', cartUrl: './?view=cart' });
     }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }
