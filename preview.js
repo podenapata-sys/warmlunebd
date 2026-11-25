@@ -763,10 +763,28 @@
   })();
   // Customer accounts (Firebase): loaded only on the account page
   if (VIEW === 'account') {
-    import('./auth.js?v=20261125e').then(function (m) {
+    import('./auth.js?v=20261125f').then(function (m) {
       m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: './?view=wishlist', cartUrl: './?view=cart' });
     }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }
+  // Hidden shortcut to the dashboard: footer logo — double-click, short pause (0.6–2 s), double-click.
+  // A single click still goes home. The dashboard still asks for the password.
+  (function () {
+    var el = $('.ftr .logo'); if (!el) return;
+    var taps = [], t = null;
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      var now = Date.now();
+      if (taps.length && now - taps[taps.length - 1] > 2000) taps = [];
+      taps.push(now); clearTimeout(t);
+      if (taps.length >= 4) {
+        var a = taps.slice(-4);
+        if (a[1] - a[0] < 450 && a[3] - a[2] < 450 && a[2] - a[1] >= 600 && a[2] - a[1] <= 2000) { taps = []; location.href = 'admin.html'; return; }
+        taps = [];
+      }
+      t = setTimeout(function () { if (taps.length === 1) location.href = './'; else if (taps.length === 3) taps = []; }, 450);
+    });
+  })();
   // Back to top: appears after scrolling down
   (function () {
     var tb = $('[data-top]'); if (!tb) return;
