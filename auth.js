@@ -32,8 +32,15 @@ function friendly(err) {
     'auth/weak-password': 'Please use a password with at least 6 characters.',
     'auth/too-many-requests': 'Too many tries. Please wait a few minutes and try again.',
     'auth/network-request-failed': 'No internet connection. Please check and try again.',
-    'permission-denied': 'Permission denied.',
-  })[c] || 'Something went wrong. Please try again.';
+    'permission-denied': 'Permission denied. (Setup: publish the Firestore rules.)',
+    // Setup problems — shown so the shop owner can see which Firebase step is missing
+    'auth/operation-not-allowed': 'Login is not switched on yet. (Setup: Firebase → Authentication → Sign-in method → Email/Password → Enable.)',
+    'auth/configuration-not-found': 'Login is not set up yet. (Setup: Firebase → Authentication → Get started → Email/Password → Enable.)',
+    'auth/unauthorized-domain': 'This website is not allowed yet. (Setup: Firebase → Authentication → Settings → Authorized domains → add bakaina.com.)',
+    'unavailable': 'Could not reach the database. (Setup: create the Firestore database, then refresh.)',
+    'not-found': 'Database not found. (Setup: Firebase → Firestore Database → Create database.)',
+    'failed-precondition': 'Database is not ready. (Setup: create the Firestore database in production mode.)',
+  })[c] || ('Something went wrong. Please try again.' + (c ? ' (' + c + ')' : ''));
 }
 
 /* ======================= Checkout helpers ======================= */

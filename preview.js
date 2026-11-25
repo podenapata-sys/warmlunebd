@@ -693,7 +693,7 @@
   if (VIEW === 'checkout' && $('[data-co]')) (function () {
     var f = $('[data-co]'), started = Date.now(), PNs = W.payNumbers || {}, acct = null, AUTH = null;
     // Logged-in customer: fill empty fields from the account and link the order to it
-    if (window.FIREBASE_CONFIG) import('./auth.js?v=20261125h').then(function (m) { AUTH = m; return m.getCustomer(); }).then(function (c) {
+    if (window.FIREBASE_CONFIG) import('./auth.js?v=20261125j').then(function (m) { AUTH = m; return m.getCustomer(); }).then(function (c) {
       if (!c) return; acct = c; var pr = c.profile || {};
       if (!f.name.value && pr.name) f.name.value = pr.name;
       if (!f.phone.value && pr.phone) f.phone.value = pr.phone;
@@ -774,7 +774,7 @@
   })();
   // Customer accounts (Firebase): loaded only on the account page
   if (VIEW === 'account') {
-    import('./auth.js?v=20261125h').then(function (m) {
+    import('./auth.js?v=20261125j').then(function (m) {
       m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: './?view=wishlist', cartUrl: './?view=cart' });
     }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }
