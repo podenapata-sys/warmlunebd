@@ -49,6 +49,7 @@
       <button type="button" role="tab" class="on" data-tab="orders" aria-selected="true">অর্ডার</button>
       <button type="button" role="tab" data-tab="abandoned" aria-selected="false">🛒 Abandoned Cart<span class="count" data-ab-count hidden></span></button>
       <button type="button" role="tab" data-tab="reviews" aria-selected="false">রিভিউ<span class="count" data-pending hidden></span></button>
+      <button type="button" role="tab" data-tab="products" aria-selected="false">🛍️ পণ্য (Products)</button>
       <button type="button" role="tab" data-tab="customers" aria-selected="false">👤 গ্রাহক (Accounts)</button>
     </nav>
 
@@ -63,6 +64,10 @@
       </div>
       <div class="review-list" data-ab-list></div>
       <p class="empty-state" data-ab-empty hidden>কোনো অসম্পূর্ণ অর্ডার নেই।</p>
+    </section>
+
+    <section data-panel="products" hidden>
+      <div data-products></div>
     </section>
 
     <section data-panel="customers" hidden>
@@ -126,5 +131,6 @@
   });
 </script>
 <script src="admin.js" defer></script>
+<script src="admin-products.js" defer></script>
 </body>
 </html>

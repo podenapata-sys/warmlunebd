@@ -29,8 +29,8 @@ const PRICE = 1099;   // ৳ per belt. Keep in sync with config.js (price).
 // Every product the checkout can sell. Prices must match config.js (price / shopProducts).
 // supplier: who ships it, shown in the sheet and alerts so you know where to place the order.
 const PRODUCTS = {
-  'pad-pink':               { name: 'WarmLune™ Heating Belt — পিংক', price: PRICE },
-  'combo-belt-mask':        { name: 'কম্বো: হিটিং ম্যাসাজ বেল্ট + Medicube জেল মাস্ক', price: 1799 },
+  'pad-pink':               { name: 'WarmLune™ Heating Belt — পিংক', price: PRICE, oldPrice: 1690 },
+  'combo-belt-mask':        { name: 'কম্বো: হিটিং ম্যাসাজ বেল্ট + Medicube জেল মাস্ক', price: 1799, oldPrice: 1898 },
   'anua-serum':             { name: 'Anua Niacinamide 10% + TXA 4% সিরাম 30ml', price: 2499, supplier: 'Zatiq' },
   'medicube-pdrn-serum':    { name: 'Medicube PDRN পিংক পেপটাইড সিরাম 30ml', price: 2300, supplier: 'Zatiq' },
   'medicube-capsule-cream': { name: 'Medicube PDRN পিংক কোলাজেন ক্যাপসুল ক্রিম 55g', price: 2600, supplier: 'Zatiq' },
@@ -99,6 +99,10 @@ function doPost(e) {
       case 'getAbandoned':     requireToken_(body); return json_(getAbandoned_());
       case 'updateDraft':      requireToken_(body); return json_(updateDraft_(body));
       case 'subscribe':        return json_(subscribe_(body));
+      case 'getProducts':      return json_(getProducts_());
+      case 'adminProducts':    requireToken_(body); return json_({ ok: true, products: readProducts_() });
+      case 'saveProduct':      requireToken_(body); return json_(saveProduct_(body));
+      case 'uploadImage':      requireToken_(body); return json_(uploadImage_(body));
       case 'logout':       CacheService.getScriptCache().remove('tok_' + body.token); return json_({ ok: true });
       default:             return json_({ ok: false, error: 'Unknown action' });
     }
@@ -125,12 +129,14 @@ function createOrder_(b) {
 
   // ---- Validate & sanitize every field; never trust prices from the browser
   // A cart sends items: [{productId, qty}]; the single-product checkout sends productId + qty.
+  const CATALOG = productMap_();
   const rawItems = Array.isArray(b.items) && b.items.length ? b.items.slice(0, 20) : [{ productId: b.productId, qty: b.qty }];
   const lines = [];
   rawItems.forEach(it => {
     const pid = String(it && it.productId || '');
-    const product = PRODUCTS[pid];
+    const product = CATALOG[pid];
     if (!product) throw userError_('পণ্যটি পাওয়া যায়নি।');
+    if (product.inStock === false) throw userError_(product.name + ' এখন স্টকে নেই।');
     if (!(product.price > 0)) throw userError_('দাম এখনও সেট করা হয়নি। কল বা WhatsApp-এ অর্ডার করুন।');
     const q = Number(it.qty);
     if (!Number.isInteger(q) || q < 1 || q > MAX_QTY) throw userError_('পরিমাণ ১ থেকে ' + MAX_QTY + ' এর মধ্যে হতে হবে।');
@@ -731,8 +737,125 @@ function json_(obj) {
    Run once from the editor: creates the sheet and grants permissions
    (Sheets, email, external requests). Then deploy as a Web App.
    ========================================================================== */
+/* ==========================================================================
+   Products — edited from the dashboard (admin.html → পণ্য)
+   The "Products" sheet overrides config.js: an empty cell keeps the website's own value.
+   Prices here are what the checkout charges.
+   ========================================================================== */
+const PRODUCT_SHEET = 'Products';
+const PRODUCT_HEADERS = ['id', 'name', 'brand', 'category', 'price', 'oldPrice', 'inStock', 'visible', 'images', 'blurb', 'description', 'benefits', 'howTo', 'tags', 'supplier', 'sort', 'updatedAt'];
+const PRODUCT_TAGS = ['featured', 'new', 'trending'];
+const IMAGE_FOLDER = 'Bakaina product images';
+
+function getProductSheet_() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(PRODUCT_SHEET);
+  if (!sheet) {
+    sheet = ss.insertSheet(PRODUCT_SHEET);
+    sheet.getRange(1, 1, 1, PRODUCT_HEADERS.length).setValues([PRODUCT_HEADERS]).setFontWeight('bold');
+    sheet.setFrozenRows(1);
+    sheet.getRange(1, 1, sheet.getMaxRows(), PRODUCT_HEADERS.length).setNumberFormat('@');
+    // Start with the products the shop already sells (empty cells = keep the website's text and photos)
+    const ts = now_();
+    Object.keys(PRODUCTS).forEach((id, i) => {
+      sheet.appendRow([id, '', '', '', String(PRODUCTS[id].price), PRODUCTS[id].oldPrice ? String(PRODUCTS[id].oldPrice) : '', 'yes', 'yes', '', '', '', '', '', '', PRODUCTS[id].supplier || '', String(i + 1), ts]);
+    });
+  }
+  return sheet;
+}
+function readProducts_() {
+  const sheet = getProductSheet_();
+  const last = sheet.getLastRow();
+  if (last < 2) return [];
+  const lines = v => String(v || '').split(/\r?\n/).map(x => x.trim()).filter(Boolean);
+  return sheet.getRange(2, 1, last - 1, PRODUCT_HEADERS.length).getDisplayValues()
+    .filter(r => r[0])
+    .map(r => {
+      const o = {}; PRODUCT_HEADERS.forEach((h, i) => { o[h] = r[i]; });
+      o.price = Number(o.price) || 0; o.oldPrice = Number(o.oldPrice) || 0; o.sort = Number(o.sort) || 0;
+      o.inStock = o.inStock !== 'no'; o.visible = o.visible !== 'no';
+      o.images = lines(o.images); o.benefits = lines(o.benefits); o.howTo = lines(o.howTo);
+      o.tags = String(o.tags || '').split(',').map(x => x.trim()).filter(t => PRODUCT_TAGS.indexOf(t) > -1);
+      return o;
+    })
+    .sort((a, b) => a.sort - b.sort);
+}
+// What the checkout can sell: built-in products, then the sheet on top (hidden ones removed)
+function productMap_() {
+  const map = {};
+  Object.keys(PRODUCTS).forEach(id => { map[id] = Object.assign({ id: id }, PRODUCTS[id]); });
+  let rows = [];
+  try { rows = readProducts_(); } catch (e) { console.error(e); }
+  rows.forEach(p => {
+    if (!p.visible) { delete map[p.id]; return; }
+    const base = map[p.id] || { id: p.id };
+    map[p.id] = Object.assign(base, {
+      name: p.name || base.name || p.id,
+      price: p.price > 0 ? p.price : base.price,
+      supplier: p.supplier || base.supplier || '',
+      inStock: p.inStock,
+    });
+  });
+  return map;
+}
+function getProducts_() {
+  const cache = CacheService.getScriptCache();
+  const hit = cache.get('products_public');
+  if (hit) return { ok: true, products: JSON.parse(hit) };
+  const products = readProducts_().map(p => { const o = Object.assign({}, p); delete o.supplier; delete o.updatedAt; return o; });
+  try { cache.put('products_public', JSON.stringify(products), 300); } catch (e) {}
+  return { ok: true, products: products };
+}
+function saveProduct_(b) {
+  const p = b.product || {};
+  const id = String(p.id || '').toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+  if (id.length < 2) throw userError_('পণ্যের ID দিন (ইংরেজি ছোট হাতের অক্ষর ও ড্যাশ)।');
+  const name = clean_(p.name, 120);
+  const price = Math.round(Number(p.price));
+  if (!(price > 0 && price <= 1000000)) throw userError_('সঠিক দাম দিন।');
+  const oldPrice = p.oldPrice ? Math.round(Number(p.oldPrice)) : 0;
+  if (oldPrice && oldPrice <= price) throw userError_('আগের দাম বর্তমান দামের চেয়ে বেশি হতে হবে (না থাকলে খালি রাখুন)।');
+  const category = String(p.category || '').replace(/[^a-z0-9-]/g, '').slice(0, 30);
+  const images = (Array.isArray(p.images) ? p.images : []).map(String)
+    .filter(u => /^https:\/\/[\w.-]+\/[\w\-./?=&%]+$/.test(u) || /^img\/[\w\-./]+$/.test(u)).slice(0, 8);
+  const lines = (a, n, len) => (Array.isArray(a) ? a : String(a || '').split(/\r?\n/)).map(x => clean_(x, len)).filter(Boolean).slice(0, n).join('\n');
+  const tags = (Array.isArray(p.tags) ? p.tags : []).filter(t => PRODUCT_TAGS.indexOf(t) > -1).join(',');
+  const row = [id, name, clean_(p.brand, 40), category, String(price), oldPrice ? String(oldPrice) : '', p.inStock === false ? 'no' : 'yes', p.visible === false ? 'no' : 'yes',
+    images.join('\n'), clean_(p.blurb, 160), clean_(p.description, 3000), lines(p.benefits, 12, 300), lines(p.howTo, 12, 300), tags, clean_(p.supplier, 40), String(Number(p.sort) || 0), now_()];
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(20000)) throw userError_('সার্ভার ব্যস্ত, আবার চেষ্টা করুন।');
+  try {
+    const sheet = getProductSheet_();
+    const at = findIn_(sheet, PRODUCT_HEADERS, 'id', id);
+    if (b.isNew && at) throw userError_('এই ID-র পণ্য আগে থেকেই আছে। অন্য ID দিন।');
+    if (at) sheet.getRange(at, 1, 1, PRODUCT_HEADERS.length).setValues([row.map(safeCell_)]);
+    else sheet.appendRow(row.map(safeCell_));
+    SpreadsheetApp.flush();
+  } finally { lock.releaseLock(); }
+  CacheService.getScriptCache().remove('products_public');
+  return { ok: true, id: id };
+}
+// Photo from the dashboard → Google Drive (anyone with the link can view) → its image address
+function uploadImage_(b) {
+  const data = String(b.data || '');
+  const m = data.match(/^data:image\/(jpeg|png|webp);base64,([A-Za-z0-9+/=]+)$/);
+  if (!m) throw userError_('শুধু JPG, PNG বা WebP ছবি দিন।');
+  const bytes = Utilities.base64Decode(m[2]);
+  if (bytes.length > 4 * 1024 * 1024) throw userError_('ছবি ৪ MB-এর চেয়ে ছোট হতে হবে।');
+  const props = PropertiesService.getScriptProperties();
+  let folder = null;
+  const fid = props.getProperty('IMAGE_FOLDER_ID');
+  if (fid) { try { folder = DriveApp.getFolderById(fid); } catch (e) { folder = null; } }
+  if (!folder) { folder = DriveApp.createFolder(IMAGE_FOLDER); props.setProperty('IMAGE_FOLDER_ID', folder.getId()); }
+  const name = clean_(b.name, 60).replace(/[^\w.-]+/g, '-') || 'product';
+  const file = folder.createFile(Utilities.newBlob(bytes, 'image/' + m[1], name + '.' + (m[1] === 'jpeg' ? 'jpg' : m[1])));
+  file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  return { ok: true, url: 'https://lh3.googleusercontent.com/d/' + file.getId() };
+}
+
 function setup() {
   getSheet_();
+  getProductSheet_();
   getReviewSheet_();
   getDraftSheet_();
   getSubscriberSheet_();
@@ -741,6 +864,7 @@ function setup() {
   // Touch the services so the authorization prompt covers them
   MailApp.getRemainingDailyQuota();
   UrlFetchApp.getRequest('https://api.telegram.org');
+  DriveApp.getRootFolder();   // permission to save product photos
   console.log('Setup complete. Sheet "' + SHEET_NAME + '" is ready.');
 }
 

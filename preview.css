@@ -1070,3 +1070,6 @@ h3, .dm-head h3, .navpanel h3 { font-weight: 600; }
 .co-submit[disabled] { opacity: .7; cursor: progress; }
 @media (min-width: 900px) { .co-grid { grid-template-columns: minmax(0, 1fr) 380px; } .co-sum { position: sticky; top: 150px; } }
 .co [hidden], .acc-field[hidden] { display: none !important; }
+
+.pdp-buy[hidden] { display: none; }
+.pdp-oos { margin: 0; padding: 12px 14px; border-radius: 12px; background: #FDECEC; color: #A11B1B; font-weight: 600; }

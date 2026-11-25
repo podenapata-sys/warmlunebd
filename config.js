@@ -200,16 +200,10 @@ window.WL = {
     { id: 'rocket', name: 'রকেট',   name_en: 'Rocket', number: '016329322490' },
   ],
   // Full payment up front (optional for the customer): Send Money to these numbers, then the customer types the TrxID.
-  // ⚠ Put the real bKash / Nagad numbers here. kind: 'Send Money' (personal) or 'Payment' (merchant).
+  // kind: 'Send Money' (personal number) or 'Payment' (merchant number).
   payNumbers: {
-    bkash: { number: '01632932249', kind: 'Send Money' },
-    nagad: { number: '01632932249', kind: 'Send Money' },
-  },
-  // Full payment up front (optional for the customer): Send Money to these numbers, then the customer types the TrxID.
-  // ⚠ Put the real bKash / Nagad numbers here. kind: 'Send Money' (personal) or 'Payment' (merchant).
-  payNumbers: {
-    bkash: { number: '01632932249', kind: 'Send Money' },
-    nagad: { number: '01632932249', kind: 'Send Money' },
+    bkash: { number: '01401430404', kind: 'Send Money' },
+    // nagad: { number: '01XXXXXXXXX', kind: 'Send Money' },   // add the real Nagad number to show Nagad at checkout
   },
   advanceOutsideDhaka: 0,   // 0 = full cash on delivery everywhere (no bKash advance)
   appsScriptUrl: 'https://script.google.com/macros/s/AKfycbyPJ1JS5PBC-4D1O81U0qPhMTH9_ZB7KfI4vxojlbmcoJwF5KWP7bNjvOC7X7yeq62Q/exec',                // Web App URL from Code.gs deployment (…/exec)

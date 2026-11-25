@@ -639,3 +639,25 @@ body.admin .stat, body.admin .filters, body.admin .act, body.admin .orders tr, .
 /* Order failed: one-tap WhatsApp order with all details */
 .form-error .btn-wa { display: inline-flex; align-items: center; justify-content: center; margin-top: 10px; padding: 12px 18px; border-radius: 999px; background: #25D366; color: #fff; font-weight: 700; text-decoration: none; }
 .form-error .btn-wa:hover { background: #1EBE5A; }
+
+/* ---------- Dashboard → Products ---------- */
+.pm-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.pm-bar .hint { margin: 0; }
+.pm-table td { vertical-align: middle; }
+.pm-table tr.pm-off td { opacity: .55; }
+.pm-thumb { display: block; width: 52px; height: 52px; border-radius: 10px; object-fit: cover; background: #F1F5FB; }
+.pm-num { width: 100px; min-height: 40px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 10px; font: inherit; }
+.pm-table input[type=checkbox], .pm-chk input { width: 20px; height: 20px; accent-color: var(--green); }
+.pm-act { white-space: nowrap; }
+.pm-form { display: grid; gap: 14px; }
+.pm-form h3 { margin: 0; }
+.pm-grid { display: grid; gap: 12px; }
+@media (min-width: 760px) { .pm-grid { grid-template-columns: 1fr 1fr; } }
+.pm-row { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; }
+.pm-chk { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; }
+.pm-imgs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.pm-imgs figure { margin: 0; width: 120px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; }
+.pm-imgs img { width: 120px; height: 120px; object-fit: cover; display: block; }
+.pm-imgs figcaption { display: flex; justify-content: space-between; align-items: center; padding: 4px 6px; font-size: 12px; }
+.pm-imgs figcaption button { min-height: 32px; padding: 0 8px; border: 0; background: none; cursor: pointer; font: inherit; color: var(--green); }
+.pm-up { cursor: pointer; }

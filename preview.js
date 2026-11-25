@@ -67,6 +67,44 @@
   // Our real products, placed in the new departments
   var CMAP = { belt: 'gadgets', skincare: 'beauty', bodycare: 'beauty', haircare: 'beauty', appliance: 'appliances', household: 'kitchen' };
   real.forEach(function (p) { p.category = CMAP[p.id] || CMAP[p.category] || p.category || 'others'; });
+
+  // Products edited in the dashboard (Google Sheet "Products"): prices, photos, text, stock, new products.
+  // The last copy is kept in this browser so pages draw at once; a fresh copy is fetched every visit.
+  function applyCatalog(items) {
+    (items || []).forEach(function (s) {
+      if (!s || !s.id) return;
+      var i = -1; real.forEach(function (p, k) { if (p.checkoutId === s.id || p.id === s.id) i = k; });
+      if (s.visible === false) { if (i > -1) real.splice(i, 1); return; }
+      var p = i > -1 ? real[i] : { id: s.id, checkoutId: s.id, name: s.id, brand: '', image: '', image2: '', price: 0, url: './?view=product&id=' + encodeURIComponent(s.id), reviewCount: 0, rating: 0, category: 'others', tags: [], fromSheet: true };
+      if (s.name) p.name = s.name;
+      if (s.brand) p.brand = s.brand;
+      if (s.price > 0) p.price = s.price;
+      if (s.price > 0) p.oldPrice = s.oldPrice > 0 ? s.oldPrice : 0;   // the sheet decides the crossed-out price
+      if (s.images && s.images.length) { p.image = s.images[0]; p.image2 = s.images[1] || ''; p.images = s.images; }
+      if (s.category && depts.some(function (d) { return d.id === s.category; })) p.category = s.category;
+      if (s.tags && s.tags.length) p.tags = s.tags.map(function (t) { return t === 'featured' ? 'special' : t; }).concat(s.tags.indexOf('featured') > -1 ? ['trending'] : []);
+      if (s.blurb) p.blurb = s.blurb;
+      if (s.description) p.description = s.description;
+      if (s.benefits && s.benefits.length) p.benefits = s.benefits;
+      if (s.howTo && s.howTo.length) p.howTo = s.howTo;
+      p.inStock = s.inStock !== false;
+      p.off = p.oldPrice > p.price ? Math.round((p.oldPrice - p.price) / p.oldPrice * 100) : 0;
+      if (i === -1 && p.price > 0) real.push(p);
+    });
+  }
+  var CAT_KEY = 'bk-catalog', catCache = ls.get(CAT_KEY, null);
+  if (catCache && catCache.items) applyCatalog(catCache.items);
+  if (W.appsScriptUrl && window.fetch) {
+    fetch(W.appsScriptUrl, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'getProducts' }) })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        if (!res || !res.ok || !Array.isArray(res.products)) return;
+        var fresh = JSON.stringify(res.products), old = catCache ? JSON.stringify(catCache.items) : null;
+        ls.set(CAT_KEY, { at: Date.now(), items: res.products });
+        // Something changed in the dashboard since this browser last looked: draw the page again once
+        if (fresh !== old) { var k = 'bk-cat-reload'; try { if (!sessionStorage.getItem(k)) { sessionStorage.setItem(k, '1'); location.reload(); } } catch (e) {} }
+      }).catch(function () {});
+  }
   var dname = function (id) { var d = depts.filter(function (x) { return x.id === id; })[0]; return d ? d.name : 'Products'; };
   var catUrl = function (id) { return './?view=cat&c=' + encodeURIComponent(id); };
   function count(id) { return catList(id).length; }
@@ -161,8 +199,8 @@
       '<div class="pc-body">' + '<span class="pc-brand">' + (p.brand ? esc(p.brand) : '&nbsp;') + '</span>' +
         '<h3 class="pc-name"><a href="' + esc(p.url) + '"' + pid + '>' + esc(p.name) + '</a></h3>' + rate +
         '<div class="pc-price">' + (p.sample ? '<span class="na">Your price</span>' : '<strong>' + money(p.price) + '</strong>' + (p.off ? '<s><span class="sr-only">was </span>' + money(p.oldPrice) + '</s>' : '')) + '</div></div>' +
-      (p.sample
-        ? '<div class="pc-foot"><button class="pc-add" type="button" disabled aria-label="Sample product, not for sale">' + icon('cart') + 'Sample</button></div>'
+      (p.sample || p.inStock === false
+        ? '<div class="pc-foot"><button class="pc-add" type="button" disabled aria-label="' + (p.sample ? 'Sample product, not for sale' : esc(p.name) + ' is out of stock') + '">' + icon('cart') + (p.sample ? 'Sample' : 'Out of stock') + '</button></div>'
         : '<div class="pc-foot pc-foot-2"><button class="pc-add" type="button" data-add="' + esc(p.id) + '" aria-label="Add ' + esc(p.name) + ' to cart">' + icon('cart') + '<span class="l-long">Add to Cart</span><span class="l-short">Add</span></button>' +
           '<a class="pc-buy" href="./?view=checkout&amp;product=' + encodeURIComponent(p.checkoutId) + '&amp;qty=1" data-pid="' + esc(p.id) + '" aria-label="Buy ' + esc(p.name) + ' now">Buy Now</a></div>' +
           '<button class="pc-heart" type="button" data-heart="' + esc(p.id) + '" aria-pressed="' + saved + '" aria-label="Save ' + esc(p.name) + ' to wishlist">' + icon('heart') + '</button>') + '</article>';
@@ -426,14 +464,15 @@
     if (!pp) { main = '<section class="sec"><div class="wrap cp-empty">' + icon('box') + '<p>This product is not available.</p><a class="btn btn-brand" href="./?view=list">Browse all products</a></div></section>'; }
     else {
       var src = pid === 'belt' ? null : (W.shopProducts || []).filter(function (x) { return x.id === pid; })[0] || {};
+      if (pp.images && pp.images.length) src = Object.assign({}, src || {}, { images: pp.images });
       var en = function (arr) { return (arr || []).map(function (x) { return Array.isArray(x) ? (x[1] || x[0]) : x; }); };
-      var imgs = pid === 'belt' ? (W.gallery || []).map(function (g) { return g.src; }).filter(Boolean) : ((src.images && src.images.length) ? src.images : [pp.image]).filter(Boolean);
-      var blurb = pid === 'belt' ? ((W.catalog || [])[0] || {}).blurb_en : (src.blurb_en || src.blurb || '');
-      var intro = pid === 'belt' ? 'A cordless heating belt with heat and massage for period pain, back and tummy aches. Wear it at home, at the office or while travelling.' : (src.intro_en || '');
-      var benefits = pid === 'belt' ? (W.stats || []).map(function (s) { return '<strong>' + esc(s.value_en || s.value) + '</strong> ' + esc(s.label_en || s.label); }) : en(src.benefits);
-      var ingr = pid === 'belt' ? [] : en(src.ingredients), how = pid === 'belt' ? [] : en(src.howTo);
+      var imgs = pid === 'belt' && !(pp.images && pp.images.length) ? (W.gallery || []).map(function (g) { return g.src; }).filter(Boolean) : ((src.images && src.images.length) ? src.images : [pp.image]).filter(Boolean);
+      var blurb = pp.blurb || (pid === 'belt' ? ((W.catalog || [])[0] || {}).blurb_en : (src.blurb_en || src.blurb || ''));
+      var intro = pp.description ? pp.description : pid === 'belt' ? 'A cordless heating belt with heat and massage for period pain, back and tummy aches. Wear it at home, at the office or while travelling.' : (src.intro_en || '');
+      var benefits = pp.benefits ? pp.benefits.map(esc) : pid === 'belt' ? (W.stats || []).map(function (s) { return '<strong>' + esc(s.value_en || s.value) + '</strong> ' + esc(s.label_en || s.label); }) : en(src.benefits);
+      var ingr = pid === 'belt' ? [] : en(src.ingredients), how = pp.howTo ? pp.howTo.map(esc) : pid === 'belt' ? [] : en(src.howTo);
       var details = pid === 'belt' ? [] : (src.details ? [src.details[1] || src.details[0]] : []);
-      if (src && src.combo) { intro = 'Get the WarmLune™ Heating Belt and a Medicube PDRN Pink Collagen Gel Mask together for less than buying them separately.'; }
+      if (src && src.combo && !pp.description) { intro = 'Get the WarmLune™ Heating Belt and a Medicube PDRN Pink Collagen Gel Mask together for less than buying them separately.'; }
       var rel = real.filter(function (p) { return p.id !== pid && p.category === pp.category; }).concat(real.filter(function (p) { return p.id !== pid && p.category !== pp.category; })).slice(0, 8);
       var sec = function (t, body) { return body ? '<section class="pdp-sec"><h2>' + t + '</h2>' + body + '</section>' : ''; };
       var lis = function (a, tag) { return a.length ? '<' + tag + ' class="pdp-list">' + a.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</' + tag + '>' : ''; };
@@ -447,7 +486,8 @@
           (pp.reviewCount ? '<p class="pdp-rate"><span class="stars" aria-hidden="true">★★★★★</span> ' + pp.rating.toFixed(1) + ' · ' + pp.reviewCount + ' reviews</p>' : '') +
           '<p class="pdp-price"><strong>' + money(pp.price) + '</strong>' + (pp.oldPrice > pp.price ? ' <s>' + money(pp.oldPrice) + '</s> <span class="pdp-save">Save ' + money(pp.oldPrice - pp.price) + '</span>' : '') + '</p>' +
           (blurb ? '<p class="pdp-blurb">' + esc(blurb) + '</p>' : '') +
-          '<div class="pdp-buy"><div class="qty" role="group" aria-label="Quantity"><button type="button" data-pq="-1" aria-label="One less" disabled>−</button><span data-pq-n aria-live="polite">1</span><button type="button" data-pq="1" aria-label="One more">+</button></div>' +
+          (pp.inStock === false ? '<p class="pdp-oos">Out of stock right now. Message us on WhatsApp and we will tell you when it is back.</p>' : '') +
+          '<div class="pdp-buy"' + (pp.inStock === false ? ' hidden' : '') + '><div class="qty" role="group" aria-label="Quantity"><button type="button" data-pq="-1" aria-label="One less" disabled>−</button><span data-pq-n aria-live="polite">1</span><button type="button" data-pq="1" aria-label="One more">+</button></div>' +
             '<button class="btn btn-accent" type="button" data-addq="' + esc(pp.id) + '">' + icon('cart') + 'Add to Cart</button>' +
             '<a class="btn btn-brand" data-buyq href="./?view=checkout&amp;product=' + encodeURIComponent(pp.checkoutId) + '&amp;qty=1">Buy Now</a></div>' +
           '<a class="pdp-wa" data-wa-order href="' + wa('আসসালামু আলাইকুম, আমি এটা অর্ডার করতে চাই: ' + pp.name + ' × 1 = ' + money(pp.price)) + '" target="_blank" rel="noopener">' + icon('chat') + 'Order on WhatsApp</a>' +
@@ -723,7 +763,7 @@
   })();
   // Customer accounts (Firebase): loaded only on the account page
   if (VIEW === 'account') {
-    import('./auth.js?v=20261125d').then(function (m) {
+    import('./auth.js?v=20261125e').then(function (m) {
       m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: './?view=wishlist', cartUrl: './?view=cart' });
     }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }
