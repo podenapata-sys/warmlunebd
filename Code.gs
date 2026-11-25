@@ -114,8 +114,10 @@ function doPost(e) {
 }
 
 // Health check: open the /exec URL in a browser to see this
+// Shown when you open the /exec URL in a browser: tells you which code is deployed
+const CODE_VERSION = '2026-11-25 products+cart';
 function doGet() {
-  return json_({ ok: true, service: 'orders', time: now_() });
+  return json_({ ok: true, service: 'orders', version: CODE_VERSION, time: now_() });
 }
 
 /* ==========================================================================

@@ -120,7 +120,7 @@
   function load() {
     root.innerHTML = '<p class="hint">লোড হচ্ছে…</p>';
     return api('adminProducts').then(function (res) { rows = res.products || []; list(); })
-      .catch(function (e) { root.innerHTML = '<div class="form-error">পণ্য আনা যায়নি: ' + esc(e.message) + '<br>Code.gs নতুন ভার্সন deploy করা হয়েছে কি না দেখুন।</div>'; });
+      .catch(function (e) { var u = String(C.appsScriptUrl || W.appsScriptUrl || ''); root.innerHTML = '<div class="form-error">পণ্য আনা যায়নি: ' + esc(e.message) + '<br>Code.gs নতুন ভার্সন deploy করা হয়েছে কি না দেখুন।<br><small>ওয়েবসাইট এই deployment ব্যবহার করছে: …' + esc(u.slice(-26)) + ' — <a href="' + esc(u) + '" target="_blank" rel="noopener">খুলে দেখুন</a> (নতুন code হলে "version" লেখা থাকবে)</small></div>'; });
   }
 
   function bind() {
