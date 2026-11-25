@@ -103,7 +103,7 @@
     if ($('[data-cart-page]')) renderCartPage();
   }
   var VIEW = new URLSearchParams(location.search).get('view');
-  function checkoutHref() { var only = cart.length === 1 ? byId(cart[0].id) : null; return only ? 'checkout.html?product=' + encodeURIComponent(only.checkoutId) + '&qty=' + cart[0].qty : './?view=cart'; }
+  function checkoutHref() { return './?view=checkout'; }
   function cartWa() {
     var lines = cart.map(function (x) { var p = byId(x.id); return '• ' + p.name + ' × ' + x.qty + ' = ' + money(p.price * x.qty); });
     return wa('আসসালামু আলাইকুম, আমি এগুলো অর্ডার করতে চাই:\n' + lines.join('\n') + '\nমোট: ' + money(total()) + '\nনাম:\nমোবাইল:\nঠিকানা:');
@@ -130,15 +130,15 @@
       cart.map(function (x) {
         var p = byId(x.id);
         return '<div class="cp-row"><div class="cp-prod">' + thumb(p) + '<div><a href="' + esc(p.url) + '">' + esc(p.name) + '</a>' +
-          (multi ? '<a class="link-u" href="checkout.html?product=' + encodeURIComponent(p.checkoutId) + '&amp;qty=' + x.qty + '">Order this item</a>' : '') + '</div></div>' +
+          '</div></div>' +
           '<span class="cp-price"><span class="cp-lbl">Price</span>' + money(p.price) + '</span>' +
           '<div class="qty" role="group" aria-label="Quantity of ' + esc(p.name) + '"><button type="button" data-qty="' + esc(p.id) + '" data-d="-1" aria-label="One less"' + (x.qty <= 1 ? ' disabled' : '') + '>−</button><span aria-live="polite">' + x.qty + '</span><button type="button" data-qty="' + esc(p.id) + '" data-d="1" aria-label="One more"' + (x.qty >= 10 ? ' disabled' : '') + '>+</button></div>' +
           '<strong class="cp-sub"><span class="cp-lbl">Total</span>' + money(p.price * x.qty) + '</strong>' +
           '<button class="round-hit" type="button" data-remove="' + esc(p.id) + '" aria-label="Remove ' + esc(p.name) + '">' + icon('trash') + '</button></div>';
       }).join('') + '</div>' +
       '<aside class="cp-sum"><h2>Order summary</h2><div class="mc-tot"><span>Total</span><strong>' + money(total()) + '</strong></div><p class="mc-note">Cash on delivery. Delivery charge, if any, is shown at checkout.</p>' +
-      (multi ? '<p class="mc-note">Checkout takes one product at a time. Order each item with “Order this item”, or send the whole cart on WhatsApp.</p>' : '<a class="btn btn-brand" href="' + esc(checkoutHref()) + '">Checkout</a>') +
-      '<a class="btn ' + (multi ? 'btn-brand' : 'btn-outline') + '" href="' + cartWa() + '" target="_blank" rel="noopener">' + icon('chat') + 'Order on WhatsApp</a>' +
+      '<a class="btn btn-accent" href="./?view=checkout">Checkout</a>' +
+      '<a class="btn btn-outline" href="' + cartWa() + '" target="_blank" rel="noopener">' + icon('chat') + 'Order on WhatsApp</a>' +
       '<a class="link-u" href="./">← Continue shopping</a></aside></div>';
   }
 
@@ -164,7 +164,7 @@
       (p.sample
         ? '<div class="pc-foot"><button class="pc-add" type="button" disabled aria-label="Sample product, not for sale">' + icon('cart') + 'Sample</button></div>'
         : '<div class="pc-foot pc-foot-2"><button class="pc-add" type="button" data-add="' + esc(p.id) + '" aria-label="Add ' + esc(p.name) + ' to cart">' + icon('cart') + '<span class="l-long">Add to Cart</span><span class="l-short">Add</span></button>' +
-          '<a class="pc-buy" href="checkout.html?product=' + encodeURIComponent(p.checkoutId) + '&amp;qty=1" data-pid="' + esc(p.id) + '" aria-label="Buy ' + esc(p.name) + ' now">Buy Now</a></div>' +
+          '<a class="pc-buy" href="./?view=checkout&amp;product=' + encodeURIComponent(p.checkoutId) + '&amp;qty=1" data-pid="' + esc(p.id) + '" aria-label="Buy ' + esc(p.name) + ' now">Buy Now</a></div>' +
           '<button class="pc-heart" type="button" data-heart="' + esc(p.id) + '" aria-pressed="' + saved + '" aria-label="Save ' + esc(p.name) + ' to wishlist">' + icon('heart') + '</button>') + '</article>';
   }
   function carousel(id, items, cls) {
@@ -449,7 +449,7 @@
           (blurb ? '<p class="pdp-blurb">' + esc(blurb) + '</p>' : '') +
           '<div class="pdp-buy"><div class="qty" role="group" aria-label="Quantity"><button type="button" data-pq="-1" aria-label="One less" disabled>−</button><span data-pq-n aria-live="polite">1</span><button type="button" data-pq="1" aria-label="One more">+</button></div>' +
             '<button class="btn btn-accent" type="button" data-addq="' + esc(pp.id) + '">' + icon('cart') + 'Add to Cart</button>' +
-            '<a class="btn btn-brand" data-buyq href="checkout.html?product=' + encodeURIComponent(pp.checkoutId) + '&amp;qty=1">Buy Now</a></div>' +
+            '<a class="btn btn-brand" data-buyq href="./?view=checkout&amp;product=' + encodeURIComponent(pp.checkoutId) + '&amp;qty=1">Buy Now</a></div>' +
           '<a class="pdp-wa" data-wa-order href="' + wa('আসসালামু আলাইকুম, আমি এটা অর্ডার করতে চাই: ' + pp.name + ' × 1 = ' + money(pp.price)) + '" target="_blank" rel="noopener">' + icon('chat') + 'Order on WhatsApp</a>' +
           '<ul class="pdp-trust"><li>' + icon('truck') + 'Free delivery all over Bangladesh</li><li>' + icon('cash') + 'Cash on delivery — pay when it arrives</li><li>' + icon('box') + 'Check the product before you pay</li></ul>' +
           (pid === 'belt' ? '<a class="link-u" href="heating-belt.html">See the full WarmLune™ page, videos and reviews →</a>' : '') +
@@ -460,6 +460,59 @@
         '</div></section>';
       document.title = pp.name + ' – ' + (W.brand || 'Bakaina');
     }
+  }
+  // ---- Checkout (cart, or one product from Buy Now) ----
+  var DISTRICTS = ['বাগেরহাট','বান্দরবান','বরগুনা','বরিশাল','ভোলা','বগুড়া','ব্রাহ্মণবাড়িয়া','চাঁদপুর','চাঁপাইনবাবগঞ্জ','চট্টগ্রাম','চুয়াডাঙ্গা','কুমিল্লা','কক্সবাজার','ঢাকা','দিনাজপুর','ফরিদপুর','ফেনী','গাইবান্ধা','গাজীপুর','গোপালগঞ্জ','হবিগঞ্জ','জামালপুর','যশোর','ঝালকাঠি','ঝিনাইদহ','জয়পুরহাট','খাগড়াছড়ি','খুলনা','কিশোরগঞ্জ','কুড়িগ্রাম','কুষ্টিয়া','লক্ষ্মীপুর','লালমনিরহাট','মাদারীপুর','মাগুরা','মানিকগঞ্জ','মেহেরপুর','মৌলভীবাজার','মুন্সিগঞ্জ','ময়মনসিংহ','নওগাঁ','নড়াইল','নারায়ণগঞ্জ','নরসিংদী','নাটোর','নেত্রকোনা','নীলফামারী','নোয়াখালী','পাবনা','পঞ্চগড়','পটুয়াখালী','পিরোজপুর','রাজবাড়ী','রাজশাহী','রাঙ্গামাটি','রংপুর','সাতক্ষীরা','শরীয়তপুর','শেরপুর','সিরাজগঞ্জ','সুনামগঞ্জ','সিলেট','টাঙ্গাইল','ঠাকুরগাঁও'];
+  function coItems() {
+    var pidQ = QS.get('product');
+    if (pidQ) { var p = real.filter(function (x) { return x.checkoutId === pidQ || x.id === pidQ; })[0]; var q = Math.max(1, Math.min(10, parseInt(QS.get('qty'), 10) || 1)); return p ? [{ p: p, qty: q }] : []; }
+    return cart.map(function (x) { return { p: byId(x.id), qty: x.qty }; }).filter(function (x) { return x.p; });
+  }
+  function coTotals(items) {
+    var qd = W.qtyDiscount || {}, sub = 0, disc = 0;
+    items.forEach(function (it) { var st = it.p.price * it.qty; sub += st; if ((qd.products || []).indexOf(it.p.checkoutId) > -1 && qd.percent > 0 && it.qty >= qd.minQty) disc += Math.round(st * qd.percent / 100); });
+    return { sub: sub, disc: disc, total: sub - disc };
+  }
+  if (VIEW === 'checkout') {
+    var CO = coItems(), CT = coTotals(CO), saved = ls.get('bk-cust', {}), PN = W.payNumbers || {};
+    if (!CO.length) main = '<section class="sec"><div class="wrap cp-empty">' + icon('cart') + '<p>Your cart is empty.</p><a class="btn btn-brand" href="./?view=list">Start shopping</a></div></section>';
+    else main = '<section class="sec co"><div class="wrap"><p class="crumb"><a href="./">Home</a> / <a href="./?view=cart">Cart</a> / Checkout</p><h1>Checkout</h1>' +
+      '<form class="co-grid" data-co novalidate><div class="co-main">' +
+        '<fieldset class="co-box"><legend><span class="co-n">1</span>Your details</legend>' +
+          '<div class="acc-field"><label for="co-name">Full name</label><input id="co-name" name="name" autocomplete="name" maxlength="60" required value="' + esc(saved.name || '') + '"></div>' +
+          '<div class="acc-field"><label for="co-phone">Mobile number</label><input id="co-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="01XXXXXXXXX" maxlength="18" required value="' + esc(saved.phone || '') + '"></div>' +
+        '</fieldset>' +
+        '<fieldset class="co-box"><legend><span class="co-n">2</span>Delivery address</legend>' +
+          '<div class="co-choice" role="radiogroup" aria-label="Delivery area">' +
+            '<label><input type="radio" name="area" value="inside"' + (saved.area !== 'outside' ? ' checked' : '') + '><span><strong>Inside Dhaka city</strong><small>Free delivery</small></span></label>' +
+            '<label><input type="radio" name="area" value="outside"' + (saved.area === 'outside' ? ' checked' : '') + '><span><strong>Outside Dhaka</strong><small>Free delivery</small></span></label></div>' +
+          '<div class="acc-field" data-district' + (saved.area === 'outside' ? '' : ' hidden') + '><label for="co-district">District</label><select id="co-district" name="district"><option value="">Choose your district</option>' +
+            DISTRICTS.slice().sort(function (a, b) { return a.localeCompare(b, 'bn'); }).map(function (d) { return '<option' + (saved.district === d ? ' selected' : '') + '>' + esc(d) + '</option>'; }).join('') + '</select></div>' +
+          '<div class="acc-field"><label for="co-address">Full address</label><textarea id="co-address" name="address" rows="3" maxlength="300" autocomplete="street-address" placeholder="House, road, area, thana" required>' + esc(saved.address || '') + '</textarea></div>' +
+          '<div class="acc-field"><label for="co-note">Note <span class="acc-opt">(optional)</span></label><input id="co-note" name="note" maxlength="300" placeholder="e.g. call before delivery"></div>' +
+        '</fieldset>' +
+        '<fieldset class="co-box"><legend><span class="co-n">3</span>Payment</legend><div class="co-pay" role="radiogroup" aria-label="Payment method">' +
+          '<label><input type="radio" name="payment" value="cod" checked><span>' + icon('cash') + '<strong>Cash on Delivery</strong><small>Pay when the parcel arrives</small></span></label>' +
+          (PN.bkash ? '<label><input type="radio" name="payment" value="bkash"><span><b class="co-logo bk">bKash</b><strong>bKash</strong><small>Pay now with ' + esc(PN.bkash.kind) + '</small></span></label>' : '') +
+          (PN.nagad ? '<label><input type="radio" name="payment" value="nagad"><span><b class="co-logo ng">Nagad</b><strong>Nagad</strong><small>Pay now with ' + esc(PN.nagad.kind) + '</small></span></label>' : '') +
+        '</div><div class="co-wallet" data-wallet hidden>' +
+          '<ol><li><span data-w-kind></span> <strong>' + money(CT.total) + '</strong> to <strong data-w-num></strong> <button type="button" class="co-copy" data-copy>Copy number</button></li><li>Copy the Transaction ID (TrxID) from the confirmation SMS.</li><li>Type it below and place your order. We confirm it before shipping.</li></ol>' +
+          '<div class="acc-field"><label for="co-trx">Transaction ID (TrxID)</label><input id="co-trx" name="trxId" autocomplete="off" autocapitalize="characters" maxlength="12" placeholder="e.g. 9A7B6C5D4E"></div></div>' +
+        '</fieldset>' +
+        '<input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">' +
+      '</div><aside class="co-sum"><h2>Order summary</h2><ul>' + CO.map(function (it) {
+          return '<li>' + (it.p.image ? '<img src="' + esc(it.p.image) + '" alt="" width="56" height="56">' : '') + '<span>' + esc(it.p.name) + ' <small>× ' + it.qty + '</small></span><strong>' + money(it.p.price * it.qty) + '</strong></li>';
+        }).join('') + '</ul>' +
+        '<div class="co-row"><span>Subtotal</span><span>' + money(CT.sub) + '</span></div>' +
+        (CT.disc ? '<div class="co-row co-disc"><span>Quantity discount</span><span>− ' + money(CT.disc) + '</span></div>' : '') +
+        '<div class="co-row"><span>Delivery</span><span class="co-free">Free</span></div>' +
+        '<div class="co-row co-total"><span>Total</span><span>' + money(CT.total) + '</span></div>' +
+        '<div class="co-row co-due" data-due-row><span data-due-label>Pay on delivery</span><span data-due>' + money(CT.total) + '</span></div>' +
+        '<p class="acc-err" role="alert" data-co-err hidden></p>' +
+        '<button class="btn btn-accent co-submit" type="submit">Place order</button>' +
+        '<p class="acc-fine">By placing the order you agree to our <a href="refund.html">return policy</a>. Questions? <a href="' + HELP + '" target="_blank" rel="noopener">WhatsApp us</a>.</p>' +
+      '</aside></form></div></section>';
+    document.title = 'Checkout – ' + (W.brand || 'Bakaina');
   }
   if (VIEW === 'account') {
     main = '<section class="sec acc"><div class="wrap"><p class="crumb"><a href="./">Home</a> / My account</p><h1>My account</h1><div data-acc-root></div></div></section>';
@@ -479,14 +532,14 @@
     body.innerHTML = cart.map(function (x) {
       var p = byId(x.id);
       return '<div class="mini-item">' + (p.image ? '<img src="' + esc(p.image) + '" alt="">' : '<span class="ph t-grey">' + icon('box') + '</span>') + '<div><h3>' + esc(p.name) + '</h3><p>' + x.qty + ' × ' + money(p.price) + '</p>' +
-        (cart.length > 1 ? '<a class="link-u" href="checkout.html?product=' + encodeURIComponent(p.checkoutId) + '&qty=' + x.qty + '">Order this</a>' : '') + '</div>' +
+        '</div>' +
         '<button class="round-hit" type="button" data-remove="' + esc(p.id) + '" aria-label="Remove ' + esc(p.name) + '">' + icon('close') + '</button></div>';
     }).join('');
     var lines = cart.map(function (x) { var p = byId(x.id); return '• ' + p.name + ' × ' + x.qty + ' = ' + money(p.price * x.qty); });
     var only = cart.length === 1 ? byId(cart[0].id) : null;
     foot.innerHTML = '<div class="tot"><span>Total</span><strong>' + money(total()) + '</strong></div>' +
-      (only ? '<a class="btn btn-accent" href="checkout.html?product=' + encodeURIComponent(only.checkoutId) + '&qty=' + cart[0].qty + '">Checkout</a>' : '') +
-      '<a class="btn ' + (only ? 'btn-outline' : 'btn-accent') + '" href="' + wa('আসসালামু আলাইকুম, আমি এগুলো অর্ডার করতে চাই:\n' + lines.join('\n') + '\nমোট: ' + money(total()) + '\nনাম:\nমোবাইল:\nঠিকানা:') + '" target="_blank" rel="noopener">' + icon('chat') + 'Order on WhatsApp</a>';
+      '<a class="btn btn-accent" href="./?view=checkout">Checkout</a>' +
+      '<a class="btn btn-outline" href="' + wa('আসসালামু আলাইকুম, আমি এগুলো অর্ডার করতে চাই:\n' + lines.join('\n') + '\nমোট: ' + money(total()) + '\nনাম:\nমোবাইল:\nঠিকানা:') + '" target="_blank" rel="noopener">' + icon('chat') + 'Order on WhatsApp</a>';
   }
   var lastFocus = null;
   function open(name) {
@@ -582,7 +635,7 @@
     var setQ = function (n) {
       pq = Math.max(1, Math.min(10, n)); $('[data-pq-n]').textContent = pq;
       $('[data-pq="-1"]').disabled = pq <= 1; $('[data-pq="1"]').disabled = pq >= 10;
-      $('[data-buyq]').href = 'checkout.html?product=' + encodeURIComponent(PP.checkoutId) + '&qty=' + pq;
+      $('[data-buyq]').href = './?view=checkout&product=' + encodeURIComponent(PP.checkoutId) + '&qty=' + pq;
       $('[data-wa-order]').href = wa('আসসালামু আলাইকুম, আমি এটা অর্ডার করতে চাই: ' + PP.name + ' × ' + pq + ' = ' + money(PP.price * pq));
     };
     $('#main').addEventListener('click', function (e) {
@@ -596,9 +649,75 @@
       }
     });
   }
+  // Checkout behaviour: area → district, payment → wallet steps, abandoned-cart draft, place order
+  if (VIEW === 'checkout' && $('[data-co]')) (function () {
+    var f = $('[data-co]'), started = Date.now(), PNs = W.payNumbers || {};
+    var rid = null; try { rid = sessionStorage.getItem('checkoutRequestId'); } catch (e) {}
+    if (!rid) { rid = 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); try { sessionStorage.setItem('checkoutRequestId', rid); } catch (e) {} }
+    var phoneOf = function (v) { return String(v || '').replace(/[০-৯]/g, function (d) { return '০১২৩৪৫৬৭৮৯'.indexOf(d); }).replace(/[\s-]/g, '').replace(/^\+?88/, ''); };
+    function sync() {
+      var area = (f.querySelector('[name=area]:checked') || {}).value, pay = (f.querySelector('[name=payment]:checked') || {}).value;
+      $('[data-district]').hidden = area !== 'outside';
+      var w = $('[data-wallet]'); w.hidden = pay === 'cod';
+      if (pay !== 'cod' && PNs[pay]) { $('[data-w-kind]').textContent = PNs[pay].kind + ' (' + (pay === 'bkash' ? 'bKash' : 'Nagad') + ')'; $('[data-w-num]').textContent = PNs[pay].number; }
+      $('[data-due-label]').textContent = pay === 'cod' ? 'Pay on delivery' : 'Pay now (' + (pay === 'bkash' ? 'bKash' : 'Nagad') + ')';
+    }
+    f.addEventListener('change', sync); sync();
+    f.addEventListener('click', function (e) {
+      if (!e.target.closest('[data-copy]')) return;
+      var n = $('[data-w-num]').textContent, b = e.target.closest('[data-copy]');
+      (navigator.clipboard ? navigator.clipboard.writeText(n) : Promise.reject()).then(function () { b.textContent = 'Copied ✓'; setTimeout(function () { b.textContent = 'Copy number'; }, 1800); }).catch(function () {});
+    });
+    // abandoned cart: keep the half-filled checkout so the team can call back
+    var draftT = null, done = false;
+    function draft() {
+      if (done || !W.appsScriptUrl) return;
+      var ph = phoneOf(f.phone.value); if (!/^01[3-9]\d{8}$/.test(ph) && f.name.value.trim().length < 2) return;
+      var area = (f.querySelector('[name=area]:checked') || {}).value;
+      try { navigator.sendBeacon ? navigator.sendBeacon(W.appsScriptUrl, new Blob([JSON.stringify({ action: 'saveDraft', draftId: rid, website: f.website.value, name: f.name.value.trim(), phone: ph, productId: CO[0].p.checkoutId, qty: CO.reduce(function (s, x) { return s + x.qty; }, 0), area: area, district: f.district.value, address: f.address.value.trim() })], { type: 'text/plain' })) : 0; } catch (e) {}
+    }
+    f.addEventListener('input', function () { clearTimeout(draftT); draftT = setTimeout(draft, 2500); });
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var err = $('[data-co-err]'), say = function (m, el) { err.textContent = m; err.hidden = !m; if (el) el.focus(); };
+      var area = (f.querySelector('[name=area]:checked') || {}).value, pay = (f.querySelector('[name=payment]:checked') || {}).value;
+      var ph = phoneOf(f.phone.value), trx = f.trxId.value.trim().toUpperCase();
+      if (f.name.value.trim().length < 2) return say('Please enter your full name.', f.name);
+      if (!/^01[3-9]\d{8}$/.test(ph)) return say('Please enter an 11-digit mobile number starting with 01.', f.phone);
+      if (area === 'outside' && !f.district.value) return say('Please choose your district.', f.district);
+      if (f.address.value.trim().length < 10) return say('Please write your full address (house, road, area).', f.address);
+      if (pay !== 'cod' && !/^[A-Z0-9]{8,12}$/.test(trx)) return say('Please enter the Transaction ID (TrxID) from the payment SMS.', f.trxId);
+      say('');
+      var btn = $('.co-submit'); btn.disabled = true; btn.textContent = 'Placing your order…';
+      var payload = { action: 'createOrder', requestId: rid, website: f.website.value, elapsedMs: Date.now() - started,
+        items: CO.map(function (it) { return { productId: it.p.checkoutId, qty: it.qty }; }),
+        name: f.name.value.trim(), phone: ph, area: area, district: area === 'outside' ? f.district.value : '', address: f.address.value.trim(), note: f.note.value.trim(),
+        payment: pay, trxId: pay === 'cod' ? '' : trx };
+      var ctrl = 'AbortController' in window ? new AbortController() : null, tm = setTimeout(function () { if (ctrl) ctrl.abort(); }, 25000);
+      fetch(W.appsScriptUrl, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload), signal: ctrl && ctrl.signal })
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          clearTimeout(tm); if (!res.ok) throw new Error(res.error || 'Order failed');
+          done = true;
+          ls.set('bk-cust', { name: payload.name, phone: ph, area: area, district: payload.district, address: payload.address });
+          try {
+            sessionStorage.setItem('lastOrder', JSON.stringify({ id: res.orderId, productId: payload.items.map(function (x) { return x.productId; }).join(','), name: CO.map(function (it) { return it.p.name; }).join(', '), qty: CO.reduce(function (s, x) { return s + x.qty; }, 0), total: res.total, discount: res.discount || 0, advance: res.advance, due: res.due, area: area }));
+            sessionStorage.removeItem('checkoutRequestId');
+          } catch (x) {}
+          if (!QS.get('product')) { cart = []; ls.set('bk-cart', cart); }
+          location.href = 'thank-you.html?id=' + encodeURIComponent(res.orderId) + '&value=' + encodeURIComponent(res.total);
+        })
+        .catch(function (x) {
+          clearTimeout(tm); btn.disabled = false; btn.textContent = 'Place order';
+          var real = x && x.name !== 'AbortError' && x.message && !/fetch|network|JSON/i.test(x.message);
+          say(real ? x.message : 'Could not reach the server. Check your internet and try again, or order on WhatsApp.');
+        });
+    });
+    window.addEventListener('pagehide', draft);
+  })();
   // Customer accounts (Firebase): loaded only on the account page
   if (VIEW === 'account') {
-    import('./auth.js?v=20261125a').then(function (m) {
+    import('./auth.js?v=20261125c').then(function (m) {
       m.mountPortal($('[data-acc-root]'), { icon: icon, helpUrl: HELP, trackUrl: TRACK, wishlistUrl: './?view=wishlist', cartUrl: './?view=cart' });
     }).catch(function () { $('[data-acc-root]').innerHTML = '<p>Could not load your account. Please refresh the page.</p>'; });
   }

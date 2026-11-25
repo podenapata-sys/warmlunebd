@@ -54,7 +54,10 @@ const HEADERS = [
   'orderId', 'createdAt', 'name', 'phone', 'area', 'district', 'address',
   'productId', 'productName', 'qty', 'unitPrice', 'total', 'advance', 'due',
   'bkashTrxId', 'status', 'note', 'updatedAt', 'requestId', 'payMethod',
+  'customerUid',
 ];
+// How the customer pays: cash on delivery, or the full amount up front by bKash / Nagad Send Money (TrxID checked by you)
+const PAYMENTS = { cod: 'Cash on Delivery', bkash: 'বিকাশ', nagad: 'নগদ' };
 const STATUSES = ['New', 'Confirmed', 'Shipped', 'Delivered', 'Returned', 'Fake', 'Cancelled'];
 const TOKEN_TTL = 6 * 60 * 60;       // seconds (CacheService max)
 
@@ -121,12 +124,19 @@ function createOrder_(b) {
   if (typeof b.elapsedMs === 'number' && b.elapsedMs < 2500) throw userError_('অনুগ্রহ করে ফর্মটি আবার পূরণ করুন।');
 
   // ---- Validate & sanitize every field; never trust prices from the browser
-  const product = PRODUCTS[String(b.productId)];
-  if (!product) throw userError_('পণ্যটি পাওয়া যায়নি।');
-  if (!(product.price > 0)) throw userError_('দাম এখনও সেট করা হয়নি। কল বা WhatsApp-এ অর্ডার করুন।');
-
-  const qty = Number(b.qty);
-  if (!Number.isInteger(qty) || qty < 1 || qty > MAX_QTY) throw userError_('পরিমাণ ১ থেকে ' + MAX_QTY + ' এর মধ্যে হতে হবে।');
+  // A cart sends items: [{productId, qty}]; the single-product checkout sends productId + qty.
+  const rawItems = Array.isArray(b.items) && b.items.length ? b.items.slice(0, 20) : [{ productId: b.productId, qty: b.qty }];
+  const lines = [];
+  rawItems.forEach(it => {
+    const pid = String(it && it.productId || '');
+    const product = PRODUCTS[pid];
+    if (!product) throw userError_('পণ্যটি পাওয়া যায়নি।');
+    if (!(product.price > 0)) throw userError_('দাম এখনও সেট করা হয়নি। কল বা WhatsApp-এ অর্ডার করুন।');
+    const q = Number(it.qty);
+    if (!Number.isInteger(q) || q < 1 || q > MAX_QTY) throw userError_('পরিমাণ ১ থেকে ' + MAX_QTY + ' এর মধ্যে হতে হবে।');
+    const same = lines.filter(l => l.pid === pid)[0];
+    if (same) { same.qty = Math.min(MAX_QTY, same.qty + q); } else { lines.push({ pid: pid, product: product, qty: q }); }
+  });
 
   const name = clean_(b.name, 60);
   if (name.length < 2) throw userError_('নাম লিখুন।');
@@ -138,30 +148,42 @@ function createOrder_(b) {
   if (!area) throw userError_('ডেলিভারি এলাকা নির্বাচন করুন।');
 
   let district = 'ঢাকা (সিটি)';
-  let trxId = '';
-  let payMethod = '';
   if (area === 'outside') {
     district = clean_(b.district, 40);
     if (DISTRICTS.indexOf(district) === -1) throw userError_('সঠিক জেলা নির্বাচন করুন।');
-    if (ADVANCE_OUTSIDE_DHAKA > 0) {   // advance payment only when it is switched on
-      trxId = toEnDigits_(String(b.trxId || '')).trim().toUpperCase();
-      if (!/^[A-Z0-9]{8,12}$/.test(trxId)) throw userError_('সঠিক ট্রানজেকশন আইডি দিন।');
-      payMethod = String(b.payMethod || '');
-      if (!PAY_METHODS[payMethod]) throw userError_('কোন মাধ্যমে টাকা পাঠিয়েছেন (বিকাশ/নগদ/উপায়/রকেট) বেছে নিন।');
-    }
   }
+
+  // Payment: cod (default) or the full amount by bKash / Nagad with the TrxID
+  const payment = PAYMENTS[b.payment] ? b.payment : 'cod';
+  let trxId = '';
+  let payMethod = payment === 'cod' ? '' : payment;
+  if (payment === 'cod' && area === 'outside' && ADVANCE_OUTSIDE_DHAKA > 0) {   // old optional advance, off while 0
+    trxId = toEnDigits_(String(b.trxId || '')).trim().toUpperCase();
+    if (!/^[A-Z0-9]{8,12}$/.test(trxId)) throw userError_('সঠিক ট্রানজেকশন আইডি দিন।');
+    payMethod = String(b.payMethod || '');
+    if (!PAY_METHODS[payMethod]) throw userError_('কোন মাধ্যমে টাকা পাঠিয়েছেন (বিকাশ/নগদ/উপায়/রকেট) বেছে নিন।');
+  }
+  if (payment !== 'cod') {
+    trxId = toEnDigits_(String(b.trxId || '')).trim().toUpperCase();
+    if (!/^[A-Z0-9]{8,12}$/.test(trxId)) throw userError_('সঠিক ট্রানজেকশন আইডি (TrxID) দিন — ৮ থেকে ১২ অক্ষরের।');
+  }
+  const uid = String(b.uid || '').replace(/[^A-Za-z0-9]/g, '').slice(0, 64);
 
   const address = clean_(b.address, 300);
   if (address.length < 10) throw userError_('সম্পূর্ণ ঠিকানা লিখুন।');
   const note = clean_(b.note, 300);
   const requestId = String(b.requestId || '').replace(/[^a-z0-9]/gi, '').slice(0, 40);
 
-  // ---- Server-side pricing
-  const subtotal = product.price * qty;
-  const discount = discountFor_(subtotal, qty, b.productId);
+  // ---- Server-side pricing (per line, so the belt's quantity discount still applies)
+  let subtotal = 0, discount = 0, qty = 0;
+  lines.forEach(l => { const st = l.product.price * l.qty; subtotal += st; discount += discountFor_(st, l.qty, l.pid); qty += l.qty; });
   const total = subtotal - discount;
-  const advance = area === 'outside' ? Math.min(ADVANCE_OUTSIDE_DHAKA, total) : 0;
+  const advance = payment !== 'cod' ? total : (area === 'outside' ? Math.min(ADVANCE_OUTSIDE_DHAKA, total) : 0);
   const due = total - advance;
+  const productIds = lines.map(l => l.pid).join(', ');
+  const productNames = lines.map(l => l.product.name + ' × ' + l.qty).join('; ');
+  const unitPrice = lines.length === 1 ? lines[0].product.price : '';
+  const suppliers = lines.filter(l => l.product.supplier).map(l => l.product.supplier).filter((v, i, a) => a.indexOf(v) === i);
 
   const cache = CacheService.getScriptCache();
   const lock = LockService.getScriptLock();
@@ -185,19 +207,20 @@ function createOrder_(b) {
     const ts = now_();
     sheet.appendRow([
       orderId, ts, name, phone, area, district, address,
-      String(b.productId), product.name, qty, product.price, total, advance, due,
-      trxId, 'New', note, ts, requestId, payMethod ? PAY_METHODS[payMethod] : '',
+      productIds, productNames, qty, unitPrice, total, advance, due,
+      trxId, 'New', note, ts, requestId, payMethod ? (PAYMENTS[payMethod] || PAY_METHODS[payMethod] || payMethod) : PAYMENTS.cod,
+      uid,
     ].map(safeCell_));
     SpreadsheetApp.flush();
 
-    const result = { orderId: orderId, productName: product.name, subtotal: subtotal, discount: discount, total: total, advance: advance, due: due };
+    const result = { orderId: orderId, productName: productNames, subtotal: subtotal, discount: discount, total: total, advance: advance, due: due, payment: payment };
     if (requestId) cache.put('req_' + requestId, JSON.stringify(result), TOKEN_TTL);
 
     // This checkout is no longer abandoned
     if (requestId) markDraftOrdered_(requestId, orderId);
 
     // Alerts run after the row is safely written; a failure here never loses the order
-    notify_({ orderId, name, phone, product: product.name + (product.supplier ? ' (' + product.supplier + ' থেকে অর্ডার দিন)' : ''), qty, total, advance, due, area, district, address, trxId, payMethod: payMethod ? PAY_METHODS[payMethod] : '', note });
+    notify_({ orderId, name, phone, product: productNames + (suppliers.length ? ' (' + suppliers.join(', ') + ' থেকে অর্ডার দিন)' : ''), qty, total, advance, due, area, district, address, trxId, payMethod: payMethod ? (PAYMENTS[payMethod] || PAY_METHODS[payMethod] || payMethod) : PAYMENTS.cod, note });
     return Object.assign({ ok: true }, result);
   } finally {
     lock.releaseLock();
@@ -635,6 +658,10 @@ function getSheet_() {
     sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
     sheet.setFrozenRows(1);
     // Plain-text format keeps leading zeros on phone numbers (017… not 17…)
+    sheet.getRange(1, 1, sheet.getMaxRows(), HEADERS.length).setNumberFormat('@');
+  } else if (sheet.getLastColumn() < HEADERS.length) {
+    // An older sheet: add the new column titles at the end (existing rows stay as they are)
+    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
     sheet.getRange(1, 1, sheet.getMaxRows(), HEADERS.length).setNumberFormat('@');
   }
   return sheet;
